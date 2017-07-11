@@ -1,0 +1,55 @@
+@CHARSET "UTF-8";
+
+html {
+	height: 100%;
+	overflow: auto;
+}
+
+html:hover {
+	height: 100%;
+}
+
+
+body{
+	margin: 0;
+	padding: 0;
+	position: relative;
+	height: auto !important;
+	height: 100%;
+	min-height: 100%;
+	overflow:hidden;
+	
+}
+.body1 {
+	text-align: center;
+}
+
+.footer {
+	position: absolute;
+	width: 100%;
+	clear: both;
+	height: 40px;
+	bottom: 0;
+	left: 0;
+}
+
+.bottom-menu-inverse {
+	background: #141d26;
+	color: #4f565c;
+	height: 100%;
+}
+
+.bottom-menu-inverse ul {
+	width: 700px;
+	margin: 0 auto;
+}
+
+.bottom-menu-inverse ul li {
+	float: left;
+	clear: right;
+	list-style: none;
+	text-align: center;
+	padding: 0 20px;
+	font-size: 14px;
+	line-height: 40px;
+}

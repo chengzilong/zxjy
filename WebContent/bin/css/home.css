@@ -1,0 +1,106 @@
+@CHARSET "UTF-8";
+/********************************      Sidebar      ********************************/
+#sidebar {
+	background: url('../img/resources/bg-sidebar.gif') top left no-repeat;
+	width: 230px;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	color: #888;
+	font-size: 11px;
+}
+
+#sidebar #sidebar-wrapper {
+	margin: 0 0 0 9px;
+}
+
+#sidebar a, #sidebar a:active {
+	color: #ccc;
+}
+
+#sidebar a:hover {
+	color: #fff;
+}
+
+#sidebar #sidebar-title {
+	margin: 40px 0 40px 15px;
+}
+
+#sidebar #logo {
+	margin: 20px 0 20px 50px;
+	width: 150px;
+	height: 150px;
+	border: 1px solid #fff;
+}
+
+#sidebar #profile-links {
+	padding: 0 15px 20px 15px;
+	text-align: right;
+	line-height: 1.5em;
+}
+
+/************ Sidebar Accordion Menu ************/
+.toolbar {
+	background: #03b1cc;
+	border-bottom: 1px solid #cfcbca;
+}
+
+.toolbar_nob {
+	border-bottom: none;
+}
+
+.toolbar .tbbox {
+	height: 39px;
+	width: 960px;
+	margin: 0 auto;
+}
+
+.toolbar .tbbox .site_r {
+	height: 39px;
+	line-height: 39px;
+	color: #fff;
+}
+
+.toolbar .tbbox .site_r .line {
+	color: #fff;
+	padding: 0 8px;
+}
+
+.toolbar .tbbox .site_l {
+	padding: 10px 0 0 0;
+	color: #fff
+}
+
+.icon_xing {
+	background: url(../img/resources/xing.png) no-repeat;
+	width: 28px;
+	height: 28px;
+	display: block;
+	float: left;
+	clear: right;
+}
+
+.blue_zy input {
+	background: #42c3d8 url(../img/resources/search.jpg) right no-repeat;
+	border: 0px;
+	padding: 0 0 2px 5px;
+	color: #cceef7;
+	width: 200px;
+}
+
+.blue_zy a {
+	color: #fff;
+}
+
+.blue_zy a:hover {
+	text-decoration: underline;
+}
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}

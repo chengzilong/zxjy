@@ -1,0 +1,21 @@
+body {
+  font-size: 10pt; 
+}
+TD
+{
+    FONT-SIZE: 10pt;
+}
+
+.boxnyr {  border: 1px solid; height: 22px; clip:     rect(   ); width: 90px; vertical-align:baseline;font-family: "Verdana", "Arial", "Helvetica", "sans-serif"; color: black; BACKGROUND-COLOR: #DDDDDD;border-color: #00000E #00000E #00000E}
+.boxny {  border: 1px solid; height: 22px; clip:     rect(   ); width: 70px; vertical-align:baseline;font-family: "Verdana", "Arial", "Helvetica", "sans-serif"; color: black; BACKGROUND-COLOR: #3E58C1;border-color: #00000E #00000E #00000E}
+.box1 {  border: 1px 1px 1px 1px; height: 22px; clip:     rect(   ); width: 72px; vertical-align:baseline;font-family: "Verdana", "Arial", "Helvetica", "sans-serif";color: black; BACKGROUND-COLOR: #6699CC;border-color: #00000E #00000E #00000E}
+.boxsj {  border: 1px solid; height: 22px; clip:     rect(   ); width: 80px; vertical-align:baseline;font-family: "Verdana", "Arial", "Helvetica", "sans-serif"; color: black; BACKGROUND-COLOR: #FFFFFF;border-color: #00000E #00000E #00000E}
+.boxbk{  border: 1px solid; height: 22px; clip:     rect(   ); width: 400px; vertical-align:baseline;font-family: "Verdana", "Arial", "Helvetica", "sans-serif"; color: black; border-color: #00000E #00000E #00000E}
+
+.style1 {color: #FFFFFF}
+
+a:link    {color: #0000ff; text-decoration: none}
+a:visited {color: #0000ff; text-decoration: none}
+a:hover   {color: #0000ff; text-decoration: none}
+
+.limpid {behavior: url(limpid.htc); filter: alpha(opacity=30);color:#000000}

@@ -1,0 +1,73 @@
+/*111 */
+
+h1,h2,h3,h4,h5,h6{font-size:1em;font-weight:400}
+
+input[type=text],textarea{-webkit-appearance:none;-webkit-border-radius:0;outline:0}
+
+.fix h2{line-height:40px;font-size:20px;font-family:'微软雅黑';padding:20px;}
+.fix h2 span{color:#b5b5b5;font-size:16px;padding:10px;}
+.fix h2 em{color:#05c0fd;}
+.fix h2 span a:hover{color:#05c0fd;}
+.clearleft{clear:left}
+
+.g-top{width:100%;min-width:992px;height:47px;cursor:default;position:relative;z-index:10001;color:#858e93}
+.g_nav{position:absolute;bottom:0;left:0;width:100%;height:48px;background:#d6f8fe;min-width:992px;}
+.g_nav_main{width:992px;margin:0 auto;height:48px}
+.g_nav_main a{display:inline-block;height:48px;line-height:48px;overflow:hidden;padding:0 6px;outline:0;color:#999;white-space:nowrap;font-size:14px;padding:0 20px;font-family:'微软雅黑';}
+.g_nav_main li{height:48px;position:relative;float:left;_display:inline}
+.g_nav_main a:hover{background:#03b1cc;color:#fff;transition:background .3s linear,color .3s linear}
+.g-nav-sub{float:right}
+.g-search-text{float:left;width:295px;height:44px;line-height:44px;padding:0 10px;background:#fff;border:2px solid #dce0e1;border-right-width:1px;font-size:14px}
+.g-search-btn{float:left;width:78px;height:44px;border:2px solid #dce0e1;border-left:0}
+.g-search-submit{width:78px;height:44px;line-height:44px;line-height:40px\9;border:0;background:#F6F7FB;cursor:pointer;font-size:18px;color:#3b4043;white-space:nowrap}
+
+
+
+
+/*main*/
+.main{position:relative;}
+.main2{position:relative;overflow:hidden;}
+.main_dividing{width:1px;position:absolute;background-color:#ddd;font-size:0;height:310px;left:432px;top:48px;}
+.main_dividing2{width:1px;position:absolute;background-color:#ddd;font-size:0;height:100%;left:432px;top:48px}
+.form_login .oauth_frequent{padding-top:20px}
+.form_login .tr{margin-top:16px;line-height:1}
+
+
+.form_login .loginname_wrap{margin-top:10px}
+.form_login .input_wrap{border:1px solid #ddd;border-radius:3px;height:38px;position:relative}
+.form_login .input_wrap input{border:0;background:0;width:302px;padding:0 8px;height:38px;line-height:38px;color:#afafaf}
+
+.form_login .submit{display:block;height:40px;background-color:#0091b0;font-size:18px;text-align:center;color:#fff;line-height:40px;border:0;width:100%;cursor:pointer}
+.form_login .submit2{display:block;height:26px;background-color:#01a2c5;font-size:12px;text-align:center;color:#fff;line-height:26px;border:0;width:25%;cursor:pointer;float:right;margin-right:50px;}
+.heshiphone{font-size:12px;height:26px;line-height:26px;color:#05c0fd;margin-left:30px;}
+.form_login .submit:hover{background-color:#da2618;}
+.form_login .submit2:hover{background-color:#da2618;}
+
+.form_login .quick_nav{margin-top:20px;padding-left:20px;}
+.form_login .quick_nav .common_chk{position:absolute;height:13px;left:0;top:0}
+.form_login .quick_nav li{float:left;position:relative;line-height:14px;border-right:1px solid #ccc;padding:0 32px}
+.form_login .quick_nav li a{color:#0091b0;}
+.form_login .quick_nav .first{padding-left:0;padding-left:20px}
+.form_login .quick_nav .last{padding-right:0;border-right:0}
+.form_login .quick_nav a{color:#404040;white-space:nowrap}
+
+.g-bot{text-align:left}
+.tui_dialog{text-align:left}
+.page_container{width:990px;border:1px solid #d8d8d8;box-shadow:0 0 5px #ccc;text-align:left;margin:32px auto;background-color:#fff;background:url(../../img/resources/2222.jpg) no-repeat 0px bottom;padding-bottom:100px;}
+.page_container2{width:990px;border:1px solid #d8d8d8;box-shadow:0 0 5px #ccc;text-align:left;margin:32px auto;background-color:#fff;background:url(../../img/resources/1111.jpg) no-repeat 500px -28px;height:440px;}
+
+.login_box .quick_nav li{float:left;position:relative;line-height:14px;border-right:1px solid #ccc;padding:0 32px}.login_box .quick_nav .first{padding-left:0;padding-left:20px}
+.login_box .quick_nav .last{padding-right:0;border-right:0}
+.login_box .quick_nav a{color:#404040;white-space:nowrap}
+.oauth_login_box{float:left;display:inline;width:246px;margin-left:113px;position:relative;z-index:9;padding-top:50px}
+.oauth_login_box h2{font-size:30px;color:gray}
+.oauth_login_box .list{margin-top:32px}
+.oauth_login_box .list li{margin-top:16px}
+.oauth_login_box .list .btn{display:block;width:76px;height:38px;border-radius:3px;border:1px solid #ddd;position:relative;font-size:14px;color:#404040;line-height:38px;padding-left:52px}
+
+.main{height:460px;}
+.login_page .form_login.form{margin-top:20px}
+.login_page .login_panel{width:320px;margin:48px 0 0 56px;float:left;display:inline;}
+.login_page .header{padding-top:0}
+
+#usertypeimg{height:100px;width:100%;background:url(../../img/resources/teacher.png) no-repeat left;}

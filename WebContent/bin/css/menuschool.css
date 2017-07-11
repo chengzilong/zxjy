@@ -1,0 +1,67 @@
+#sidebar #main-nav {
+	width: 206px;
+	padding: 0;
+	margin: 0 0 0 15px;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+#sidebar #main-nav li {
+	list-style: none;
+	padding-bottom: 10px;
+	text-align: right;
+}
+
+#sidebar #main-nav li span.nav-top-item {
+	background: transparent
+		url('../img/resources/bg-menu-item-green.gif') right center
+		no-repeat; /* Background image for default color scheme - green */
+	padding: 10px 15px;
+	color: #fff;
+	font-size: 14px;
+	cursor: pointer;
+	display: block;
+	text-decoration: none;
+}
+
+#sidebar #main-nav li span.current {
+	background-image: url('../img/resources/bg-menu-item-current.gif')
+		!important;
+	color: #333;
+	font-weight: bold;
+}
+
+#sidebar #main-nav li span.current:hover {
+	color: #333;
+}
+
+#sidebar #main-nav ul {
+	padding: 0;
+	font-size: 12px;
+	margin: 0;
+}
+
+#sidebar #main-nav ul li {
+	list-style: none;
+	margin: 0;
+	text-align: right;
+	padding: 0;
+}
+
+#sidebar #main-nav ul li span {
+	padding: 8px 15px;
+	display: block;
+	color: #aaa;
+	font-size: 13px;
+	line-height: 1.2em;
+}
+
+#sidebar #main-nav ul li span:hover, #sidebar #main-nav ul li span.current,
+	#sidebar #main-nav ul li span.current:hover {
+	color: #fff;
+}
+
+#sidebar #main-nav ul li span.current {
+	background: transparent
+		url('../img/resources/menu-current-arrow.gif') right center
+		no-repeat !important;
+}

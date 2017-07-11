@@ -1,0 +1,20 @@
+document.writeln("<style>");
+document.writeln("a.header-btn{display:inline-block;background:#d1d7d8;height:28px;width:60px;line-height:28px;border:0;color:#FFF;margin-left:1px;cursor:pointer;border-radius:4px 4px 4px 4px;font-size:12px;text-decoration:none;text-align:center;}");
+document.writeln("a.header-btn:hover{background:#116f97}");
+document.writeln("");
+document.writeln("");
+document.writeln("</style>");
+document.writeln("<div id='header' class='toolbar'>");
+document.writeln("	  <div class=\"tbbox clearfix\">");
+document.writeln("		 <div class=\"site_r fr\">");
+/*document.writeln("			 <div class=\"fl\">");
+document.writeln("			 <span class=\"blue_zy\"><input name=\"\" type=\"text\" value=\"输入教师 / 科目 / 学校\"/></span>");
+document.writeln("			 <span class=\"blue_zy\"><span class=\"line\">-</span></span>");
+document.writeln("			 </div>");*/
+document.writeln("			 <div class=\"fl\">");
+document.writeln("				 <span class=\"blue_zy\"><a style='text-decoration:none;' class='header-btn' href=\""+getRootPath()+"/bin/index.jsp\">秀石培训</a><span style='display:none;' class=\"line\">|</span></span>");
+document.writeln("				 <span class=\"blue_zy\"><a style='text-decoration:none;' class='header-btn' href=\""+getRootPath()+"/bin/jsp/login/login.jsp\">退出</a></span>");
+document.writeln("			 </div>");
+document.writeln("		 </div>");
+document.writeln("	  </div>");
+document.writeln("	</div>");

@@ -1,0 +1,1 @@
+document.writeln("<div id=\"footer\"><small>&#169; Copyright 2014 秀石培训 | 教育热线：400-000-00000</small></div>");

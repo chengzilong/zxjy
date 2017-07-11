@@ -1,0 +1,112 @@
+.bodystyle{font-family:"Microsoft YaHei"}
+
+/*  师资力量页面  */
+.text_left{text-align:left}.text_right{text-align:right}.text_center{text-align:center}
+.bg_color{background-color:#f6f6f6;}
+.juli1{padding:70px 0 10px 0;}
+.juli2{padding:50px 0 10px 0;}
+.high_rate{font-size:32px;color:#03b1cc;font-weight:700;}
+.partner_shizililiang{margin:0;}
+.safe{color:#d3582a;font-size:20px;}
+.safe2{color:#44b87b;line-height:24px;font-size:20px;}
+.container{margin:0 auto;width:900px;}
+.col_xs_3{width:25%}
+.col_xs_3,.col_xs_6{float:left}
+.information{width:400px;float:left;clear:right;font-size:14px;line-height:24px;text-indent:28px;}
+.information .who{font-size:24px;font-weight:700;color:#03b1cc;line-height:40px}
+.score{width:450px;float:right;}
+.score .achievements{padding-right:0;padding-left:0}
+.ach_com{display:block;height:86px;width:79px;margin-top:20px;}
+.achievement1{background-image:url(../../img/school/icon1.png)}
+.achievement2{background-image:url(../../img/school/icon2.png)}
+.achievement3{background-image:url(../../img/school/icon3.png)}
+.achievement4{background-image:url(../../img/school/icon4.png)}
+.achievement{font-size:15px;color:#555;line-height:21px;padding-top:16px}
+.jiange{clear:both;height:70px;display:block;}
+.team{height:160px;width:450px;float:left;clear:right;overflow:hidden;font-size:14px;margin-top:30px;}
+.team2{width:450px;padding:20px 0 80px 0;overflow:hidden;}
+.left_soul{width:110px;float:left;clear:right;padding:0 10px;}
+.team .soul{display:block;height:101px;width:101px;background-image:url(../../img/school/soul.png);margin:18px 0 0 0;}
+.team .leader{font-size:18px;line-height:50px;color:#03b1cc}
+.team small{font-size:16px;line-height:0;color:#555}
+.team .first_content{margin-top:6px;}
+.team .last_content{margin-bottom:16px;}
+.clearboth{clear:both;display:block;height:0px;width:1px;}
+.media{border-right:2px solid #d7d6d6;height:217px;padding-right:29px;width:490px;margin-left:140px}
+.title{color:#03b1cc;font-size:28px}
+.head{font-size:17px;color:#03b1cc;margin-top:15px;width:200px;}
+.text{font-size:15px;margin-bottom:10px;color:#555;line-height:22px}
+
+/*  联系我们页面  */
+.contactus_blue{font-size:43px;color:#03b1cc;;letter-spacing:-1px;}
+.contactus_blue span{font-size:18px;padding:0 10px;color:#999;}
+hr{border:0; border-bottom:1px solid #ddd;}
+.contactus_bgbg{background:url(../../img/school/bgbg.jpg);width:100%;margin-top:20px;height:440px;}
+.contactus_bgbg div{width:980px;margin:0 auto;display:block;margin-top:30px;}
+.contactus_bgbg_padt{padding-top:10px;}
+.contactus_bgbg_img .contactus_images{background:url(../../img/school/map.png) no-repeat;width:980px;height:364px;}
+.contactus_bgbg_img .contactus_images p{padding:116px 0 0 150px;color:#fff;line-height:28px;}
+.contactus_bgbg_img .contactus_images b{height:30px;width:200px;position:relative;top:146px;font-size:20px;left:136px;color:#fff;}
+.kefuzongxin_title{text-align:center;padding-top:50px;font-size:20px;color:#747474;}
+.kefu {width:900px;margin:0 auto;display:block;margin-top:30px;}
+.kefu img{margin:0 12px;width:150px;height:150px;}
+.kefu span{color:#999;font-size:16px;text-align:center;width:900px;display:block;line-height:24px;margin:20px 0;}
+.jiao1234{background:url(../../img/school/jiao.png) no-repeat center;width:143px;height:24px;margin:0 auto;display:block;}
+.lianxi ul li{float:left;width:300px;list-style:none;background:url(../../img/school/dise.png) no-repeat;height:300px;margin:10px 10px 0 10px;}
+.lianxi ul li span{width:300px;padding-left:115px;}
+.lianxi ul li p{text-align:center;width:300px;font-size:18px;letter-spacing:1px;color:#747474;}
+.lianxi ul li p span{font-size:13px;letter-spacing:0;margin-left:-115px;}
+
+/*  关于秀石页面  */
+.clear{clear:both;overflow:hidden}
+.clear:after{content:".";display:block;height:0;clear:both;}
+.clear_{clear:both;height:0;overflow:hidden;}
+.pos_rel{position:relative;}
+.mar_t5{margin-top:5px}
+.gray_1{color:#333}
+.white{color:#fff}
+.font_14{font-size:14px;line-height:25px;height:25px}
+.font_16{font-size:16px;line-height:35px}
+.font_32{font-size:32px;line-height:40px}
+.font_38{font-size:38px;line-height:40px}
+
+.P_container{margin:0 auto;min-width:950px;position:relative;width:100%}
+.P_container ul li{list-style:none;}
+.P_container .dark{background:url(../../img/school/dark.png) center top no-repeat;margin:0 auto;position:relative;height:14px;width:940px}
+.P_center_con{margin:0 auto;width:940px}
+
+.banner_3{background:#fff}
+.banner_5{background:#fff}
+.banner_6{background:url(../../img/school/banner_2.jpg) center top no-repeat;}
+.banner_7{background:#e9e9e9;}
+.gsjj_con_1{height:300px}
+.gsjj_con_3,.gsjj_con_4,.gsjj_con_5{height:440px}
+.gsjj_con_1 li{padding-top:2px;position:absolute;top:50px;height:96px;width:729px}
+.gsjj_con_1 li.non{background:none}
+.gsjj_con_3{background:url(../../img/school/test_1.jpg) 0px 80px no-repeat;}
+.gsjj_con_3 li{position:absolute;top:140px;right:0px;width:480px}
+.gsjj_con_4{background:url(../../img/school/test_2.png) 580px 60px no-repeat}
+.gsjj_con_4 li{position:absolute;top:140px}
+.gsjj_con_5{background:url(../../img/school/test_3.jpg) 0px 80px no-repeat}
+.gsjj_con_5 li{position:absolute;top:140px;right:0px;width:440px}
+
+.gsjj_con_6{background:url(../../img/school/test_4.jpg) 0px 80px no-repeat;}
+.gsjj_con_7{background:url(../../img/school/test_5.png) 580px 60px no-repeat}
+
+/*  申请教师流程  */
+.body_index{background:url(../../img/school/kaibanliucheng_bg_01.jpg) center top no-repeat;font-family:'微软雅黑';font-size:16px;z-index:9999;margin-top:-4px;}
+.body_index_top{background:url(../../img/school/kaibanliucheng_02.jpg) center no-repeat;height:374px;top:0px;}
+.body_index_center{background:url(../../img/school/kaibanliucheng_04.jpg) center no-repeat;height:2635px;top:0px;}
+.step1{margin:0 auto;width:440px;position:relative;top:170px;left:270px;background:#4fc0e8;color:#fff;line-height:34px;}
+.step1 a{background:#4fc0e8;color:#FF0;}
+.step1 a:hover{color:#FF0;}
+.step2{margin:0 auto;width:380px;position:relative;top:528px;left:250px;background:#fdc740;color:#fff;line-height:34px;}
+.step3{margin:0 auto;width:380px;position:relative;top:952px;left:290px;background:#48cfae;color:#fff;line-height:34px;}
+.body_index a img{margin:0 auto;width:194px;position:relative;top:1096px;left:590px;border:0;}
+.importtt{margin:0 auto;width:800px;position:relative;top:1262px;background:#fff;}
+.importttneir{margin:0 auto;width:800px;position:relative;top:1300px;background:#fff;line-height:34px;}
+
+
+
+
+

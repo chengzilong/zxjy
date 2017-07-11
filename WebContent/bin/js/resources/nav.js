@@ -1,0 +1,17 @@
+document.writeln("<div class=\"g-top\">");
+document.writeln("");
+document.writeln("		<div class=\"g_nav\">");
+document.writeln("			<div class=\"g_nav_main\">");
+document.writeln("			<ul class=\"g-nav-master\" id=\"master\">");
+document.writeln("				<li id=\"g-nav-first\"><a href=\""+getRootPath()+"\">首页</a></li>");
+document.writeln("				<li><a id='index1' href='"+getRootPath()+"/bin/jsp/school/teacherlist.jsp'>教师查找</a></li>");
+document.writeln("				<li><a id='index2' href='"+getRootPath()+"/bin/jsp/school/lessionlist.jsp'>课程信息</a></li>");
+document.writeln("				<li><a id='index3' href=\"#\">最新开班</a></li>");
+document.writeln("				<li><a id='index3' href=\"#\">师资力量</a></li>");
+document.writeln("				<li><a id='index4' href=\"#\">申请教学</a></li>");
+document.writeln("				<li><a id='index5' href=\"#\">联系我们</a></li>");
+document.writeln("				<li><a id='index6' href=\"#\">关于秀石</a></li>");
+document.writeln("			</ul>");
+document.writeln("			</div>");
+document.writeln("		</div>");
+document.writeln("	</div>");
