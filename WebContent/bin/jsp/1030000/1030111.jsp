@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet1030000.Servlet1030110"%> 
+<%@ page import="com.xsjy.servlet.servlet1030000.Servlet1030110"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
 
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -71,11 +71,11 @@ $(document).ready(function(){
         $('#txtEditFBNR').val(obj.XXXX_FBNR);
 	}
 	 var cols = [
-          { title:'姓名', name:'XM' ,width:60, sortable:true, align:'center',lockDisplay: true },
+          { title:'姓名22', name:'XM' ,width:60, sortable:true, align:'center',lockDisplay: true },
           { title:'联系方式', name:'LXFS' ,width:60, sortable:true, align:'center',lockDisplay: true  },
           { title:'类型', name:'LX' ,width:100, sortable:true, align:'center',lockDisplay: true  },
       ];
-      intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80; 
+      intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80;
       if(intheight<100){
    	   intheight = 100;
       }
@@ -101,7 +101,7 @@ $(document).ready(function(){
               limit:20
             })
         ]
-      }); 
+      });
     //定义表格事件
       mmg.on('loadSuccess', function(e, data) {
     	  mmg.select(function(item, index) {
@@ -156,8 +156,8 @@ $(document).ready(function(){
 function makeBeanIn(strXXID,strFBSJ,strYXSJ,strFBZT,strFBNR, strXSXM, strJSXM, strID, strXM, strLXFS){
     this.XXXX_XXID = strXXID;
     this.XXXX_FBSJ = strFBSJ;
-    this.XXXX_YXSJ = strYXSJ;  
-    this.XXXX_FBZT = strFBZT;  
+    this.XXXX_YXSJ = strYXSJ;
+    this.XXXX_FBZT = strFBZT;
     this.XXXX_FBNR = strFBNR;
     this.XSXM = strXSXM;
 	this.JSXM = strJSXM;
@@ -228,7 +228,7 @@ function updateData(strID,strXM,strLXFS){
            strXM,
            strLXFS
 	);
-   
+
     $.ajax({
       async     : false,
       type      : "post",
@@ -261,7 +261,7 @@ function funEditCheck() {
 				layer.close(layer.index);
 			});
 			return false;
-		}	
+		}
 		if ($('#txtEditYXSJ').val() == "") {
 			layer.alert('请输入有效时间！', 0, '友情提示', function() {
 				$('#txtEditYXSJ').focus();
@@ -275,14 +275,14 @@ function funEditCheck() {
 				layer.close(layer.index);
 			});
 			return false;
-		}	
+		}
 		if ($('#txtEditFBNR').val() == "") {
 			layer.alert('请输入发布内容！', 0, '友情提示', function() {
 				$('#txtEditFBNR').focus();
 				layer.close(layer.index);
 			});
 			return false;
-		}	
+		}
 	}
 	return true;
 }
@@ -293,31 +293,31 @@ function funEditCheck() {
 		<legend>编辑</legend>
 		<table id="detailCanvas" class="eTable6">
 			<tr>
-				<th style="width:100px">发布时间</th>	
+				<th style="width:100px">发布时间</th>
 				<td><input type="hidden" id="txtEditXXID" /><input id="txtEditFBSJ" name="发布时间" style="font-size:12px;line-height:16px; height:18px;"  class="laydate-icon-default" onclick="laydate()" readonly/></td>
-				<th style="width:100px">有效时间</th>	
+				<th style="width:100px">有效时间</th>
 				<td><input id="txtEditYXSJ" name="有效时间"  style="font-size:12px;line-height:16px; height:18px;"  class="laydate-icon-default" onclick="laydate()" readonly/></td>
 			</tr>
 			<tr>
-				<th style="width:100px">发布主题</th>	
+				<th style="width:100px">发布主题</th>
 				<td colspan="3"><input id=txtEditFBZT name="发布主题" maxlength="200" style="width: 450px" /></td>
 			</tr>
 			<tr>
-				<th style="width:100px">发布内容</th>	
+				<th style="width:100px">发布内容</th>
 				<td height="60" valign="middle" bgcolor="white" class="wo7" colspan="3"  >
 						<textarea  id="txtEditFBNR"  style="width: 89%;height: 100%"></textarea>
 				</td>
 			</tr>
 		</table>
 		<div id="buttonCanvas" class="gToolbar gTbrCenter ">
-			<input type="button" value="发布" id="btnSave" name="btnSave" /> 
-			<input type="button" value="取消" id="btnCancel" name="btnCancel" /> 
-			
+			<input type="button" value="发布" id="btnSave" name="btnSave" />
+			<input type="button" value="取消" id="btnCancel" name="btnCancel" />
+
 		</div>
 	</fieldset>
 	<fieldset id = "selectRegion"  >
 		<table>
-				<tr>						
+				<tr>
 					<th style="width:100px">学生姓名</th>
 					<td><input style="width:120px" id="txtEditXSXM" name="学生姓名" maxlength="20" /></td>
 					<th style="width:100px">教师姓名</th>
