@@ -25,15 +25,15 @@ public class Service9010120 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ljg
-	 * @date 2014年7月22日 上午11:47:57
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public int getRoleDataCount(Pojo9010120 beanIn) throws Exception {
 		int result = 0;
 
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("         COUNT(YHJS_JSID) ");//角色信息个数
@@ -41,7 +41,7 @@ public class Service9010120 extends BaseService {
 			strbuf.append("         YHJS ");
 			strbuf.append(" WHERE 1=1 ");
 			strbuf.append(this.searchSql(beanIn));
-			
+
 			result = db.queryForInteger(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -61,16 +61,16 @@ public class Service9010120 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo9010120>
-	 * @author ljg
-	 * @date 2014年7月22日 上午11:51:12
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public List<Pojo9010120> getRoleDataList(Pojo9010120 beanIn, int page,
 			int limit, String sort) throws Exception {
 		List<Pojo9010120> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("   YHJS_JSID, ");//角色ID
@@ -79,9 +79,9 @@ public class Service9010120 extends BaseService {
 			strbuf.append("   CASE WHEN YHJS_JSLX = 0 THEN '工作人员' WHEN YHJS_JSLX = 1 THEN '教师' ELSE '学生' END AS JSLX, ");//角色类型
 			strbuf.append("   YHJS_JSMS, ");//角色描述
 			strbuf.append("   B.YHXX_YHMC AS YHJS_CJR, ");//创建人
-			strbuf.append("	 TO_CHAR(TO_DATE(YHJS_CJSJ, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD') AS YHJS_CJSJ, ");//创建时间
+			strbuf.append("	  LEFT(YHJS_CJSJ,10) AS YHJS_CJSJ, ");//创建时间
 			strbuf.append("   B.YHXX_YHMC AS YHJS_GXR, ");//更新人
-			strbuf.append("	 TO_CHAR(TO_DATE(YHJS_GXSJ, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD') AS YHJS_GXSJ ");//更新时间
+			strbuf.append("	  LEFT(YHJS_GXSJ,10) AS YHJS_GXSJ ");//更新时间
 			strbuf.append(" FROM ");
 			strbuf.append("   YHJS A, YHXX B ");
 			strbuf.append(" WHERE 1=1 ");
@@ -90,7 +90,7 @@ public class Service9010120 extends BaseService {
 			strbuf.append(this.searchSql(beanIn));
 			strbuf.append(" ORDER BY ");
 			strbuf.append("   A.YHJS_CJSJ ");
-			
+
 			StringBuffer execSql = this.getPageSqL(strbuf.toString(), page, limit,
 					sort);
 			ResultSetHandler<List<Pojo9010120>> rs = new BeanListHandler<Pojo9010120>(
@@ -106,19 +106,19 @@ public class Service9010120 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: searchSql
 	 * @Description: 查询条件部分
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return String
-	 * @author ztz
-	 * @date 2014年10月30日 上午10:55:56
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private String searchSql(Pojo9010120 beanIn) throws Exception {
 		StringBuffer strbuf = new StringBuffer();
-		
+
 		try {
 			/* 角色ID */
 			if (MyStringUtils.isNotBlank(beanIn.getYHJS_JSID())) {
@@ -155,8 +155,8 @@ public class Service9010120 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ljg
-	 * @date 2014年7月22日 上午11:53:52
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public int insertRole(Pojo_YHJS beanIn) throws Exception {
 		int result = 0;
@@ -184,9 +184,9 @@ public class Service9010120 extends BaseService {
 			strbuf.append("         '"+beanIn.getYHJS_JSLX()+"', ");//角色类型（0-工作人员，1-教师，2-学生）
 			strbuf.append("         '"+beanIn.getYHJS_JSMS()+"', ");//角色描述
 			strbuf.append("         '"+beanIn.getYHJS_CJR()+"', ");//创建人
-			strbuf.append("         TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS'), ");//创建时间
+			strbuf.append("         NOW(), ");//创建时间
 			strbuf.append("         '"+beanIn.getYHJS_GXR()+"', ");//修改人
-			strbuf.append("         TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')  ");//修改时间
+			strbuf.append("         NOW() ");//修改时间
 			strbuf.append(" ) ");
 
 			result = db.executeSQL(strbuf);
@@ -205,12 +205,12 @@ public class Service9010120 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ljg
-	 * @date 2014年7月22日 下午1:10:30
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public int updateRole(Pojo_YHJS beanIn) throws Exception {
 		int result = 0;
-		
+
 		try {
 			db.openConnection();
 
@@ -222,10 +222,10 @@ public class Service9010120 extends BaseService {
 			strbuf.append("           YHJS_JSLX='").append(beanIn.getYHJS_JSLX()).append("', ");//角色类型（0-工作人员，1-教师，2-学生）
 			strbuf.append("           YHJS_JSMS='").append(beanIn.getYHJS_JSMS()).append("', ");//角色描述
 			strbuf.append("           YHJS_GXR='").append(beanIn.getYHJS_GXR()).append("', ");//修改人
-			strbuf.append("           YHJS_GXSJ= TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS') ");//修改时间
+			strbuf.append("           YHJS_GXSJ= NOW() ");//修改时间
 			strbuf.append(" WHERE ");
 			strbuf.append("           YHJS_JSID='").append(beanIn.getYHJS_JSID()).append("' ");//角色id
-			
+
 			result = db.executeSQL(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -242,8 +242,8 @@ public class Service9010120 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ljg
-	 * @date 2014年7月22日 下午1:11:10
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public int deleteRole(Pojo_YHJS beanIn) throws Exception {
 		int result = 0;
@@ -252,11 +252,11 @@ public class Service9010120 extends BaseService {
 			db.openConnection();
 
 			StringBuffer strbuf = new StringBuffer();
-			strbuf.append(" DELETE ");
+			strbuf.append(" DELETE FROM ");
 			strbuf.append("         YHJS ");
 			strbuf.append(" WHERE ");
 			strbuf.append("         YHJS_JSID='").append(beanIn.getYHJS_JSID()).append("' ");//角色id
-			
+
 			result = db.executeSQL(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);

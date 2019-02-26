@@ -20,7 +20,7 @@ public class Service1090150 extends BaseService {
 		db = new DBManager();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataExist
 	 * @Description: 验证是否重复
 	 * @param beanIn
@@ -28,14 +28,14 @@ public class Service1090150 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2015-01-28
+	 * @date 2017-07-26
 	 */
 	public int getDataExist(Pojo1090150 beanIn) throws Exception {
 		int result = 0;
 
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     COUNT(A.KMXX_KMID) ");//数据个数
@@ -57,22 +57,22 @@ public class Service1090150 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataCount
 	 * @Description: 统计列表数据个数
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年12月8日 上午11:20:42
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	public int getDataCount(Pojo1090150 beanIn) throws Exception {
 		int result = 0;
 
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     COUNT(A.KMXX_KMID) ");//数据个数
@@ -81,7 +81,7 @@ public class Service1090150 extends BaseService {
 			strbuf.append(" WHERE 1=1 ");
 			strbuf.append(" AND A.KMXX_SCBZ = '0'");//删除标志（0-正常 1-删除）
 			strbuf.append(this.searchSql(beanIn));
-			
+
 			result = db.queryForInteger(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -92,7 +92,7 @@ public class Service1090150 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataList
 	 * @Description: 获取列表数据明细
 	 * @param beanIn
@@ -108,10 +108,10 @@ public class Service1090150 extends BaseService {
 	public List<Pojo1090150> getDataList(Pojo1090150 beanIn, int page,
 			int limit, String sort) throws Exception {
 		List<Pojo1090150> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     A.KMXX_KMID, ");//科目ID
@@ -129,7 +129,7 @@ public class Service1090150 extends BaseService {
 			strbuf.append(this.searchSql(beanIn));
 			strbuf.append(" ORDER BY ");
 			strbuf.append("     A.KMXX_CJSJ DESC ");
-			
+
 			StringBuffer execSql = this.getPageSqL(strbuf.toString(), page, limit,
 					sort);
 			ResultSetHandler<List<Pojo1090150>> rs = new BeanListHandler<Pojo1090150>(
@@ -145,19 +145,19 @@ public class Service1090150 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: searchSql
 	 * @Description: 查询条件部分
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return String
-	 * @author ztz
-	 * @date 2014年12月8日 上午11:26:37
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	private String searchSql(Pojo1090150 beanIn) throws Exception {
 		StringBuffer strbuf = new StringBuffer();
-		
+
 		try {
 			/* 科目名称 */
 			if (MyStringUtils.isNotBlank(beanIn.getKMXX_KMMC())) {
@@ -171,15 +171,15 @@ public class Service1090150 extends BaseService {
 		return strbuf.toString();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertData
 	 * @Description: 新增数据
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年12月8日 上午11:37:20
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	public int insertData(Pojo_KMXX beanIn) throws Exception {
 		int result = 0;
@@ -188,7 +188,7 @@ public class Service1090150 extends BaseService {
 		try {
 			db.openConnection();
 			db.beginTran();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" INSERT INTO ");
 			strbuf.append("     KMXX ");
@@ -207,9 +207,9 @@ public class Service1090150 extends BaseService {
 			strbuf.append("     '"+beanIn.getKMXX_KMMC()+"', ");//科目名称
 			strbuf.append("     '0', ");//删除标志（0-正常 1-删除）
 			strbuf.append("     '"+beanIn.getKMXX_CJR()+"', ");//创建人
-			strbuf.append("     TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS'), ");//创建时间
+			strbuf.append("     NOW(), ");//创建时间
 			strbuf.append("     '"+beanIn.getKMXX_GXR()+"', ");//更新人
-			strbuf.append("     TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS') ");//更新时间
+			strbuf.append("     NOW() ");//更新时间
 			strbuf.append(" ) ");
 
 			result = db.executeSQL(strbuf);
@@ -224,33 +224,33 @@ public class Service1090150 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: updateData
 	 * @Description: 更新数据
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年12月8日 上午11:39:55
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	public int updateData(Pojo_KMXX beanIn) throws Exception {
 		int result = 0;
-		
+
 		try {
 			db.openConnection();
 			db.beginTran();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" UPDATE ");
 			strbuf.append("     KMXX ");
 			strbuf.append(" SET ");
 			strbuf.append("     KMXX_KMMC='").append(beanIn.getKMXX_KMMC()).append("',");//科目名称
 			strbuf.append("     KMXX_GXR='").append(beanIn.getKMXX_GXR()).append("',");//更新人
-			strbuf.append("     KMXX_GXSJ=TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')");//更新时间
+			strbuf.append("     KMXX_GXSJ=NOW()");//更新时间
 			strbuf.append(" WHERE ");
 			strbuf.append("     KMXX_KMID='").append(beanIn.getKMXX_KMID()).append("'");//科目ID
-			
+
 			result = db.executeSQL(strbuf);
 			db.commit();
 		} catch (Exception e) {
@@ -263,15 +263,15 @@ public class Service1090150 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: deleteData
 	 * @Description: 删除数据
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年12月8日 上午11:43:07
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	public int deleteData(Pojo_KMXX beanIn) throws Exception {
 		int result = 0;
@@ -281,11 +281,11 @@ public class Service1090150 extends BaseService {
 			db.beginTran();
 
 			StringBuffer strbuf = new StringBuffer();
-			strbuf.append(" DELETE ");
+			strbuf.append(" DELETE FROM");
 			strbuf.append("     KMXX ");
 			strbuf.append(" WHERE ");
 			strbuf.append("     KMXX_KMID='").append(beanIn.getKMXX_KMID()).append("'");//科目ID
-			
+
 			result = db.executeSQL(strbuf);
 			db.commit();
 		} catch (Exception e) {

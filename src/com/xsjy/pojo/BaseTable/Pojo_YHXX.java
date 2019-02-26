@@ -7,7 +7,10 @@ public class Pojo_YHXX implements Serializable {
 
 	/** The value of the simple UUID property. */
 	private String YHXX_UUID;
-	
+
+	/** The value of the simple */
+    private String YHXX_CODE;
+
 	/** The value of the simple 用户ID property. */
 	private String YHXX_YHID;
 
@@ -52,16 +55,25 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Return the value of the UUID column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_UUID() {
 		return this.YHXX_UUID;
 	}
-	
+
+	/**
+     * Return the value of the CODE column.
+     *
+     * @return java.lang.String
+     */
+    public String getYHXX_CODE() {
+        return this.YHXX_CODE;
+    }
+
 	/**
 	 * Return the value of the 用户ID column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_YHID() {
@@ -70,7 +82,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Return the value of the 用户名称 column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_YHMC() {
@@ -79,7 +91,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Return the value of the 用户密码 column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_YHMM() {
@@ -88,7 +100,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Return the value of the 角色ID column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_JSID() {
@@ -97,7 +109,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Return the value of the 员工ID column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_YGID() {
@@ -106,7 +118,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Return the value of the 锁定状态(0--正常 1--冻结) column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_SDZT() {
@@ -115,7 +127,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Return the value of the 创建人 column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_CJR() {
@@ -124,7 +136,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Return the value of the 创建时间 column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_CJSJ() {
@@ -133,7 +145,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Return the value of the 更新人 column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_GXR() {
@@ -142,7 +154,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Return the value of the 更新时间 column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_GXSJ() {
@@ -151,7 +163,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Return the value of the 登录时间 column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_DLSJ() {
@@ -160,7 +172,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Return the value of the 删除标志（0：未删除，1：已删除） column.
-	 * 
+	 *
 	 * @return java.lang.String
 	 */
 	public String getYHXX_SCBZ() {
@@ -169,17 +181,27 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Set the value of the UUID column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_UUID
 	 */
 	public void setYHXX_UUID(String YHXX_UUID) {
 		this.YHXX_UUID = YHXX_UUID;
 	}
-	
+
+	/**
+     * Set the value of the CODE column.
+     *
+     * @param String
+     *            YHXX_CODE
+     */
+    public void setYHXX_CODE(String YHXX_CODE) {
+        this.YHXX_CODE = YHXX_CODE;
+    }
+
 	/**
 	 * Set the value of the 用户ID column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_YHID
 	 */
@@ -189,7 +211,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Set the value of the 用户名称 column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_YHMC
 	 */
@@ -199,7 +221,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Set the value of the 用户密码 column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_YHMM
 	 */
@@ -209,7 +231,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Set the value of the 角色ID column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_JSID
 	 */
@@ -219,7 +241,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Set the value of the 员工ID column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_YGID
 	 */
@@ -229,7 +251,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Set the value of the 锁定状态(0--正常 1--冻结) column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_SDZT
 	 */
@@ -239,7 +261,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Set the value of the 创建人 column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_CJR
 	 */
@@ -249,7 +271,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Set the value of the 创建时间 column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_CJSJ
 	 */
@@ -259,7 +281,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Set the value of the 更新人 column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_GXR
 	 */
@@ -269,7 +291,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Set the value of the 更新时间 column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_GXSJ
 	 */
@@ -279,7 +301,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Set the value of the 登录时间 column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_DLSJ
 	 */
@@ -289,7 +311,7 @@ public class Pojo_YHXX implements Serializable {
 
 	/**
 	 * Set the value of the 删除标志（0：未删除，1：已删除） column.
-	 * 
+	 *
 	 * @param String
 	 *            YHXX_SCBZ
 	 */

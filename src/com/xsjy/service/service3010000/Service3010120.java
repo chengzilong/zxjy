@@ -3,13 +3,15 @@ package com.xsjy.service.service3010000;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
-import com.xsjy.pojo.Custom.pojo_3010000.Pojo3010120;
+
 import com.framework.core.BaseService;
 import com.framework.dao.DBManager;
 import com.framework.log.MyLogger;
 import com.framework.util.MyStringUtils;
+import com.xsjy.pojo.Custom.pojo_3010000.Pojo3010120;
 
 public class Service3010120 extends BaseService {
 
@@ -27,9 +29,9 @@ public class Service3010120 extends BaseService {
 	 * @date 2014-01-05
 	 */
 	public String getSystemdate() throws Exception{
-		Date now = new Date(); 
+		Date now = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");//可以方便地修改日期格式
-		String date = dateFormat.format( now ); 
+		String date = dateFormat.format( now );
 		return date;
 	}
 	/**
@@ -39,7 +41,7 @@ public class Service3010120 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-01-04
+	 * @date 2017-08-01
 	 */
 	public int getNewsList_TotalCount(Pojo3010120 beanIn,String uuid) throws Exception {
 		int result = 0;
@@ -49,19 +51,19 @@ public class Service3010120 extends BaseService {
 			sql.append(" SELECT COUNT(XXXX_XXID)");
 			sql.append("   FROM XXXX A WHERE A.XXXX_SCBZ = '0'");
 			sql.append("   AND A.XXXX_XXID IN (SELECT XXMX_XXID");
-			sql.append("   FROM XXMX  WHERE XXMX_SCBZ = '0' AND XXMX_JSRID ='").append(uuid).append("')");		
+			sql.append("   FROM XXMX  WHERE XXMX_SCBZ = '0' AND XXMX_JSRID ='").append(uuid).append("')");
 			if (MyStringUtils.isNotBlank(beanIn.getBEGIN())) {
-				sql.append(" AND to_date(A.XXXX_FBSJ,'YYYY-MM-DD') >=").append("to_date('").append(beanIn.getBEGIN()).append("','YYYY-MM-DD')");	
+				sql.append(" AND STR_TO_DATE(A.XXXX_FBSJ,'%Y-%m-%d') >=").append("STR_TO_DATE('").append(beanIn.getBEGIN()).append("','%Y-%m-%d')");
 			}
 			if (MyStringUtils.isNotBlank(beanIn.getEND())) {
-				sql.append(" AND to_date(A.XXXX_FBSJ,'YYYY-MM-DD') <=").append("to_date('").append(beanIn.getEND()).append("','YYYY-MM-DD')");	
+				sql.append(" AND STR_TO_DATE(A.XXXX_FBSJ,'%Y-%m-%d') <=").append("STR_TO_DATE('").append(beanIn.getEND()).append("','%Y-%m-%d')");
 			}
 			if (MyStringUtils.isNotBlank(beanIn.getFBR())) {
 				sql.append("   AND A.XXXX_FBR IN (SELECT YHXX_UUID");
 				sql.append("   FROM YHXX ");
-				sql.append("   WHERE YHXX_YHMC LIKE '%").append(beanIn.getFBR()).append("%')");	
+				sql.append("   WHERE YHXX_YHMC LIKE '%").append(beanIn.getFBR()).append("%')");
 			}
-			
+
 			result = db.queryForInteger(sql);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -79,7 +81,7 @@ public class Service3010120 extends BaseService {
 	 * @throws Exception
 	 * @return List<Pojo3010120>
 	 * @author czl
-	 * @date 2014-01-04
+	 * @date 2017-08-01
 	 */
 	public List<Pojo3010120> getNewsList_PageData(Pojo3010120 beanIn, int page,
 			int limit, String sort, String uuid) throws Exception {
@@ -90,7 +92,7 @@ public class Service3010120 extends BaseService {
 			sql.append(" SELECT A.XXXX_XXID,");// 消息ID
 			sql.append("        A.XXXX_FBZT,");// 发布主题
 			sql.append("        B.YHXX_YHMC AS XXXX_FBR,");// 发布人
-			sql.append("        CASE WHEN length(A.XXXX_FBNR)>25 THEN SUBSTR(A.XXXX_FBNR,0,25)||'...' ELSE A.XXXX_FBNR END AS FBNR,");// 发布内容缩写
+			sql.append("        A.XXXX_FBNR AS FBNR,");// 发布内容
 			sql.append("        A.XXXX_FBNR,");// 发布内容
 			sql.append("        A.XXXX_FBSJ,");// 发布时间
 			sql.append("        A.XXXX_YXSJ,");// 有效时间
@@ -99,19 +101,19 @@ public class Service3010120 extends BaseService {
 			sql.append("        CASE WHEN C.XXMX_CKZT ='0' THEN '未查看' ELSE '已查看' END AS CKZT");// 查看状态
 			sql.append("   FROM XXXX A,YHXX B,XXMX C WHERE A.XXXX_FBR =B.YHXX_UUID AND A.XXXX_XXID = C.XXMX_XXID AND  A.XXXX_SCBZ = '0' ");
 			sql.append("   AND A.XXXX_XXID IN (SELECT XXMX_XXID");
-			sql.append("   FROM XXMX  WHERE XXMX_SCBZ = '0' AND XXMX_JSRID ='").append(uuid).append("')");		
+			sql.append("   FROM XXMX  WHERE XXMX_SCBZ = '0' AND XXMX_JSRID ='").append(uuid).append("')");
 			sql.append("   AND C.XXMX_MXID IN(SELECT XXMX_MXID");
-			sql.append("   FROM XXMX  WHERE XXMX_SCBZ = '0' AND XXMX_JSRID ='").append(uuid).append("')");		
+			sql.append("   FROM XXMX  WHERE XXMX_SCBZ = '0' AND XXMX_JSRID ='").append(uuid).append("')");
 			if (MyStringUtils.isNotBlank(beanIn.getBEGIN())) {
-				sql.append(" AND to_date(A.XXXX_FBSJ,'YYYY-MM-DD') >=").append("to_date('").append(beanIn.getBEGIN()).append("','YYYY-MM-DD')");	
+				sql.append(" AND STR_TO_DATE(A.XXXX_FBSJ,'%Y-%m-%d') >=").append("STR_TO_DATE('").append(beanIn.getBEGIN()).append("','%Y-%m-%d')");
 			}
 			if (MyStringUtils.isNotBlank(beanIn.getEND())) {
-				sql.append(" AND to_date(A.XXXX_FBSJ,'YYYY-MM-DD') <=").append("to_date('").append(beanIn.getEND()).append("','YYYY-MM-DD')");	
+				sql.append(" AND STR_TO_DATE(A.XXXX_FBSJ,'%Y-%m-%d') <=").append("STR_TO_DATE('").append(beanIn.getEND()).append("','%Y-%m-%d')");
 			}
 			if (MyStringUtils.isNotBlank(beanIn.getFBR())) {
 				sql.append("   AND A.XXXX_FBR IN (SELECT YHXX_UUID");
 				sql.append("   FROM YHXX ");
-				sql.append("   WHERE YHXX_YHMC LIKE '%").append(beanIn.getFBR()).append("%')");	
+				sql.append("   WHERE YHXX_YHMC LIKE '%").append(beanIn.getFBR()).append("%')");
 			}
 			sql.append(" ORDER BY ");
 			sql.append("        C.XXMX_CKZT ASC,A.XXXX_FBSJ DESC");
@@ -136,7 +138,7 @@ public class Service3010120 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-01-05
+	 * @date 2017-08-01
 	 */
 	public int updateCKZT(String strCJR, String mxid) throws Exception {
 		int result = 0;

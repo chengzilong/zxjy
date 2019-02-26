@@ -8,6 +8,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import com.framework.dao.DBManager;
 import com.framework.log.MyLogger;
+import com.framework.util.MyStringUtils;
 import com.xsjy.pojo.BaseTable.Pojo_MENU;
 import com.xsjy.pojo.BaseTable.Pojo_YHXX;
 import com.xsjy.pojo.common.Pojo_USER_INFO;
@@ -50,7 +51,7 @@ public class ServiceLogin {
 			strbuf.append("     A.YHXX_GXSJ, ");//修改日期
 			strbuf.append("     A.YHXX_DLSJ ");//登陆时间
 			strbuf.append(" FROM ");
-			strbuf.append("     YHXX A WHERE A.YHXX_SCBZ = '0' ");
+			strbuf.append("     YHXX A WHERE A.YHXX_SCBZ = '0' AND A.YHXX_SDZT = '0'");
 			strbuf.append(" AND A.YHXX_YHID  ='").append(strUserId).append("'");
 
 			ResultSetHandler<Pojo_YHXX> rsh = new BeanHandler<Pojo_YHXX>(
@@ -67,7 +68,7 @@ public class ServiceLogin {
 
 		return result;
 	}
-	
+
 	/**
 	 * @FunctionName: getUserJSLX
 	 * @Description: 取得用户角色
@@ -104,7 +105,7 @@ public class ServiceLogin {
 		return result;
 	}
 
-	
+
 	/**
 	 * @FunctionName: getMenuInfoByTeacher
 	 * @Description: 根据用户取得教师菜单信息
@@ -112,8 +113,8 @@ public class ServiceLogin {
 	 * @return
 	 * @throws Exception
 	 * @return List<USER_MENU>
-	 * @author ljg
-	 * @date 2014年7月18日 上午9:26:07
+	 * @author czl
+	 * @date 2017-07-13
 	 */
 	public List<Pojo_MENU> getMenuInfoByTeacher(String strUserId)
 			throws Exception {
@@ -136,8 +137,8 @@ public class ServiceLogin {
 			strbuf.append("   AND C.MENU_SCBZ = '0' ");
 			strbuf.append("   AND (C.MENU_CDLX = '1' OR C.MENU_CDLX = '3')");//教师及共通
 			strbuf.append("   AND A.YHXX_YHID  ='").append(strUserId).append("'");
-			
-			strbuf.append(" ORDER BY C.MENU_CDCJ,TO_NUMBER(C.MENU_XH)");
+
+			strbuf.append(" ORDER BY C.MENU_CDCJ,C.MENU_XH");
 
 			ResultSetHandler<List<Pojo_MENU>> rsh = new BeanListHandler<Pojo_MENU>(
 					Pojo_MENU.class);
@@ -159,8 +160,8 @@ public class ServiceLogin {
 	 * @return
 	 * @throws Exception
 	 * @return List<USER_MENU>
-	 * @author ljg
-	 * @date 2014年7月18日 上午9:26:07
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	public List<Pojo_MENU> getMenuInfoByStudent(String strUserId)
 			throws Exception {
@@ -183,8 +184,8 @@ public class ServiceLogin {
 			strbuf.append("   AND C.MENU_SCBZ = '0' ");
 			strbuf.append("   AND (C.MENU_CDLX = '2' OR C.MENU_CDLX = '3')");//学生及共通
 			strbuf.append("   AND A.YHXX_YHID  ='").append(strUserId).append("'");
-			
-			strbuf.append(" ORDER BY C.MENU_CDCJ,TO_NUMBER(C.MENU_XH)");
+
+			strbuf.append(" ORDER BY C.MENU_CDCJ,C.MENU_XH");
 
 			ResultSetHandler<List<Pojo_MENU>> rsh = new BeanListHandler<Pojo_MENU>(
 					Pojo_MENU.class);
@@ -206,8 +207,8 @@ public class ServiceLogin {
 	 * @return
 	 * @throws Exception
 	 * @return List<USER_MENU>
-	 * @author ljg
-	 * @date 2014年7月18日 上午9:26:07
+	 * @author czl
+	 * @date 2017-07-13
 	 */
 	public List<Pojo_MENU> getMenuInfoByUser(String strUserId)
 			throws Exception {
@@ -231,7 +232,7 @@ public class ServiceLogin {
 			strbuf.append("   AND (C.MENU_CDLX = '0' OR C.MENU_CDLX = '3')");//管理员及共通
 			strbuf.append("   AND A.YHXX_YHID  ='").append(strUserId).append("'");
 			//strbuf.append(" ORDER BY C.MENU_CDID,C.MENU_XH");
-			strbuf.append(" ORDER BY C.MENU_CDCJ,TO_NUMBER(C.MENU_XH)");
+			strbuf.append(" ORDER BY C.MENU_CDCJ,C.MENU_XH");
 
 			ResultSetHandler<List<Pojo_MENU>> rsh = new BeanListHandler<Pojo_MENU>(
 					Pojo_MENU.class);
@@ -253,8 +254,8 @@ public class ServiceLogin {
 	 * @return
 	 * @throws Exception
 	 * @return String
-	 * @author ljg
-	 * @date 2014年12月10日 上午9:25:00
+	 * @author czl
+	 * @date 2017-07-13
 	 */
 	public Pojo_USER_INFO getUserInfo(String strUserId,String strJSLX) throws Exception {
 		Pojo_USER_INFO result = null;
@@ -265,18 +266,21 @@ public class ServiceLogin {
 			StringBuffer strbuf = new StringBuffer();
 			if(strJSLX.equals("0")){//管理员
 				strbuf.append(" SELECT ");
+				strbuf.append("     A.YHXX_UUID AS USER_UUID, "); //UUID
 				strbuf.append("     A.YHXX_YHMC AS USER_NAME, "); //用户名称
 				strbuf.append("     D.PXWD_ZDMC AS INFO_MAST, "); //站点名称
 				strbuf.append("     B.YHJS_JSMC AS INFO_SLAV ");  //角色名称
 				strbuf.append(" FROM ");
-				strbuf.append("     YHXX A,YHJS B,YHZD C,PXWD D ");
-				strbuf.append(" WHERE A.YHXX_JSID  = B.YHJS_JSID ");
-				strbuf.append("   AND A.YHXX_YHID  = C.YHZD_YHID(+) ");
-				strbuf.append("   AND C.YHZD_ZDID  = D.PXWD_ZDID(+) ");
-				strbuf.append("   AND A.YHXX_YHID  ='").append(strUserId).append("'");
+				strbuf.append("     YHXX A ");
+				strbuf.append(" INNER JOIN YHJS B ON A.YHXX_JSID = B.YHJS_JSID ");
+				strbuf.append(" LEFT JOIN YHZD C ON A.YHXX_YHID = C.YHZD_YHID ");
+				strbuf.append(" LEFT JOIN PXWD D ON C.YHZD_ZDID = D.PXWD_ZDID ");
+				strbuf.append(" WHERE ");
+				strbuf.append("   A.YHXX_YHID  ='").append(strUserId).append("'");
 			}else if(strJSLX.equals("1")){//教师
 				strbuf.append(" SELECT ");
-				strbuf.append("     C.JSXX_JSXM || '老师' AS USER_NAME, "); //教师姓名
+				strbuf.append("     A.YHXX_UUID AS USER_UUID, "); //UUID
+				strbuf.append("     CONCAT(C.JSXX_JSXM,'老师') AS USER_NAME, "); //教师姓名
 				strbuf.append("     C.JSXX_BYXX AS INFO_MAST, "); //毕业学校
 				strbuf.append("     C.JSXX_BYNF AS INFO_SLAV, "); //毕业年份
 				strbuf.append("     '3010120' AS INFO_MSID ");  //消息菜单ID
@@ -284,28 +288,30 @@ public class ServiceLogin {
 				strbuf.append("     YHXX A,YHJS B,JSXX C ");
 				strbuf.append(" WHERE A.YHXX_JSID  = B.YHJS_JSID ");
 				strbuf.append("   AND A.YHXX_YHID  = C.JSXX_JSBM ");
-				strbuf.append("   AND A.YHXX_YHID  ='").append(strUserId).append("'");				
+				strbuf.append("   AND A.YHXX_YHID  ='").append(strUserId).append("'");
 			}else if(strJSLX.equals("2")){//学生
 				strbuf.append(" SELECT ");
-				strbuf.append("     C.XSXX_XSXM || '同学' AS USER_NAME, "); //学生姓名
+				strbuf.append("     A.YHXX_UUID AS USER_UUID, "); //UUID
+				strbuf.append("     CONCAT(C.XSXX_XSXM,'同学') AS USER_NAME, "); //学生姓名
 				strbuf.append("     D.JDJY_JDMC AS INFO_MAST, "); //教育阶段
 				strbuf.append("     C.XSXX_NJ   AS INFO_SLAV, ");  //年级
 				strbuf.append("     '2010110' AS INFO_MSID ");  //消息菜单ID
 				strbuf.append(" FROM ");
-				strbuf.append("     YHXX A,YHJS B,XSXX C,JDJY D ");
-				strbuf.append(" WHERE A.YHXX_JSID  = B.YHJS_JSID ");
-				strbuf.append("   AND A.YHXX_YHID  = C.XSXX_XSBM ");
-				strbuf.append("   AND C.XSXX_JD    = D.JDJY_JDID(+) ");
-				strbuf.append("   AND A.YHXX_YHID  ='").append(strUserId).append("'");				
+				strbuf.append("     YHXX A ");
+				strbuf.append(" INNER JOIN YHJS B ON A.YHXX_JSID = B.YHJS_JSID ");
+				strbuf.append(" INNER JOIN XSXX C ON A.YHXX_YHID = C.XSXX_XSBM ");
+				strbuf.append(" LEFT JOIN JDJY D ON C.XSXX_JD = D.JDJY_JDID ");
+				strbuf.append(" WHERE 1=1 ");
+				strbuf.append("   AND A.YHXX_YHID  ='").append(strUserId).append("'");
 			}
 
 			ResultSetHandler<Pojo_USER_INFO> rsh = new BeanHandler<Pojo_USER_INFO>(
 					Pojo_USER_INFO.class);
 			result = db.queryForBeanListHandler(strbuf, rsh);
-			
+
 			//取得当前用户消息数
 			if(result!=null){
-				result.setMESS_CONT(getUserMessCount(strUserId));
+				result.setMESS_CONT(getUserMessCount(result.getUSER_UUID()));
 			}
 
 		} catch (Exception e) {
@@ -317,7 +323,7 @@ public class ServiceLogin {
 
 		return result;
 	}
-	
+
 	/**
 	 * @FunctionName: getUserMessCount
 	 * @Description: 取得消息数
@@ -325,24 +331,24 @@ public class ServiceLogin {
 	 * @return
 	 * @throws Exception
 	 * @return String
-	 * @author ljg
-	 * @date 2014年12月10日 上午9:25:00
+	 * @author czl
+	 * @date 2017-07-13
 	 */
 	public String getUserMessCount(String strUserId) throws Exception {
-		String result = "";
+		int result = 0;
 
 		try {
 			db.openConnection();
 
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
-			strbuf.append("     TO_CHAR(COUNT(A.XXMX_XXID)) AS MESS_CONT ");//用户角色类型
+			strbuf.append("     COUNT(A.XXMX_XXID) AS MESS_CONT ");//用户角色类型
 			strbuf.append(" FROM ");
 			strbuf.append("     XXMX A ");
 			strbuf.append(" WHERE A.XXMX_CKZT = '0'");
 			strbuf.append("   AND A.XXMX_JSRID  ='").append(strUserId).append("'");
 
-			result = db.queryForString(strbuf);
+			result = db.queryForInteger(strbuf);
 
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -351,6 +357,6 @@ public class ServiceLogin {
 			db.closeConnection();
 		}
 
-		return result;
+		return MyStringUtils.valueOf(result);
 	}
 }

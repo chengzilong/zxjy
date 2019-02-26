@@ -27,15 +27,15 @@ public class Service9010110 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ljg
-	 * @date 2014年7月19日 下午1:18:36
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public int getUserList_TotalCount(Pojo9010110 beanIn) throws Exception {
 		int result = 0;
 
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("         COUNT(A.YHXX_YHID) ");//用户信息个数
@@ -62,16 +62,16 @@ public class Service9010110 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return List<USERS>
-	 * @author ljg
-	 * @date 2014年7月19日 下午1:19:58
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public List<Pojo9010110> getUserList_PageData(Pojo9010110 beanIn, int page,
 			int limit, String sort) throws Exception {
 		List<Pojo9010110> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer sql = new StringBuffer();
 			sql.append(" SELECT ");
 			sql.append("         A.YHXX_UUID, ");//UUID
@@ -81,9 +81,9 @@ public class Service9010110 extends BaseService {
 			sql.append("         A.YHXX_JSID, ");//角色ID
 			sql.append("         B.YHJS_JSMC, ");//角色名称
 			sql.append("         A.YHXX_CJR, ");//创建人
-			sql.append("		  TO_CHAR(TO_DATE(A.YHXX_CJSJ, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD') AS YHXX_CJSJ, ");//创建时间
+			sql.append("		 LEFT(A.YHXX_CJSJ,10) AS YHXX_CJSJ, ");//创建时间
 			sql.append("         A.YHXX_GXR, ");//更新人
-			sql.append("         TO_CHAR(TO_DATE(A.YHXX_GXSJ, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD') AS YHXX_GXSJ, ");//更新时间
+			sql.append("         LEFT(A.YHXX_GXSJ,10) AS YHXX_GXSJ, ");//更新时间
 			sql.append("         A.YHXX_SDZT, ");//锁定状态(0--正常 1--冻结)
 			sql.append("         A.YHXX_SCBZ, ");//删除标志（0：未删除，1：已删除）
 			sql.append("         C.YHZD_ZDID AS YHXX_ZDID, ");//所属站点ID
@@ -91,21 +91,21 @@ public class Service9010110 extends BaseService {
 			sql.append("         CASE WHEN A.YHXX_SDZT = '0' THEN '正常' ELSE '冻结' END AS SDZT, ");//锁定状态显示名称
 			sql.append("         CASE WHEN A.YHXX_SCBZ = '0' THEN '未删除' ELSE '已删除' END AS SCBZ ");//删除标志显示名称
 			sql.append(" FROM ");
-			sql.append("         YHXX A,YHJS B,YHZD C,PXWD D ");
-			sql.append(" WHERE ");
-			sql.append("         A.YHXX_JSID = B.YHJS_JSID ");
-			sql.append(" AND A.YHXX_UUID = C.YHZD_YHID(+) ");
-			sql.append(" AND C.YHZD_ZDID = D.PXWD_ZDID(+) ");
+			sql.append("         YHXX A ");
+			sql.append(" INNER JOIN YHJS B ON A.YHXX_JSID = B.YHJS_JSID ");
+			sql.append(" LEFT JOIN YHZD C ON A.YHXX_UUID = C.YHZD_YHID ");
+			sql.append(" LEFT JOIN PXWD D ON C.YHZD_ZDID = D.PXWD_ZDID ");
+			sql.append(" WHERE 1=1");
 			sql.append(this.searchSql(beanIn));
 			sql.append(" ORDER BY  A.YHXX_JSID,A.YHXX_CJSJ");
-			
-			
+
+
 			StringBuffer execSql = this.getPageSqL(sql.toString(), page, limit,
 					sort);
-			
+
 			ResultSetHandler<List<Pojo9010110>> rs = new BeanListHandler<Pojo9010110>(
 					Pojo9010110.class);
-			
+
 			result = db.queryForBeanListHandler(execSql, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -116,19 +116,19 @@ public class Service9010110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: searchSql
 	 * @Description: 查询条件部分
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return String
-	 * @author ztz
-	 * @date 2014年10月28日 下午7:08:37
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private String searchSql(Pojo9010110 beanIn) throws Exception {
 		StringBuffer sql = new StringBuffer();
-		
+
 		try {
 			/* 用户ID */
 			if (MyStringUtils.isNotBlank(beanIn.getYHXX_YHID())) {
@@ -172,9 +172,8 @@ public class Service9010110 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return boolean
-	 * @author ljg
-	 * @date 2014年7月22日 上午10:45:23
-	 * @author ztz update 2014年10月28日 下午6:47:45
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public boolean insertUser(Pojo9010110 beanIn) throws Exception {
 		int resultYHXX = 0;
@@ -212,14 +211,14 @@ public class Service9010110 extends BaseService {
 			strbufYHXX.append("         '" + beanIn.getYHXX_JSID() + "', ");// 角色id
 			strbufYHXX.append("         '" + beanIn.getYHXX_SDZT() + "', ");// 锁定状态
 			strbufYHXX.append("         '" + beanIn.getYHXX_CJR() + "', ");// 创建人
-			strbufYHXX.append("         TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS'), ");// 创建时间
+			strbufYHXX.append("         NOW(), ");// 创建时间
 			strbufYHXX.append("         '" + beanIn.getYHXX_GXR() + "', ");// 修改人
-			strbufYHXX.append("         TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS'), ");// 修改时间
-			strbufYHXX.append("         TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS'), ");// 登陆时间
+			strbufYHXX.append("         NOW(), ");// 修改时间
+			strbufYHXX.append("         NOW(), ");// 登陆时间
 			strbufYHXX.append("         '0'  ");// 删除标志（0：未删除，1：已删除）
 			strbufYHXX.append(" ) ");
 			resultYHXX = db.executeSQL(strbufYHXX);
-			
+
 			if(!"000".equals(beanIn.getYHXX_ZDID())) {
 				StringBuffer strbufYHZD = new StringBuffer();
 				strbufYHZD.append(" INSERT INTO ");
@@ -238,13 +237,13 @@ public class Service9010110 extends BaseService {
 				strbufYHZD.append("         '" + uuid + "', ");// UUID
 				strbufYHZD.append("         '" + beanIn.getYHXX_ZDID() + "', ");// 站点ID
 				strbufYHZD.append("         '" + beanIn.getYHXX_CJR() + "', ");// 创建人
-				strbufYHZD.append("         TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS'), ");// 创建时间
+				strbufYHZD.append("         NOW(), ");// 创建时间
 				strbufYHZD.append("         '" + beanIn.getYHXX_GXR() + "', ");// 修改人
-				strbufYHZD.append("         TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS'), ");// 修改时间
-				strbufYHZD.append("         TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS') ");// 登陆时间
+				strbufYHZD.append("         NOW(), ");// 修改时间
+				strbufYHZD.append("         NOW() ");// 登陆时间
 				strbufYHZD.append(" ) ");
 				resultYHZD = db.executeSQL(strbufYHZD);
-				
+
 				if(resultYHXX > 0 && resultYHZD > 0 && resultYHXX == resultYHZD) {
 					db.commit();
 					result = true;
@@ -275,9 +274,8 @@ public class Service9010110 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return boolean
-	 * @author ljg
-	 * @date 2014年7月22日 上午10:48:34
-	 * @author ztz update 2014年10月30日 下午13:47:25
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public boolean updateUser(Pojo9010110 beanIn) throws Exception {
 		int resultYHXX = 0;
@@ -294,12 +292,12 @@ public class Service9010110 extends BaseService {
 			strbufYHXX.append(" SET ");
 			strbufYHXX.append("           YHXX_YHMC='").append(beanIn.getYHXX_YHMC()).append("', ");//用户名
 			if(!"**********".equals(beanIn.getYHXX_YHMM())){
-				strbufYHXX.append("           YHXX_YHMM='").append(beanIn.getYHXX_YHMM()).append("', ");//密码	
+				strbufYHXX.append("           YHXX_YHMM='").append(beanIn.getYHXX_YHMM()).append("', ");//密码
 			}
 			strbufYHXX.append("           YHXX_JSID='").append(beanIn.getYHXX_JSID()).append("', ");//用户角色
 			strbufYHXX.append("           YHXX_SDZT='").append(beanIn.getYHXX_SDZT()).append("', ");//锁定状态
 			strbufYHXX.append("           YHXX_GXR='").append(beanIn.getYHXX_GXR()).append("', ");//修改人
-			strbufYHXX.append("           YHXX_GXSJ=TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS') ");//修改时间
+			strbufYHXX.append("           YHXX_GXSJ=NOW() ");//修改时间
 			strbufYHXX.append(" WHERE ");
 			strbufYHXX.append("           YHXX_UUID='").append(beanIn.getYHXX_UUID()).append("' ");//UUID
 			resultYHXX = db.executeSQL(strbufYHXX);
@@ -324,10 +322,10 @@ public class Service9010110 extends BaseService {
 					strbufYHZD.append("         '" + beanIn.getYHXX_UUID() + "', ");// 用户id
 					strbufYHZD.append("         '" + beanIn.getYHXX_ZDID() + "', ");// 站点ID
 					strbufYHZD.append("         '" + beanIn.getYHXX_CJR() + "', ");// 创建人
-					strbufYHZD.append("         TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS'), ");// 创建时间
+					strbufYHZD.append("         NOW(), ");// 创建时间
 					strbufYHZD.append("         '" + beanIn.getYHXX_GXR() + "', ");// 修改人
-					strbufYHZD.append("         TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS'), ");// 修改时间
-					strbufYHZD.append("         TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS') ");// 登陆时间
+					strbufYHZD.append("         NOW(), ");// 修改时间
+					strbufYHZD.append("         NOW() ");// 登陆时间
 					strbufYHZD.append(" ) ");
 				} else {//如果此用户之前关联过站点，则更新用户关联站点数据
 					strbufYHZD.append(" UPDATE ");
@@ -335,18 +333,18 @@ public class Service9010110 extends BaseService {
 					strbufYHZD.append(" SET ");
 					strbufYHZD.append("           YHZD_ZDID='").append(beanIn.getYHXX_ZDID()).append("', ");//用户名
 					strbufYHZD.append("           YHZD_GXR='").append(beanIn.getYHXX_GXR()).append("', ");//修改人
-					strbufYHZD.append("           YHZD_GXSJ=TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS') ");//修改时间
+					strbufYHZD.append("           YHZD_GXSJ=NOW() ");//修改时间
 					strbufYHZD.append(" WHERE ");
 					strbufYHZD.append("           YHZD_YHID='").append(beanIn.getYHXX_UUID()).append("' ");//UUID
 				}
 			} else {//如果取消所属站点，需要删除用户之前关联的所属站点数据
-					strbufYHZD.append(" DELETE ");
+					strbufYHZD.append(" DELETE FROM");
 					strbufYHZD.append("          YHZD ");
 					strbufYHZD.append(" WHERE ");
 					strbufYHZD.append("         YHZD_YHID = '").append(beanIn.getYHXX_UUID()).append("' ");//用户ID
 			}
 			resultYHZD = db.executeSQL(strbufYHZD);
-			
+
 			if("000".equals(beanIn.getYHXX_ZDID()) && count == 0 && resultYHXX > 0) {
 				db.commit();
 				result = true;
@@ -368,7 +366,7 @@ public class Service9010110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getYhzdCount
 	 * @Description: 根据用户ID和站点ID获取用户关联站点数据个数
 	 * @param yhid
@@ -376,22 +374,22 @@ public class Service9010110 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return StringBuffer
-	 * @author ztz
-	 * @date 2014年10月30日 下午2:30:30
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private int getYhzdCount(String uuid, String zdid) throws Exception {
 		int count = 0;
-		
+
 		try {
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
-			strbuf.append("         YHZD_YHID ");//数据个数
+			strbuf.append("         COUNT(YHZD_YHID) ");//数据个数
 			strbuf.append(" FROM ");
 			strbuf.append("         YHZD ");
 			strbuf.append(" WHERE ");
 			strbuf.append("         YHZD_YHID = '").append(uuid).append("' ");//UUID
-			
-			count = db.executeSQL(strbuf);
+
+			count = db.queryForInteger(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
 			throw e;
@@ -405,22 +403,22 @@ public class Service9010110 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ljg
-	 * @date 2014年7月22日 上午10:51:42
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public int deleteUser(Pojo_YHXX beanIn) throws Exception {
 		int result = 0;
 
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" UPDATE ");
 			strbuf.append("           YHXX ");
 			strbuf.append(" SET ");
 			strbuf.append("           YHXX_SCBZ='1', ");//用户名
 			strbuf.append("           YHXX_GXR='").append(beanIn.getYHXX_GXR()).append("', ");//修改人
-			strbuf.append("           YHXX_GXSJ=TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS') ");//修改时间
+			strbuf.append("           YHXX_GXSJ=NOW() ");//修改时间
 			strbuf.append(" WHERE ");
 			strbuf.append("           YHXX_UUID='").append(beanIn.getYHXX_UUID()).append("' ");//UUID
 
@@ -434,29 +432,29 @@ public class Service9010110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: recoveryUser
 	 * @Description: 恢复删除用户
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年10月30日 下午6:00:00
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public int recoveryUser(Pojo_YHXX beanIn) throws Exception {
 		int result = 0;
 
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" UPDATE ");
 			strbuf.append("           YHXX ");
 			strbuf.append(" SET ");
 			strbuf.append("           YHXX_SCBZ='0', ");//用户名
 			strbuf.append("           YHXX_GXR='").append(beanIn.getYHXX_GXR()).append("', ");//修改人
-			strbuf.append("           YHXX_GXSJ=TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS') ");//修改时间
+			strbuf.append("           YHXX_GXSJ=NOW() ");//修改时间
 			strbuf.append(" WHERE ");
 			strbuf.append("           YHXX_UUID='").append(beanIn.getYHXX_UUID()).append("' ");//UUID
 

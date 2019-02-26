@@ -7,11 +7,12 @@ import java.util.UUID;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
-import com.xsjy.pojo.Custom.pojo_1110000.Pojo1110140;
+
 import com.framework.core.BaseService;
 import com.framework.dao.DBManager;
 import com.framework.log.MyLogger;
 import com.framework.util.MyStringUtils;
+import com.xsjy.pojo.Custom.pojo_1110000.Pojo1110140;
 
 public class Service1110140 extends BaseService {
 
@@ -29,9 +30,9 @@ public class Service1110140 extends BaseService {
 	 * @date 2014-01-05
 	 */
 	public String getSystemdate() throws Exception{
-		Date now = new Date(); 
+		Date now = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");//可以方便地修改日期格式
-		String date = dateFormat.format( now ); 
+		String date = dateFormat.format( now );
 		return date;
 	}
 	/**
@@ -41,7 +42,7 @@ public class Service1110140 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-01-05
+	 * @date 2017-07-28
 	 */
 	public int getAccountList_TotalCount(Pojo1110140 beanIn) throws Exception {
 		int result = 0;
@@ -53,10 +54,10 @@ public class Service1110140 extends BaseService {
 			sql.append("   FROM GRZH A ");
 			sql.append("  WHERE 1 = 1  AND  GRZH_SCBZ = '0' ");
 			sql.append("  AND A.GRZH_YHID = '").append(beanIn.getGRZH_CJR())
-					.append("'");		
-			if (MyStringUtils.isNotBlank(beanIn.getGRZH_YHMC())) {	
+					.append("'");
+			if (MyStringUtils.isNotBlank(beanIn.getGRZH_YHMC())) {
 				sql.append("  AND A.GRZH_YHMC LIKE '%").append(beanIn.getGRZH_YHMC())
-					.append("%'");	
+					.append("%'");
 			}
 			result = db.queryForInteger(sql);
 		} catch (Exception e) {
@@ -75,7 +76,7 @@ public class Service1110140 extends BaseService {
 	 * @throws Exception
 	 * @return List<Pojo1110140>
 	 * @author czl
-	 * @date 2014-01-05
+	 * @date 2017-07-28
 	 */
 	public List<Pojo1110140> getAccountList_PageData(Pojo1110140 beanIn, int page,
 			int limit, String sort) throws Exception {
@@ -86,14 +87,14 @@ public class Service1110140 extends BaseService {
 			sql.append(" SELECT A.GRZH_ZHID,");//账户ID
 			sql.append("        A.GRZH_YHMC,");// 银行名称
 			sql.append("        A.GRZH_YHKH,");// 银行卡号
-			sql.append("        TO_CHAR(TO_DATE(SUBSTR(A.GRZH_CJSJ,0,8),'yyyy-MM-DD'),'YYYY-MM-DD') AS GRZH_CJSJ");// 创建时间
+			sql.append("        LEFT(A.GRZH_CJSJ,10) AS GRZH_CJSJ");// 创建时间
 			sql.append("   FROM GRZH A");
 			sql.append("  WHERE   A.GRZH_SCBZ = '0'");
-			sql.append("  AND A.GRZH_YHID = '").append(beanIn.getGRZH_CJR()).append("'");	
-			if (MyStringUtils.isNotBlank(beanIn.getGRZH_YHMC())) {	
+			sql.append("  AND A.GRZH_YHID = '").append(beanIn.getGRZH_CJR()).append("'");
+			if (MyStringUtils.isNotBlank(beanIn.getGRZH_YHMC())) {
 				sql.append("  AND A.GRZH_YHMC LIKE '%").append(beanIn.getGRZH_YHMC())
-					.append("%'");	
-			}	
+					.append("%'");
+			}
 			sql.append(" ORDER BY ");
 			sql.append("        A.GRZH_ZHID");
 			StringBuffer execSql = this.getPageSqL(sql.toString(), page, limit,
@@ -118,14 +119,13 @@ public class Service1110140 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-01-05
+	 * @date 2017-07-28
 	 */
 	public int insertAccount(Pojo1110140 beanIn,String jsid,String uuid) throws Exception {
 		int result = 0;
-		String sysdate = getSystemdate();
 		try {
 			db.openConnection();
-			StringBuffer strbuf = new StringBuffer();		
+			StringBuffer strbuf = new StringBuffer();
 			String zhid = UUID.randomUUID().toString().replace("-", "").toUpperCase(); //获取32位随机数
 			strbuf.append(" INSERT INTO ");
 			strbuf.append("     GRZH ");
@@ -152,11 +152,11 @@ public class Service1110140 extends BaseService {
 				strbuf.append("     '1', ");
 			}else{
 				strbuf.append("     '3', ");
-			}	
+			}
 			strbuf.append("     '" + beanIn.getGRZH_CJR() + "', ");
-			strbuf.append("     '" + sysdate + "', ");
+			strbuf.append("     NOW(), ");
 			strbuf.append("     '" + beanIn.getGRZH_GXR() + "', ");
-			strbuf.append("     '" + sysdate + "' ");
+			strbuf.append("     NOW() ");
 			strbuf.append(" ) ");
 			result = db.executeSQL(strbuf);
 		} catch (Exception e) {
@@ -175,11 +175,10 @@ public class Service1110140 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-01-05
+	 * @date 2017-07-28
 	 */
 	public int updateAccount(Pojo1110140 beanIn) throws Exception {
 		int result = 0;
-		String sysdate = getSystemdate();
 		try {
 			db.openConnection();
 			StringBuffer strbuf = new StringBuffer();
@@ -189,7 +188,7 @@ public class Service1110140 extends BaseService {
 			strbuf.append("     GRZH_YHMC='").append(beanIn.getGRZH_YHMC()).append("',");// 银行名称
 			strbuf.append("     GRZH_YHKH='").append(beanIn.getGRZH_YHKH()).append("',");// 银行卡号
 			strbuf.append("     GRZH_GXR='").append(beanIn.getGRZH_GXR()).append("',");// 修改人
-			strbuf.append("     GRZH_GXSJ='" + sysdate + "'");// 修改时间
+			strbuf.append("     GRZH_GXSJ=NOW()");// 修改时间
 			strbuf.append(" WHERE 1 = 1 AND GRZH_SCBZ = '0'");
 			strbuf.append("  AND   GRZH_ZHID='").append(beanIn.getGRZH_ZHID()).append("'");//账户ID
 			result = db.executeSQL(strbuf);
@@ -209,14 +208,14 @@ public class Service1110140 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-01-05
+	 * @date 2017-07-28
 	 */
 	public int deleteAccount(Pojo1110140 beanIn) throws Exception {
 		int result = 0;
 		try {
 			db.openConnection();
 			StringBuffer strbuf = new StringBuffer();
-			strbuf.append(" DELETE ");
+			strbuf.append(" DELETE FROM ");
 			strbuf.append("     GRZH ");
 			strbuf.append(" WHERE 1 = 1 AND GRZH_ZHID='").append(beanIn.getGRZH_ZHID())
 					.append("'");

@@ -7,11 +7,11 @@ import java.util.UUID;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 
-import com.xsjy.pojo.Custom.pojo_1110000.Pojo1110110;
 import com.framework.core.BaseService;
 import com.framework.dao.DBManager;
 import com.framework.log.MyLogger;
 import com.framework.util.MyStringUtils;
+import com.xsjy.pojo.Custom.pojo_1110000.Pojo1110110;
 
 public class Service1110110 extends BaseService {
 
@@ -29,9 +29,9 @@ public class Service1110110 extends BaseService {
 	 * @date 2015-01-06
 	 */
 	public String getSystemdate() throws Exception{
-		Date now = new Date(); 
+		Date now = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");//可以方便地修改日期格式
-		String date = dateFormat.format( now ); 
+		String date = dateFormat.format( now );
 		return date;
 	}
 	/**
@@ -41,7 +41,7 @@ public class Service1110110 extends BaseService {
 	 * @throws Exception
 	 * @return Pojo1110110
 	 * @author czl
-	 * @date 2015-01-06
+	 * @date 2017-07-28
 	 */
 	public Pojo1110110 getInfo(String yhid) throws Exception {
 		Pojo1110110 result = null;
@@ -60,8 +60,8 @@ public class Service1110110 extends BaseService {
 			sql.append("     YHXX A LEFT JOIN YGXX B ON A.YHXX_YHID = B.YGXX_YGBM");
 			sql.append("     WHERE A.YHXX_SCBZ = '0'");
 			if (MyStringUtils.isNotBlank(yhid)) {
-				sql.append(" AND A.YHXX_YHID ='").append(yhid).append("'");	
-						
+				sql.append(" AND A.YHXX_YHID ='").append(yhid).append("'");
+
 			}
 			ResultSetHandler<Pojo1110110> rsh = new BeanHandler<Pojo1110110>(
 					Pojo1110110.class);
@@ -83,14 +83,13 @@ public class Service1110110 extends BaseService {
 	 * @throws Exception
 	 * @return String
 	 * @author czl
-	 * @date 2015-01-06
+	 * @date 2017-07-28
 	 */
 	public String insertStaff(Pojo1110110 beanIn) throws Exception {
 		String result = "";
-		String sysdate = getSystemdate();	
 		try {
 			db.openConnection();
-			StringBuffer strbuf = new StringBuffer();		
+			StringBuffer strbuf = new StringBuffer();
 			String ygid = UUID.randomUUID().toString().replace("-", "").toUpperCase(); //获取32位随机数
 			strbuf.append(" INSERT INTO ");
 			strbuf.append("     YGXX ");
@@ -116,20 +115,20 @@ public class Service1110110 extends BaseService {
 				strbuf.append("     '" + beanIn.getYGXX_XB() + "', ");
 			}else{
 				strbuf.append("     '', ");
-			}	
+			}
 			strbuf.append("     '" + beanIn.getYGXX_CSRQ() + "', ");
 			strbuf.append("     '" + beanIn.getYGXX_LXFS() + "', ");
 			strbuf.append("     '" + beanIn.getYGXX_GRJJ() + "', ");
 			strbuf.append("     '" + beanIn.getYGXX_CJR() + "', ");
-			strbuf.append("     '" + sysdate + "', ");
+			strbuf.append("     NOW(), ");
 			strbuf.append("     '" + beanIn.getYGXX_GXR() + "', ");
-			strbuf.append("     '" + sysdate + "' ");
+			strbuf.append("     NOW() ");
 			strbuf.append(" ) ");
 			int i = db.executeSQL(strbuf);
 			if(i>0){
 				result = ygid;
 			}
-			
+
 		} catch (Exception e) {
 			db.rollback();
 			MyLogger.error(this.getClass().getName(), e);
@@ -146,13 +145,12 @@ public class Service1110110 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2015-01-06
+	 * @date 2017-07-28
 	 */
 	public int updateStaff(Pojo1110110 beanIn) throws Exception {
 		int resultYG = 0;
 		int resultYH = 0;
 		int result = 0;
-		String sysdate = getSystemdate();
 		try {
 			db.openConnection();
 			db.beginTran();
@@ -171,7 +169,7 @@ public class Service1110110 extends BaseService {
 			strbufyg.append("     YGXX_LXFS='").append(beanIn.getYGXX_LXFS()).append("',");// 联系方式
 			strbufyg.append("     YGXX_GRJJ='").append(beanIn.getYGXX_GRJJ()).append("',");// 个人简介
 			strbufyg.append("     YGXX_GXR='").append(beanIn.getYGXX_GXR()).append("',");// 修改人
-			strbufyg.append("     YGXX_GXSJ='" + sysdate + "'");// 修改时间
+			strbufyg.append("     YGXX_GXSJ=NOW()");// 修改时间
 			strbufyg.append(" WHERE 1 = 1 AND YGXX_SCBZ = '0'");
 			strbufyg.append("  AND   YGXX_YGID='").append(beanIn.getYGXX_YGID()).append("'");//员工ID
 			resultYG = db.executeSQL(strbufyg);
@@ -182,7 +180,7 @@ public class Service1110110 extends BaseService {
 			strbufyh.append(" SET ");
 			strbufyh.append("     YHXX_YHMC='").append(beanIn.getYGXX_YGXM()).append("',");// 出生日期
 			strbufyh.append("     YHXX_GXR='").append(beanIn.getYGXX_GXR()).append("',");// 修改人
-			strbufyh.append("     YHXX_GXSJ='" + sysdate + "'");// 修改时间
+			strbufyh.append("     YHXX_GXSJ=NOW()");// 修改时间
 			strbufyh.append(" WHERE 1 = 1 AND YHXX_SCBZ = '0'");
 			strbufyh.append("  AND   YHXX_YHID='").append(beanIn.getYGXX_YGBM()).append("'");//员工编码
 			resultYH = db.executeSQL(strbufyh);

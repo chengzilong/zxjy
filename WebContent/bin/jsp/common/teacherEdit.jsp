@@ -25,14 +25,7 @@
 <script type="text/javascript" src="<%=basePath%>/bin/js/school.js"></script>
 <script type="text/javascript" src="<%=basePath%>/bin/bootstrap/lib/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>/bin/js/layer/layer.min.js"></script>
-
-<script type="text/javascript" src="<%=basePath%>/bin/js/plupload/js/plupload.js"></script>
-<script type="text/javascript" src="<%=basePath%>/bin/js/plupload/js/plupload.gears.js"></script>
-<script type="text/javascript" src="<%=basePath%>/bin/js/plupload/js/plupload.silverlight.js"></script>
-<script type="text/javascript" src="<%=basePath%>/bin/js/plupload/js/plupload.flash.js"></script>
-<script type="text/javascript" src="<%=basePath%>/bin/js/plupload/js/plupload.browserplus.js"></script>
-<script type="text/javascript" src="<%=basePath%>/bin/js/plupload/js/plupload.html4.js"></script>
-<script type="text/javascript" src="<%=basePath%>/bin/js/plupload/js/plupload.html5.js"></script>
+<script type="text/javascript" src="<%=basePath%>/bin/js/plupload/plupload.full.min.js"></script>
 <style type="text/css">
 *{margin:0;padding:0;outline:none;}
 ul li{list-style:none;}
@@ -126,9 +119,13 @@ $(document).ready(function(){
 	}
 	$('#txtSCLY').val(strJSXX_SCLY);
 	if(optionFlag == "ADD"){
+	    $("#main-content").height(1800);
+	    $("#dlyx").show();
 		$("input[id='upload0']").parents(".uploader").find(".filename").val("请上传身份证...");
 		$("input[id='upload']").parents(".uploader").find(".filename").val("请上传资格证...");
 	}else{
+	    $("#main-content").height(1700);
+	    $("#dlyx").hide();
 		getJSTP(strJSXX_JSID);
 	}
 	getKmList();
@@ -140,7 +137,7 @@ $(document).ready(function(){
 		if(optionFlag == "ADD"){
 			if($('#txtLXFS').val()!=""){
 				if(checkSJHMExist()){
-					layer.alert('该手机号码已经注册！', 0, '友情提示');
+					layer.alert('该手机号码已经存在！', 0, '友情提示');
 					return false;
 				}
 			}
@@ -278,6 +275,7 @@ function sureyxxx(){
 	    $("div[class='provinceSchool']").hide();
 }
 function funEditCheck() {
+
 		if ($('#txtJSXM').val() == "") {
 			$('#yzXM').show();
 			$('#txtJSXM').focus();
@@ -285,6 +283,17 @@ function funEditCheck() {
 		}else{
 			$('#yzXM').hide();
 		}
+
+		if(optionFlag == "ADD"){
+		    if ($('#txtDLYX').val() == "") {
+				$('#yzYX').show();
+				$('#txtDLYX').focus();
+				return false;
+			}else{
+				$('#yzYX').hide();
+			}
+		}
+
 		if ($('#txtLXFS').val() == "") {
 			$('#yzLXFS').show();
 			$('#txtLXFS').focus();
@@ -337,8 +346,9 @@ function getJSTP(strJSID){
 		}
 	});
 }
-function makeBeanIninsert(strJSXM,strSFZH,strXB,strLXFS,strBYXX,strBYNF,strXL,strCSRQ,strZZ,strGRJJ,strZY,strNJ,strJXJY,strJSZG,strSCLY,strSFZ,strZGZ){
+function makeBeanIninsert(strJSXM,strDLYX,strSFZH,strXB,strLXFS,strBYXX,strBYNF,strXL,strCSRQ,strZZ,strGRJJ,strZY,strNJ,strJXJY,strJSZG,strSCLY,strSFZ,strZGZ){
     this.JSXX_JSXM = strJSXM;
+    this.JSXX_JSBM = strDLYX;
     this.JSXX_SFZH = strSFZH;
     this.JSXX_XB = strXB;
     this.JSXX_LXFS = strLXFS;
@@ -360,6 +370,7 @@ function insertJSXXCode(){
 	var blnRet = false;
 	var beanIn = new makeBeanIninsert(
 		   $('#txtJSXM').val(),
+		   $('#txtDLYX').val(),
            $('#txtSFZH').val(),
            $('input:radio[name="radioXB"]:checked').val(),
            $('#txtLXFS').val(),
@@ -623,6 +634,13 @@ function yanzhengxm(){
 		$('#yzXM').hide();
 	}
 }
+function yanzhengyx(){
+	if ($('#txtDLYX').val() == "") {
+		$('#yzYX').show();
+	}else{
+		$('#yzYX').hide();
+	}
+}
 function yanzhengfs(){
 	if ($('#txtLXFS').val() == "") {
 		$('#yzLXFS').show();
@@ -755,7 +773,7 @@ function checkSJHMExist(){
 
 <body style="background: none;">
 <form id="teacherForm"  method="POST" enctype="multipart/form-data">
-		<div id="main-content" style="height:1780px;">
+		<div id="main-content" style="height:1700px;">
 			<div class="content-box chuan_mar2">
 				<div class="content-box-header">
 					<h3>完善个人信息</h3>
@@ -772,6 +790,11 @@ function checkSJHMExist(){
 										<input class="text-input small-input inputxt" type="text" id="txtJSXM" name="small-input"  onblur="yanzhengxm()"/><strong><span id="notLXFS" style="color:red;font-size:15px;"> *</span></strong><span id="yzXM"  style="display:none" class="input-notification error png_bg">姓名不能为空</span>
 										<br /><small>请输入您的真实姓名，以便审核。</small>
 								</p>
+                                <p id="dlyx">
+                                  <label>登陆邮箱：</label>
+                                    <input class="text-input small-input inputxt" type="text" id="txtDLYX" name="small-input"  onblur="yanzhengyx()"/><strong><span id="notDLYX" style="color:red;font-size:15px;"> *</span></strong><span id="yzYX"  style="display:none" class="input-notification error png_bg">登陆邮箱不能为空</span>
+                                    <br /><small>请输入登陆邮箱，用于登陆系统。</small>
+                                </p>
 								<p>
 									<label>请输入您的身份证号码：</label>
 										<input class="text-input small-input" type="text" id="txtSFZH" name="small-input"  onblur="IdCardValidate()"/><span id="yzSFZH"  style="display:none" class="input-notification error png_bg">身份证不合法</span>
@@ -899,11 +922,13 @@ function checkSJHMExist(){
 									</tr>
 									<tr>
 										<td align="center"  class="uploader">
+                                            <div id="container">
 											<input type="hidden" id="sfzname" />
 											<input type="text" class="filename teacher_edit_input"  onfocus="this.blur()" readonly />
-											<div id="container"  type="button"   class="teacher_edit_input2"><span>浏览...</span></div>
+											<div id="selectsfz"  type="button"   class="teacher_edit_input2"><span>浏览...</span></div>
 											<div id="uploadsfz"   type="button"   class="teacher_edit_input2"><span>上传</span></div>
 											<input type="file" id="upload0" style="display:none;">
+                                            </div>
 										</td>
 									</tr>
 									<tr>
@@ -919,11 +944,13 @@ function checkSJHMExist(){
 									</tr>
 									<tr>
 										<td align="center"  class="uploader">
+                                            <div id="container1">
 											<input type="hidden" id="zgzname" />
 											<input type="text" class="filename teacher_edit_input" onfocus="this.blur()"  readonly/>
-											<div id="container1"  type="button"  id="open" class="teacher_edit_input2"><span>浏览...</span></div>
+											<div id="selectzgz"  type="button"  id="open" class="teacher_edit_input2"><span>浏览...</span></div>
 					 						<div id="uploadzgz"   type="button"   class="teacher_edit_input2"><span>上传</span></div>
 					 						<input type="file" id="upload" style="display:none;">
+                                            </div>
 										</td>
 									</tr>
 									<tr>
@@ -940,20 +967,22 @@ function checkSJHMExist(){
 			</div>
 
 			<div class="clear"></div>
-			<script src="resources/scripts/footer_admin.js" type="text/javascript"></script>
+			<script type="text/javascript" src="<%=basePath%>/bin/js/resources/footer_admin.js" type="text/javascript"></script>
 		</div>
 </form>
 </body>
 <script type="text/javascript">
 	//上传身份证
  	var uploader = new plupload.Uploader({
-	    runtimes : 'flash',
-	    browse_button : 'pickfiles',
+	    runtimes : 'html5,flash,silverlight,html4',
+	    browse_button : 'selectsfz',
 	    container: 'container',
+	    multi_selection: false,
 	    max_file_size : '100kb',
 	    url : '<%=basePath%>/ImgUploadServlet?name=sfz',
 	    resize : {width : 320, height : 240, quality : 90},
-	    flash_swf_url : '<%=basePath%>/bin/js/plupload/js/plupload.flash.swf',
+	    flash_swf_url: '<%=basePath%>/bin/js/plupload/Moxie.swf',
+	    silverlight_xap_url: '<%=basePath%>/bin/js/plupload/Moxie.xap',
 	    filters : [
 	       {title : "Image files", extensions : "jpg,png,gif"}
 	    ]
@@ -995,13 +1024,15 @@ function checkSJHMExist(){
 
 	//上传资格证
 	 var uploader1 = new plupload.Uploader({
-	    runtimes : 'flash',
-	    browse_button : 'pickfiles',
+	    runtimes : 'html5,flash,silverlight,html4',
+	    browse_button : 'selectzgz',
 	    container: 'container1',
+	    multi_selection: false,
 	    max_file_size : '100kb',
 	    url : '<%=basePath%>/ImgUploadServlet?name=zgz',
 	    resize : {width : 320, height : 240, quality : 90},
-	    flash_swf_url : '<%=basePath%>/bin/js/plupload/js/plupload.flash.swf',
+	    flash_swf_url: '<%=basePath%>/bin/js/plupload/Moxie.swf',
+	    silverlight_xap_url: '<%=basePath%>/bin/js/plupload/Moxie.xap',
 	    filters : [
 	       {title : "Image files", extensions : "jpg,png,gif"}
 	    ]

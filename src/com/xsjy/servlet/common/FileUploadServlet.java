@@ -1,5 +1,16 @@
 package com.xsjy.servlet.common;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -43,7 +54,7 @@ public class FileUploadServlet extends BaseServlet {
 				while (iter.hasNext()) {
 					FileItemStream item = iter.next();
 					InputStream input = item.openStream();
-					if (!item.isFormField()) {
+					if (item.isFormField()) {
 						// String fileName = item.getFieldName();
 						// String value = filename; //
 						// 上传文件原名:Streams.asString(input);
@@ -73,7 +84,6 @@ public class FileUploadServlet extends BaseServlet {
 			ServletOutputStream output = response.getOutputStream();
 			output.write(responseBytes);
 			output.flush();
-
 		}
 	}
 

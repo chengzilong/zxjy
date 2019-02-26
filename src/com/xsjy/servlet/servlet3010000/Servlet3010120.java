@@ -6,18 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import javax.servlet.annotation.WebServlet;
-
-import com.xsjy.pojo.BaseTable.Pojo_YHXX;
-import com.xsjy.pojo.Custom.pojo_3010000.Pojo3010120;
-import com.xsjy.service.service3010000.Service3010120;
 import com.framework.core.BaseServlet;
 import com.framework.log.MyLogger;
 import com.framework.session.SessionAttribute;
+import com.xsjy.pojo.BaseTable.Pojo_YHXX;
+import com.xsjy.pojo.Custom.pojo_3010000.Pojo3010120;
+import com.xsjy.service.service3010000.Service3010120;
 
 /**
  * Servlet implementation class Servlet3010120
@@ -25,17 +23,17 @@ import com.framework.session.SessionAttribute;
 @WebServlet("/Servlet3010120")
 public class Servlet3010120 extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	/* 命令定义部分 */
 	public static final String CMD_SELECT = "CMD_SELECT";
 	public static final String CMD_UPDATE = "CMD_UPDATE";
-	
+
 	/* 本Servlet对应的Service */
 	private Service3010120 service;
-	
+
 	/* Ajax返回前台的结果集 */
 	private ArrayList<Object> arrResult;
-	
+
     public Servlet3010120() {
     	super();
     }
@@ -60,7 +58,7 @@ public class Servlet3010120 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-01-05
+	 * @date 2017-08-01
 	 */
 	private void getNewsList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -90,7 +88,7 @@ public class Servlet3010120 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-01-05
+	 * @date 2017-08-01
 	 */
 	private void updateCKZT(Map<String, String[]> inputdata) throws Exception {
 		int ret = 0;

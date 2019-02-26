@@ -1,4 +1,4 @@
- 
+
 var CDOT = "CDOT";				//There is a decimal point.
 var CNUMONLY = "CNUMONLY";		//There is not a decimal point.
 
@@ -33,15 +33,15 @@ function getBrowseVersion() {
 		return 'Safari: ' + Sys.safari;
 }
 
-/** 
- * @Function_Name: filterKeyForNumber 
+/**
+ * @Function_Name: filterKeyForNumber
  * @Description: 限制Input控件输入数字，onkeypress内调用
  * @param obj--限制输入对象
- * @param strFlg 
+ * @param strFlg
  *            CDOT:带小数点数字
  *            CNUMONLY:纯数字
  * @author misty
- * @date 2014年4月8日 下午10:09:11 
+ * @date 2014年4月8日 下午10:09:11
  */
 function filterKeyForNumber(obj, strFlg) {
 	switch (strFlg) {
@@ -59,12 +59,12 @@ function filterKeyForNumber(obj, strFlg) {
 	}
 }
 
-/** 
- * @Function_Name: filterKeybordAZaz09 
- * @Description: 限制输入A~Z，a~z,0~9 
+/**
+ * @Function_Name: filterKeybordAZaz09
+ * @Description: 限制输入A~Z，a~z,0~9
  * @param obj 返回值说明
  * @author misty
- * @date 2014年4月8日 下午10:15:50 
+ * @date 2014年4月8日 下午10:15:50
  */
 function filterKeybordAZaz09(obj){
 	if((event.keyCode<48 || event.keyCode>57)
@@ -74,12 +74,12 @@ function filterKeybordAZaz09(obj){
 	}
 }
 
-/** 
- * @Function_Name: filterKeybordAZaz09 
- * @Description: 限制输入大小写字母 
+/**
+ * @Function_Name: filterKeybordAZaz09
+ * @Description: 限制输入大小写字母
  * @param obj 返回值说明
  * @author misty
- * @date 2014年4月8日 下午10:17:07 
+ * @date 2014年4月8日 下午10:17:07
  */
 function filterKeybordAZaz(obj){
 	if((event.keyCode<65 || event.keyCode>90)
@@ -88,13 +88,13 @@ function filterKeybordAZaz(obj){
 	}
 }
 
-/** 
- * @Function_Name: getObjPropert 
- * @Description: 取得对象的所有属性 
+/**
+ * @Function_Name: getObjPropert
+ * @Description: 取得对象的所有属性
  * @param obj
  * @returns {String} 所有属性列表
  * @author misty
- * @date 2014年4月8日 下午10:43:26 
+ * @date 2014年4月8日 下午10:43:26
  */
 function getObjPropert(obj) {
 	var props = "";
@@ -110,15 +110,15 @@ function getObjPropert(obj) {
 	return props;
 }
 
-/** 
- * @Function_Name: loadSearchSelect 
- * @Description: 设定下拉列表-用于查询 
+/**
+ * @Function_Name: loadSearchSelect
+ * @Description: 设定下拉列表-用于查询
  * @param obj-下拉列表对象
  * @param Type-取得下拉列表类别
  * @param Name-下拉列表应用名称
  * @returns {Boolean-是否成功} 返回值说明
- * @author ljg
- * @date 2014年7月21日 下午9:52:02 
+ * @author czl
+ * @date 2017-07-26
  */
 function loadSearchSelect(obj,Type,Name){
 	var blnRet = false;
@@ -140,7 +140,7 @@ function loadSearchSelect(obj,Type,Name){
 				try{
 					obj.empty();//清空
 					var option = $("<option>").text("所有").val("000");//增加<所有>项
-					obj.append(option);	
+					obj.append(option);
 					var len = roleList.length;
 					for (var i=0;i<len;i++){
 						var option = $("<option>").text(roleList[i].NAME).val(roleList[i].CODE);
@@ -159,15 +159,15 @@ function loadSearchSelect(obj,Type,Name){
 	});
 	return blnRet;
 }
-/** 
- * @Function_Name: loadSearchSelectown 
+/**
+ * @Function_Name: loadSearchSelectown
  * @Description: 设定下拉列表-用于查询 （第一个选项自定义）
  * @param obj-下拉列表对象
  * @param Type-取得下拉列表类别
  * @param Name-下拉列表应用名称
  * @returns {Boolean-是否成功} 返回值说明
  * @author czl
- * @date 2014年11月04日 上午9:52:02 
+ * @date 2014年11月04日 上午9:52:02
  */
 function loadSearchSelectown(obj,Type,Name){
 	var blnRet = false;
@@ -205,15 +205,15 @@ function loadSearchSelectown(obj,Type,Name){
 	});
 	return blnRet;
 }
-/** 
- * @Function_Name: loadEditSelect 
+/**
+ * @Function_Name: loadEditSelect
  * @Description: 设定下拉列表-用于编辑
  * @param obj-下拉列表对象
  * @param Type-取得下拉列表类别
  * @param Name-下拉列表应用名称
  * @returns {Boolean-是否成功} 返回值说明
  * @author ljg
- * @date 2014年7月21日 下午10:09:16 
+ * @date 2014年7月21日 下午10:09:16
  */
 function loadEditSelect(obj,Type,Name){
 	var blnRet = false;
@@ -276,31 +276,31 @@ function getRootPath(){
 	}else{
 		result = localhostPath + "/XSJY";
 	}
-	
+
 //	result = localhostPath + projectName;
     return(result);
 }
 
-/* 左补0 */  
-function pad(num, n) {  
-    var len = num.toString().length;  
-    while(len < n) {  
-        num = "0" + num;  
-        len++;  
-    }  
-    return num;  
+/* 左补0 */
+function pad(num, n) {
+    var len = num.toString().length;
+    while(len < n) {
+        num = "0" + num;
+        len++;
+    }
+    return num;
 }
 
 
-/** 
- * @Function_Name: insertJoinLession 
+/**
+ * @Function_Name: insertJoinLession
  * @Description: 临时报名
  * @param obj-下拉列表对象
  * @param Type-取得下拉列表类别
  * @param Name-下拉列表应用名称
  * @returns {Boolean-是否成功} 返回值说明
  * @author ljg
- * @date 2014年7月21日 下午10:09:16 
+ * @date 2014年7月21日 下午10:09:16
  */
 function insertJoinLession(name,phone,remark){
 	var blnRet = false;
@@ -333,12 +333,12 @@ function insertJoinLession(name,phone,remark){
 	return blnRet;
 }
 
-/** 
- * @Function_Name: getLoginUserBySession 
+/**
+ * @Function_Name: getLoginUserBySession
  * @Description: 取得登录用户
  * @returns {String-用户名} 返回值说明
  * @author ljg
- * @date 2014年7月21日 下午10:09:16 
+ * @date 2014年7月21日 下午10:09:16
  */
 function getLoginUserBySession(){
 	var blnRet = "";
@@ -358,12 +358,12 @@ function getLoginUserBySession(){
 	return blnRet;
 }
 
-/** 
- * @Function_Name: getLoginUserBySession 
+/**
+ * @Function_Name: getLoginUserBySession
  * @Description: 取得登录用户
  * @returns {String-用户名} 返回值说明
  * @author ljg
- * @date 2014年7月21日 下午10:09:16 
+ * @date 2014年7月21日 下午10:09:16
  */
 function getLoginUserIdBySession(){
 	var blnRet = "";
@@ -383,12 +383,12 @@ function getLoginUserIdBySession(){
 	return blnRet;
 }
 
-/** 
- * @Function_Name: clearSession 
+/**
+ * @Function_Name: clearSession
  * @Description: 清除登录用户
  * @returns {String-用户名} 返回值说明
  * @author ljg
- * @date 2014年7月21日 下午10:09:16 
+ * @date 2014年7月21日 下午10:09:16
  */
 function clearSession(){
 	$.ajax({
@@ -405,13 +405,13 @@ function clearSession(){
 	});
 }
 
-/**		
- * @FunctionName: loadcssfile		
- * @Description: JS加载CSS文件(同名同目录)		
- * @param filename		
- * @return void		
- * @author ljg		
- * @date 2015年1月20日 上午9:45:59		
+/**
+ * @FunctionName: loadcssfile
+ * @Description: JS加载CSS文件(同名同目录)
+ * @param filename
+ * @return void
+ * @author ljg
+ * @date 2015年1月20日 上午9:45:59
  */
 function loadcssfile(filename){
 	var a = document.scripts,b,c = document,d = "getElementById",e = "getElementsByTagName",f=filename+"css";
@@ -424,7 +424,7 @@ function loadcssfile(filename){
 				g.type = "text/css",g.rel = "stylesheet",g.href = p,
 				f && (g.id = f),c[e]("head")[0].appendChild(g);
 			}
-		}	
+		}
 	})();
 }
 function getUserName(){
@@ -470,7 +470,7 @@ function getUserMessCount(){
 }
 
 //取得验证码
-function createCheckCode(checkid){ 
+function createCheckCode(checkid){
 	var code = new Array();
 	var codeLength = 4;//验证码的长度
 	var checkCode = document.getElementById(checkid);

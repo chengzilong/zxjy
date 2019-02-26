@@ -18,7 +18,7 @@ import com.xsjy.pojo.Custom.pojo_9010000.Pojo9010110;
 import com.xsjy.service.service9010000.Service9010110;
 
 /**
- * 
+ *
  * @ClassName: Servlet9010110
  * @Package:com.xsjy.servlet.servlet9010000
  * @Description: 用户管理控制类
@@ -32,7 +32,7 @@ import com.xsjy.service.service9010000.Service9010110;
 @WebServlet("/Servlet9010110")
 public class Servlet9010110 extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	/* 命令定义部分 */
 	public static final String CMD_SELECT = "CMD_SELECT";
 	public static final String CMD_INSERT = "CMD_INSERT";
@@ -40,7 +40,7 @@ public class Servlet9010110 extends BaseServlet {
 	public static final String CMD_DELETE = "CMD_DELETE";
 	public static final String CMD_CHK_EXIST = "CMD_CHK_EXIST";
 	public static final String CMD_RECOVERY = "CMD_RECOVERY";
-	
+
 	/* 本Servlet对应的Service */
 	private Service9010110 service;
 	/* Ajax返回前台的结果集 */
@@ -56,9 +56,9 @@ public class Servlet9010110 extends BaseServlet {
 			throws IOException, ServletException, Exception {
 		service = new Service9010110();
 		arrResult = new ArrayList<Object>();
-		
+
 		String CMD = this.getString(inputdata, "CMD");
-		
+
 		if (CMD_SELECT.equals(CMD)) {
 			getUserList(inputdata);
 		} else if (CMD_CHK_EXIST.equals(CMD)) {
@@ -79,8 +79,8 @@ public class Servlet9010110 extends BaseServlet {
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ljg
-	 * @date 2014年7月22日 上午10:34:12
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private void getUserList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -91,7 +91,7 @@ public class Servlet9010110 extends BaseServlet {
 
 		int TotalCount = 0;
 		List<Pojo9010110> PageData = new ArrayList<Pojo9010110>();
-		
+
 		try {
 			TotalCount = service.getUserList_TotalCount(beanIn);
 			PageData = service.getUserList_PageData(beanIn, page, limit, sort);
@@ -108,8 +108,8 @@ public class Servlet9010110 extends BaseServlet {
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ljg
-	 * @date 2014年7月22日 上午10:35:33
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private void chkUserExist(Map<String, String[]> inputdata) throws Exception {
 		Pojo9010110 beanIn = (Pojo9010110) this.getObject(inputdata, "BeanIn",Pojo9010110.class);
@@ -130,14 +130,14 @@ public class Servlet9010110 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertUser
 	 * @Description: 新增用户信息
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月30日 上午10:08:14
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private void insertUser(Map<String, String[]> inputdata) throws Exception {
 		Pojo9010110 beanIn = (Pojo9010110) this.getObject(inputdata, "BeanIn",Pojo9010110.class);
@@ -145,7 +145,7 @@ public class Servlet9010110 extends BaseServlet {
 		beanIn.setYHXX_CJR(beanUser.getYHXX_YHID());
 		beanIn.setYHXX_GXR(beanUser.getYHXX_YHID());
 		boolean result = false;
-		
+
 		try {
 			result = service.insertUser(beanIn);
 			if(result){
@@ -162,14 +162,14 @@ public class Servlet9010110 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: updateUser
 	 * @Description: 修改用户信息
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月30日 上午10:08:34
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private void updateUser(Map<String, String[]> inputdata) throws Exception {
 		Pojo9010110 beanIn = (Pojo9010110) this.getObject(inputdata, "BeanIn",Pojo9010110.class);
@@ -177,7 +177,7 @@ public class Servlet9010110 extends BaseServlet {
 		beanIn.setYHXX_CJR(beanUser.getYHXX_YHID());
 		beanIn.setYHXX_GXR(beanUser.getYHXX_YHID());
 		boolean result = false;
-		
+
 		try {
 			result = service.updateUser(beanIn);
 			if(result){
@@ -194,21 +194,21 @@ public class Servlet9010110 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: deleteUser
 	 * @Description: 删除用户信息
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月30日 上午10:08:46
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private void deleteUser(Map<String, String[]> inputdata) throws Exception {
 		Pojo_YHXX beanIn = (Pojo_YHXX) this.getObject(inputdata, "BeanIn",Pojo_YHXX.class);
 		Pojo_YHXX beanUser = (Pojo_YHXX)getSessionObject(SessionAttribute.LOGIN_USER);
 		beanIn.setYHXX_GXR(beanUser.getYHXX_YHID());
 		int ret = 0;
-		
+
 		try {
 			ret = service.deleteUser(beanIn);
 			if(ret>0){
@@ -225,21 +225,21 @@ public class Servlet9010110 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: recoveryUser
 	 * @Description: 恢复删除的用户信息
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月30日 下午5:59:17
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private void recoveryUser(Map<String, String[]> inputdata) throws Exception {
 		Pojo_YHXX beanIn = (Pojo_YHXX) this.getObject(inputdata, "BeanIn",Pojo_YHXX.class);
 		Pojo_YHXX beanUser = (Pojo_YHXX)getSessionObject(SessionAttribute.LOGIN_USER);
 		beanIn.setYHXX_GXR(beanUser.getYHXX_YHID());
 		int ret = 0;
-		
+
 		try {
 			ret = service.recoveryUser(beanIn);
 			if(ret>0){

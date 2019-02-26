@@ -6,15 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.annotation.WebServlet;
+
+import com.framework.core.BaseServlet;
+import com.framework.log.MyLogger;
 import com.xsjy.common.SessionValue;
 import com.xsjy.pojo.BaseTable.Pojo_YHXX;
 import com.xsjy.pojo.Custom.pojo_1110000.Pojo1110140;
 import com.xsjy.service.service1110000.Service1110140;
-import com.framework.core.BaseServlet;
-import com.framework.log.MyLogger;
 
 /**
  * Servlet implementation class Servlet1110140
@@ -22,7 +23,7 @@ import com.framework.log.MyLogger;
 @WebServlet("/Servlet1110140")
 public class Servlet1110140 extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	/* 命令定义部分 */
 	public static final String CMD_SELECT = "CMD_SELECT";
 	public static final String CMD_INSERT = "CMD_INSERT";
@@ -43,7 +44,7 @@ public class Servlet1110140 extends BaseServlet {
 			throws IOException, ServletException, Exception {
 		service = new Service1110140();
 		arrResult = new ArrayList<Object>();
-		
+
 		String CMD = this.getString(inputdata, "CMD");
 		if (CMD_SELECT.equals(CMD)) {
 			getAccountList(inputdata);
@@ -62,7 +63,7 @@ public class Servlet1110140 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-01-05
+	 * @date 2017-07-28
 	 */
 	private void getAccountList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -76,7 +77,7 @@ public class Servlet1110140 extends BaseServlet {
 		Pojo_YHXX beanUser = (Pojo_YHXX)getSessionObject(SessionValue.LOGIN_USER);
 		beanIn.setGRZH_CJR(beanUser.getYHXX_UUID());
 		try {
-			
+
 			TotalCount = service.getAccountList_TotalCount(beanIn);
 			PageData = service.getAccountList_PageData(beanIn, page, limit, sort);
 		} catch (Exception e) {
@@ -86,7 +87,7 @@ public class Servlet1110140 extends BaseServlet {
 			printGrid(TotalCount, PageData);
 		}
 	}
-	
+
 	/**
 	 * @FunctionName: insertAccount
 	 * @Description: 新增账户
@@ -94,7 +95,7 @@ public class Servlet1110140 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-01-05
+	 * @date 2017-07-28
 	 */
 	private void insertAccount(Map<String, String[]> inputdata) throws Exception {
 		Pojo1110140 beanIn = (Pojo1110140) this.getObject(inputdata, "BeanIn",Pojo1110140.class);
@@ -124,7 +125,7 @@ public class Servlet1110140 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-01-05
+	 * @date 2017-07-28
 	 */
 	private void updateAccount(Map<String, String[]> inputdata) throws Exception {
 		Pojo1110140 beanIn = (Pojo1110140) this.getObject(inputdata, "BeanIn",Pojo1110140.class);
@@ -153,7 +154,7 @@ public class Servlet1110140 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-01-05
+	 * @date 2017-07-28
 	 */
 	private void deleteAccount(Map<String, String[]> inputdata) throws Exception {
 		Pojo1110140 beanIn = (Pojo1110140) this.getObject(inputdata, "BeanIn",Pojo1110140.class);

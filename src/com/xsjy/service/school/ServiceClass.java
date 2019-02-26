@@ -23,15 +23,15 @@ public class ServiceClass extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataCount
 	 * @Description: 统计列表数据个数
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年12月17日 上午10:30:29
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	public int getDataCount(PojoClass beanIn) throws Exception {
 		int result = 0;
@@ -43,11 +43,17 @@ public class ServiceClass extends BaseService {
 			strbuf.append(" SELECT ");
 			strbuf.append("     COUNT(A.BCXX_BCID) ");// 数据个数
 			strbuf.append(" FROM ");
-			strbuf.append("     BCXX A,KCFY B,KCXX C,SKSD D,JSXX E,KCLX F, ");
+			strbuf.append("     BCXX A ");
+			strbuf.append(" INNER JOIN KCFY B ON A.BCXX_KCFYID = B.KCFY_FYID ");
+			strbuf.append(" INNER JOIN KCXX C ON A.BCXX_KCID = C.KCXX_KCID ");
+			strbuf.append(" INNER JOIN SKSD D ON B.KCFY_SDID = D.SKSD_SDID ");
+			strbuf.append(" INNER JOIN JSXX E ON B.KCFY_JSID = E.JSXX_JSID ");
+			strbuf.append(" INNER JOIN KCLX F ON B.KCFY_LXID = F.KCLX_LXID ");
+			strbuf.append(" LEFT JOIN ");
 			strbuf.append(" (SELECT ");
 			strbuf.append("     F.JSQY_JSID AS QY_JSID, ");
-			strbuf.append("     WMSYS.WM_CONCAT (G.XZQY_QYID) AS SKQYID, ");
-			strbuf.append("     WMSYS.WM_CONCAT (G.XZQY_QYMC) AS SKQYMC ");
+			strbuf.append("     GROUP_CONCAT(G.XZQY_QYID) AS SKQYID, ");
+			strbuf.append("     GROUP_CONCAT(G.XZQY_QYMC) AS SKQYMC ");
 			strbuf.append(" FROM ");
 			strbuf.append("     JSQY F, XZQY G ");
 			strbuf.append(" WHERE ");
@@ -55,7 +61,7 @@ public class ServiceClass extends BaseService {
 			strbuf.append(" AND F.JSQY_SCBZ = 0 ");
 			strbuf.append(" AND G.XZQY_SCBZ = 0 ");
 			strbuf.append(" GROUP BY ");
-			strbuf.append("     F.JSQY_JSID) G ");
+			strbuf.append("     F.JSQY_JSID) G ON E.JSXX_JSID = G.QY_JSID ");
 			strbuf.append(" WHERE 1=1 ");
 			strbuf.append(this.searchCourseSql(beanIn));
 
@@ -70,8 +76,8 @@ public class ServiceClass extends BaseService {
 	}
 
 	/**
-	 * 
-	 * @FunctionName: getCourseList
+	 *
+	 * @FunctionName: getDataList
 	 * @Description: 获取列表数据明细
 	 * @param beanIn
 	 * @param page
@@ -80,8 +86,8 @@ public class ServiceClass extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return List<PojoClass>
-	 * @author ztz
-	 * @date 2014年12月17日 上午10:30:39
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	public List<PojoClass> getDataList(PojoClass beanIn, int page,
 			int limit, String sort, String userid) throws Exception {
@@ -109,25 +115,25 @@ public class ServiceClass extends BaseService {
 			strbuf.append("     B.KCFY_LXID AS LXID, ");//类型ID
 			strbuf.append("     F.KCLX_LXMC AS LXMC, ");//类型名称
 			strbuf.append("     A.BCXX_BCZT AS BCZT, ");//班次状态
-			
+
 			if(!"".equals(userid)){
 				strbuf.append(" DECODE(G.BCXS_BCID,NULL,'报名','已报名') AS BMED, ");// 是否报名
 			}else{
 				//BMXX_KCFYID
 				strbuf.append("     '报名' AS BMED, ");// 是否报名
 			}
-			
+
 			strbuf.append("     A.BCXX_CJR, ");
 			strbuf.append("     A.BCXX_CJSJ, ");
 			strbuf.append("     A.BCXX_GXR, ");
 			strbuf.append("     A.BCXX_GXSJ ");
-			
+
 			strbuf.append(" FROM ");
 			strbuf.append("     BCXX A,KCFY B,KCXX C,SKSD D,JSXX E,KCLX F, ");
 			strbuf.append(" (SELECT ");
 			strbuf.append("     F.JSQY_JSID AS QY_JSID, ");
-			strbuf.append("     WMSYS.WM_CONCAT (G.XZQY_QYID) AS SKQYID, ");
-			strbuf.append("     WMSYS.WM_CONCAT (G.XZQY_QYMC) AS SKQYMC ");
+			strbuf.append("     GROUP_CONCAT(G.XZQY_QYID) AS SKQYID, ");
+			strbuf.append("     GROUP_CONCAT(G.XZQY_QYMC) AS SKQYMC ");
 			strbuf.append(" FROM ");
 			strbuf.append("     JSQY F, XZQY G ");
 			strbuf.append(" WHERE ");
@@ -143,11 +149,11 @@ public class ServiceClass extends BaseService {
 				strbuf.append("    BCXS");
 				strbuf.append(" WHERE ");
 				strbuf.append("    BCXS_SCBZ = '0'");
-				strbuf.append(" AND BCXS_XSID = '").append(this.getStudentId(userid)).append("') G");				
+				strbuf.append(" AND BCXS_XSID = '").append(this.getStudentId(userid)).append("') G");
 			}
 			strbuf.append(" WHERE 1=1 ");
 			if(!"".equals(userid)){
-				strbuf.append("AND A.BCXX_BCID=G.BCXS_BCID(+) ");// 课程信息ID	
+				strbuf.append("AND A.BCXX_BCID=G.BCXS_BCID(+) ");// 课程信息ID
 			}
 			strbuf.append(this.searchCourseSql(beanIn));
 
@@ -165,59 +171,52 @@ public class ServiceClass extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * @FunctionName: searchCourseSql
 	 * @Description: 查询条件部分
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return String
-	 * @author ztz
-	 * @date 2014年12月17日 上午10:30:52
-	 * @update ztz at 2015年1月20日 下午4:01:05
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	private String searchCourseSql(PojoClass beanIn) throws Exception {
 		StringBuffer strbuf = new StringBuffer();
 
 		try {
 			/* 公共部分 */
-			strbuf.append(" AND A.BCXX_KCFYID=B.KCFY_FYID");
-			strbuf.append(" AND A.BCXX_KCID=C.KCXX_KCID");
-			strbuf.append(" AND B.KCFY_SDID=D.SKSD_SDID");
-			strbuf.append(" AND B.KCFY_JSID=E.JSXX_JSID");
-			strbuf.append(" AND B.KCFY_LXID=F.KCLX_LXID ");
-			strbuf.append(" AND E.JSXX_JSID = G.QY_JSID(+) ");
 			strbuf.append(" AND A.BCXX_SCBZ='0'");
 			strbuf.append(" AND B.KCFY_SCBZ='0'");
 			strbuf.append(" AND (A.BCXX_BCZT='0' OR A.BCXX_BCZT='1')");
 			strbuf.append(" AND A.BCXX_SFYZ = '1'");
-			
+
 			/* 教学学段 */
 			if (MyStringUtils.isNotBlank(beanIn.getPARAJXXD()) && !("000").equals(beanIn.getPARAJXXD())) {
 				strbuf.append("  AND C.KCXX_KCJD = '").append(beanIn.getPARAJXXD()).append("'");
 			}
-			
+
 			/* 求教学科 */
 			if (MyStringUtils.isNotBlank(beanIn.getPARAQJXK())
 					&& !("000").equals(beanIn.getPARAQJXK())) {
 				strbuf.append("  AND C.KCXX_KMID = '").append(beanIn.getPARAQJXK()).append("'");
 			}
-			
+
 			/* 课程类型 */
 			if (MyStringUtils.isNotBlank(beanIn.getPARAKCLX()) && !("000").equals(beanIn.getPARAKCLX())) {
 				strbuf.append("  AND B.KCFY_LXID = '").append(beanIn.getPARAKCLX()).append("'");
 			}
-			
+
 			/* 上课时段 */
 			if (MyStringUtils.isNotBlank(beanIn.getPARASKSD()) && !("000").equals(beanIn.getPARASKSD())) {
 				strbuf.append("  AND B.KCFY_SDID = '").append(beanIn.getPARASKSD()).append("'");
 			}
-			
+
 			/* 授课区域 */
 			if (MyStringUtils.isNotBlank(beanIn.getPARASKQY()) && !("000").equals(beanIn.getPARASKQY())) {
 				strbuf.append("  AND G.SKQYID LIKE '%").append(beanIn.getPARASKQY()).append("%'");
 			}
-			
+
 			/* 课程费用 */
 			if (MyStringUtils.isNotBlank(beanIn.getPARAKCFY()) && !("000").equals(beanIn.getPARAKCFY())) {
 				if(beanIn.getPARAKCFY().equals("1")){
@@ -235,7 +234,7 @@ public class ServiceClass extends BaseService {
 		return strbuf.toString();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: isDataExist
 	 * @Description: 判断数据是否存在
 	 * @param classId
@@ -248,10 +247,10 @@ public class ServiceClass extends BaseService {
 	 */
 	public boolean isDataExist(String classId, String yhid) throws Exception {
 		boolean result = false;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("    COUNT(BMXX_BMID)");//报名ID
@@ -262,7 +261,7 @@ public class ServiceClass extends BaseService {
 			strbuf.append(" AND BMXX_XSID = '").append(this.getStudentId(yhid)).append("'");
 			strbuf.append(" AND BMXX_SSBC = '").append(classId).append("'");
 			int count = db.queryForInteger(strbuf);
-			
+
 			if (count > 0) result = true;
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -273,7 +272,7 @@ public class ServiceClass extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getStudentId
 	 * @Description: 获取学生信息表ID
 	 * @param yhid
@@ -286,7 +285,7 @@ public class ServiceClass extends BaseService {
 	 */
 	private String getStudentId(String yhid) throws Exception {
 		String stuId = "";
-		
+
 		try {
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
@@ -298,7 +297,7 @@ public class ServiceClass extends BaseService {
 			strbuf.append(" AND A.YHXX_SCBZ = '0'");
 			strbuf.append(" AND B.XSXX_SCBZ = '0'");
 			strbuf.append(" AND A.YHXX_YHID = '").append(yhid).append("'");
-			
+
 			stuId = db.queryForString(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -307,7 +306,7 @@ public class ServiceClass extends BaseService {
 		return stuId;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getClassData
 	 * @Description: 获取班次信息及课程费用信息
 	 * @param classId
@@ -319,7 +318,7 @@ public class ServiceClass extends BaseService {
 	 */
 	private Pojo_BMXX getClassData(String classId) throws Exception {
 		Pojo_BMXX beanIn = new Pojo_BMXX();
-		
+
 		try {
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
@@ -338,9 +337,9 @@ public class ServiceClass extends BaseService {
 			strbuf.append(" AND A.BCXX_SCBZ = '0'");
 			strbuf.append(" AND B.KCFY_SCBZ = '0'");
 			strbuf.append(" AND A.BCXX_BCID = '").append(classId).append("'");
-			
+
 			ResultSetHandler<Pojo_BMXX> rs = new BeanHandler<Pojo_BMXX>(Pojo_BMXX.class);
-			
+
 			beanIn = db.queryForBeanHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -349,7 +348,7 @@ public class ServiceClass extends BaseService {
 		return beanIn;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertData
 	 * @Description: 新增数据
 	 * @param beanIn
@@ -370,10 +369,10 @@ public class ServiceClass extends BaseService {
 		try {
 			db.openConnection();
 			db.beginTran();
-			
+
 			beanIn = this.getClassData(classId);
 			beanIn.setBMXX_XSID(this.getStudentId(beanUser.getYHXX_YHID()));
-			
+
 			StringBuffer strbufBMXX = new StringBuffer();
 			strbufBMXX.append(" INSERT INTO ");
 			strbufBMXX.append("     BMXX ");

@@ -22,7 +22,7 @@ public class Service3030110 extends BaseService {
 		db = new DBManager();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getSystemdate
 	 * @Description: 获得系统时间
 	 * @return
@@ -32,21 +32,21 @@ public class Service3030110 extends BaseService {
 	 * @date 2015年1月5日 上午10:53:09
 	 */
 	public String getSystemdate() throws Exception{
-		Date now = new Date(); 
+		Date now = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");//可以方便地修改日期格式
-		String date = dateFormat.format( now ); 
+		String date = dateFormat.format( now );
 		return date;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getCourseFeeList_TotalCount
 	 * @Description: 取得查询结果统计数
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2015年1月5日 上午10:53:25
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public int getCourseFeeList_TotalCount(Pojo3030110 beanIn) throws Exception {
 		int result = 0;
@@ -59,17 +59,17 @@ public class Service3030110 extends BaseService {
 			sql.append("   LEFT JOIN JSXX D ON A.KCFY_JSID = D.JSXX_JSID");
 			sql.append("  WHERE 1 = 1  AND  KCFY_SCBZ = '0' ");
 			sql.append(" AND D.JSXX_JSBM = '").append(beanIn.getJSBM()).append("'");
-			if (MyStringUtils.isNotBlank(beanIn.getKCFY_XXID())&&!("000").equals(beanIn.getKCFY_XXID())) {	
+			if (MyStringUtils.isNotBlank(beanIn.getKCFY_XXID())&&!("000").equals(beanIn.getKCFY_XXID())) {
 				sql.append("  AND A.KCFY_XXID = '").append(beanIn.getKCFY_XXID())
-					.append("'");	
+					.append("'");
 			}
-			if (MyStringUtils.isNotBlank(beanIn.getKCFY_LXID())&&!("000").equals(beanIn.getKCFY_LXID())) {	
+			if (MyStringUtils.isNotBlank(beanIn.getKCFY_LXID())&&!("000").equals(beanIn.getKCFY_LXID())) {
 				sql.append("  AND A.KCFY_LXID = '").append(beanIn.getKCFY_LXID())
-					.append("'");	
+					.append("'");
 			}
-			if (MyStringUtils.isNotBlank(beanIn.getKCFY_SDID())&&!("000").equals(beanIn.getKCFY_SDID())) {	
+			if (MyStringUtils.isNotBlank(beanIn.getKCFY_SDID())&&!("000").equals(beanIn.getKCFY_SDID())) {
 				sql.append("  AND A.KCFY_SDID = '").append(beanIn.getKCFY_SDID())
-					.append("'");	
+					.append("'");
 			}
 			result = db.queryForInteger(sql);
 		} catch (Exception e) {
@@ -81,7 +81,7 @@ public class Service3030110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getCourseFeeList_PageData
 	 * @Description: 取得查询结果
 	 * @param beanIn
@@ -91,8 +91,8 @@ public class Service3030110 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo3030110>
-	 * @author ztz
-	 * @date 2015年1月5日 上午10:53:41
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public List<Pojo3030110> getCourseFeeList_PageData(Pojo3030110 beanIn, int page,
 			int limit, String sort) throws Exception {
@@ -117,17 +117,17 @@ public class Service3030110 extends BaseService {
 			sql.append("  WHERE   A.KCFY_SCBZ = '0'");
 			sql.append("  AND A.KCFY_XXID = E.KCXX_KCID");
 			sql.append(" AND D.JSXX_JSBM = '").append(beanIn.getJSBM()).append("'");
-			if (MyStringUtils.isNotBlank(beanIn.getKCFY_XXID())&&!("000").equals(beanIn.getKCFY_XXID())) {	
+			if (MyStringUtils.isNotBlank(beanIn.getKCFY_XXID())&&!("000").equals(beanIn.getKCFY_XXID())) {
 				sql.append("  AND A.KCFY_XXID = '").append(beanIn.getKCFY_XXID())
-					.append("'");	
+					.append("'");
 			}
-			if (MyStringUtils.isNotBlank(beanIn.getKCFY_LXID())&&!("000").equals(beanIn.getKCFY_LXID())) {	
+			if (MyStringUtils.isNotBlank(beanIn.getKCFY_LXID())&&!("000").equals(beanIn.getKCFY_LXID())) {
 				sql.append("  AND A.KCFY_LXID = '").append(beanIn.getKCFY_LXID())
-					.append("'");	
+					.append("'");
 			}
-			if (MyStringUtils.isNotBlank(beanIn.getKCFY_SDID())&&!("000").equals(beanIn.getKCFY_SDID())) {	
+			if (MyStringUtils.isNotBlank(beanIn.getKCFY_SDID())&&!("000").equals(beanIn.getKCFY_SDID())) {
 				sql.append("  AND A.KCFY_SDID = '").append(beanIn.getKCFY_SDID())
-					.append("'");	
+					.append("'");
 			}
 			sql.append(" ORDER BY ");
 			sql.append("        A.KCFY_CJSJ DESC");
@@ -146,7 +146,7 @@ public class Service3030110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getTeacherId
 	 * @Description: 获取教师ID
 	 * @param yhid
@@ -158,7 +158,7 @@ public class Service3030110 extends BaseService {
 	 */
 	private String getTeacherId(String yhid) throws Exception {
 		String teaId = "";
-		
+
 		try {
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
@@ -170,7 +170,7 @@ public class Service3030110 extends BaseService {
 			strbuf.append(" AND A.YHXX_SCBZ = '0'");
 			strbuf.append(" AND B.JSXX_SCBZ = '0'");
 			strbuf.append(" AND A.YHXX_YHID = '").append(yhid).append("'");
-			
+
 			teaId = db.queryForString(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -179,22 +179,21 @@ public class Service3030110 extends BaseService {
 		return teaId;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertCourseFee
 	 * @Description: 新增课程费用
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2015年1月5日 上午10:54:04
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public int insertCourseFee(Pojo3030110 beanIn) throws Exception {
 		int result = 0;
-		String sysdate = getSystemdate();
 		try {
 			db.openConnection();
-			StringBuffer strbuf = new StringBuffer();		
+			StringBuffer strbuf = new StringBuffer();
 			String fyid = UUID.randomUUID().toString().replace("-", "").toUpperCase(); //获取32位随机数
 			strbuf.append(" INSERT INTO ");
 			strbuf.append("     KCFY ");
@@ -221,9 +220,9 @@ public class Service3030110 extends BaseService {
 			strbuf.append("     '" + this.getTeacherId(beanIn.getKCFY_CJR()) + "', ");
 			strbuf.append("     '" + beanIn.getKCFY_FY() + "', ");
 			strbuf.append("     '" + beanIn.getKCFY_CJR() + "', ");
-			strbuf.append("     '" + sysdate + "', ");
+			strbuf.append("     NOW(), ");
 			strbuf.append("     '" + beanIn.getKCFY_GXR() + "', ");
-			strbuf.append("     '" + sysdate + "' ");
+			strbuf.append("     NOW() ");
 			strbuf.append(" ) ");
 			result = db.executeSQL(strbuf);
 		} catch (Exception e) {
@@ -236,19 +235,18 @@ public class Service3030110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: updateCourseFee
 	 * @Description: 修改课程费用
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2015年1月5日 上午10:54:19
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public int updateCourseFee(Pojo3030110 beanIn) throws Exception {
 		int result = 0;
-		String sysdate = getSystemdate();
 		try {
 			db.openConnection();
 			StringBuffer strbuf = new StringBuffer();
@@ -261,7 +259,7 @@ public class Service3030110 extends BaseService {
 			strbuf.append("     KCFY_XS='").append(beanIn.getKCFY_XS()).append("',");// 学时
 			strbuf.append("     KCFY_FY='").append(beanIn.getKCFY_FY()).append("',");// 费用
 			strbuf.append("     KCFY_GXR='").append(beanIn.getKCFY_GXR()).append("',");// 修改人
-			strbuf.append("     KCFY_GXSJ='" + sysdate + "'");// 修改时间
+			strbuf.append("     KCFY_GXSJ=NOW()");// 修改时间
 			strbuf.append(" WHERE 1 = 1 AND KCFY_SCBZ = '0'");
 			strbuf.append("  AND   KCFY_FYID='").append(beanIn.getKCFY_FYID()).append("'");// 费用ID
 			result = db.executeSQL(strbuf);
@@ -275,22 +273,22 @@ public class Service3030110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: deleteCourseFee
 	 * @Description: 删除课程费用
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2015年1月5日 上午10:54:35
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public int deleteCourseFee(Pojo3030110 beanIn) throws Exception {
 		int result = 0;
 		try {
 			db.openConnection();
 			StringBuffer strbuf = new StringBuffer();
-			strbuf.append(" DELETE ");
+			strbuf.append(" DELETE FROM ");
 			strbuf.append("     KCFY ");
 			strbuf.append(" WHERE 1 = 1 AND KCFY_FYID='").append(beanIn.getKCFY_FYID())
 					.append("'");

@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet3030000.Servlet3030110"%> 
+<%@ page import="com.xsjy.servlet.servlet3030000.Servlet3030110"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
 
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -43,7 +43,7 @@ $(document).ready(function(){
        { title:'费用', name:'KCFY_FY' ,width:150, sortable:true, align:'center',lockDisplay: true  }
    ];
 
-   intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80; 
+   intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80;
    if(intheight<100){
 	   intheight = 100;
    }
@@ -70,9 +70,9 @@ $(document).ready(function(){
             })
         ]
       });
-   
+
    mmg.on('rowSelected', function(e, item, rowIndex, colIndex){//选择数据行
-	   var arrList = mmg.row(rowIndex);  
+	   var arrList = mmg.row(rowIndex);
 	   $('#txtEditFYID').val(arrList.KCFY_FYID);
 	   $('#selectEditKCMC').val(arrList.KCFY_XXID);
        $("#selectEditKCLX  option[value='"+arrList.KCFY_LXID+"'] ").attr("selected",true);
@@ -81,7 +81,7 @@ $(document).ready(function(){
        $('#txtEditFY').val(arrList.KCFY_FY);
        $('#txtFY').val(arrList.KCFY_FY);
        setButtonStatus("4");
-       
+
    }).on('click', ':checkbox', function(){ //选择checkbox
 	   if(this.checked == true){
 		   var arrList = mmg.selectedRows();
@@ -93,7 +93,7 @@ $(document).ready(function(){
 	         $('#txtEditXS').val(arrList[0].KCFY_XS);
 	         $('#txtEditFY').val(arrList[0].KCFY_FY);
 	         $('#txtFY').val(arrList[0].KCFY_FY);
-	         setButtonStatus("4");   
+	         setButtonStatus("4");
 		   }
 	   }else{
 			   $('#txtEditFYID').val("");
@@ -119,28 +119,32 @@ $(document).ready(function(){
        if(arrList1.length>0) {
 	       $('#txtEditFYID').val(arrList.KCFY_FYID);
 	       $('#selectEditKCMC').val(arrList.KCFY_XXID);
-	       $("#selectEditKCLX  option[value='"+arrList.KCFY_LXID+"'] ").attr("selected",true);
-	       $("#selectEditSKSD  option[value='"+arrList.KCFY_SDID+"'] ").attr("selected",true);
+	       $('#selectEditKCLX').val(arrList.KCFY_LXID);
+	       $('#selectEditSKSD').val(arrList.KCFY_SDID);
+	       //$("#selectEditKCLX option[value='"+arrList.KCFY_LXID+"'] ").attr("selected",true);
+	       //$("#selectEditSKSD option[value='"+arrList.KCFY_SDID+"'] ").attr("selected",true);
 	       $('#txtEditXS').val(arrList.KCFY_XS);
 	       $('#txtEditFY').val(arrList.KCFY_FY);
 	       $('#txtFY').val(arrList.KCFY_FY);
-      	   setButtonStatus("4"); 
+      	   setButtonStatus("4");
        } else {
     	   $('#txtEditFYID').val("");
 		   $('#selectEditKCMC').val("000");
-	       $("#selectEditKCLX  option[value='000'] ").attr("selected",true);
-	       $("#selectEditSKSD  option[value='000'] ").attr("selected",true);
+		   $('#selectEditKCLX').val("000");
+		   $('#selectEditSKSD').val("000");
+	       //$("#selectEditKCLX option[value='000'] ").attr("selected",true);
+	       //$("#selectEditSKSD option[value='000'] ").attr("selected",true);
 	       $('#txtEditXS').val("");
 	       $('#txtEditFY').val("");
-	       $('#txtFY').val(""); 
-           setButtonStatus("2"); 
+	       $('#txtFY').val("");
+           setButtonStatus("2");
        }
     });
 
    $('#btnSearch').on('click', function(){
 	   loadGridByBean();
    });
-   
+
    $('#btnDel').on('click', function(){
 	   var arrList = mmg.selectedRows();
 	   if(arrList.length<=0){
@@ -156,12 +160,12 @@ $(document).ready(function(){
 		   }
 	   });
    });
-    
+
     $('#btnCancel').on('click', function(){
     	setButtonStatus(2);
     	mmg.deselect('all');
     });
-    
+
     $('#btnSave').on('click', function(){
     	if(optionFlag == "Add"){
     		if(funEditCheck()==false) return;
@@ -217,21 +221,21 @@ function makeBeanIn(strKCMC,strKCLX,strSKSD){
 }
 function makeBeanInadd(strKCMC,strKCLX,strSKSD,strXS,strFY){
 	this.KCFY_XXID = strKCMC;
-    this.KCFY_LXID = strKCLX;  
-    this.KCFY_SDID = strSKSD;  
+    this.KCFY_LXID = strKCLX;
+    this.KCFY_SDID = strSKSD;
     this.KCFY_XS = strXS;
     this.KCFY_FY = strFY;
 }
 function makeBeanInedit(strFYID,strKCMC,strKCLX,strSKSD,strXS,strFY){
     this.KCFY_FYID = strFYID;
     this.KCFY_XXID = strKCMC;
-    this.KCFY_LXID = strKCLX;  
-    this.KCFY_SDID = strSKSD;  
+    this.KCFY_LXID = strKCLX;
+    this.KCFY_SDID = strSKSD;
     this.KCFY_XS = strXS;
     this.KCFY_FY = strFY;
 }
 function makeBeanIndel(strFYID){
-    this.KCFY_FYID = strFYID;  
+    this.KCFY_FYID = strFYID;
 }
 function loadGridByBean(){
 	var beanIn = new makeBeanIn(
@@ -252,7 +256,7 @@ function insertKCFYCode(){
            $('#selectEditKCLX').val(),
            $('#selectEditSKSD').val(),
            $('#txtEditXS').val(),
-           $('#txtEditFY').val()      
+           $('#txtEditFY').val()
 	);
 	$.ajax({
 		async     : false,
@@ -290,7 +294,7 @@ function updateKCFYCode(){
            $('#txtEditXS').val(),
            $('#txtEditFY').val()
 	);
-   
+
     $.ajax({
       async     : false,
       type      : "post",
@@ -370,9 +374,9 @@ function setButtonStatus(strFlag) {
 		$('#selectEditSKSD').attr("disabled","disabled");
 		$('#txtEditXS').attr("disabled","disabled");
 		$('#txtEditFY').attr("disabled","disabled");
-	
-		
-		$('#txtEditFYID').val("");			
+
+
+		$('#txtEditFYID').val("");
 		$('#selectEditKCMC').val("000");
 		$('#selectEditKCLX').val("000");
 		$('#selectEditSKSD').val("000");
@@ -393,9 +397,9 @@ function setButtonStatus(strFlag) {
 			$('#selectEditSKSD').removeAttr("disabled");
 			$('#txtEditXS').removeAttr("disabled");
 			$('#txtEditFY').removeAttr("disabled");
-		
-			
-			$('#txtEditFYID').val("");			
+
+
+			$('#txtEditFYID').val("");
 			$('#selectEditKCMC').val("000");
 			$('#selectEditKCLX').val("000");
 			$('#selectEditSKSD').val("000");
@@ -412,7 +416,7 @@ function setButtonStatus(strFlag) {
 			toFy();
 			$('#selectEditKCMC').focus();
 		} else if (strFlag == "33") {//删除
-		
+
 		}
 	} else if (strFlag == "4") {//选中行
 		$('#btnAdd').removeAttr("disabled");
@@ -457,14 +461,14 @@ function funEditCheck() {
 				layer.close(layer.index);
 			});
 			return false;
-		}	
+		}
 		if ($('#txtEditFY').val() == "") {
 			layer.alert('请输入费用！', 0, '友情提示', function() {
 				$('#txtEditFY').focus();
 				layer.close(layer.index);
 			});
 			return false;
-		}	
+		}
 
 	}
 	return true;
@@ -492,14 +496,14 @@ function toFy() {
 				</td>
 				<th style="width:100px">课程类型</th>
 				<td style="width:100px">
-					<select id="txtSelKCLX"> 
-						<option value="000" selected>请选择</option> 
+					<select id="txtSelKCLX">
+						<option value="000" selected>请选择</option>
 					</select>
 				</td>
 				<th style="width:100px">上课时段</th>
 				<td style="width:100px">
-					<select id="txtSelSKSD"> 
-						<option value="000" selected>请选择</option> 
+					<select id="txtSelSKSD">
+						<option value="000" selected>请选择</option>
 					</select>
 				</td>
 				<th  style="width:100px"><input type="button" value="查询" id="btnSearch" /></th>
@@ -517,34 +521,34 @@ function toFy() {
 				<th style="width:100px">课程名称</th>
 				<td style="width:100px">
 					<select id="selectEditKCMC">
-						<option value="000" selected>请选择</option> 
+						<option value="000" selected>请选择</option>
 					 </select>
 				</td>
 				<th style="width:100px">课程类型</th>
 				<td style="width:100px">
-					<select id="selectEditKCLX" onchange="toFy()"> 
-						<option value="000" selected>请选择</option> 
+					<select id="selectEditKCLX" onchange="toFy()">
+						<option value="000" selected>请选择</option>
 					</select>
 				</td>
-				<th style="width:100px">上课时段</th>	
+				<th style="width:100px">上课时段</th>
 				<td style="width:100px">
-					<select id="selectEditSKSD"> 
-						<option value="000" selected>请选择</option> 
+					<select id="selectEditSKSD">
+						<option value="000" selected>请选择</option>
 					</select>
 				</td>
-				<th style="width:100px">学时</th>	
+				<th style="width:100px">学时</th>
 				<td><input type="hidden" id="txtEditFYID" /><input id="txtEditXS" name="学时" maxlength="20" /></td>
-				<th style="width:100px">费用</th>	
+				<th style="width:100px">费用</th>
 				<td><input type="hidden"  id="txtFY" /><input id="txtEditFY" name="费用" maxlength="20" /></td>
 			</tr>
 		</table>
 		<div id="buttonCanvas" class="gToolbar gTbrCenter ">
 			<input type="button" value="新增" id="btnAdd" name="btnAdd" onclick="btn_Add()" />
-			<input type="button" value="修改" id="btnUpd" name="btnUpd" onclick="btn_Upd()" /> 
-			<input type="button" value="删除" id="btnDel" name="btnDel" /> 
-			<input type="button" value="保存" id="btnSave" name="btnSave" /> 
-			<input type="button" value="取消" id="btnCancel" name="btnCancel" /> 
-			
+			<input type="button" value="修改" id="btnUpd" name="btnUpd" onclick="btn_Upd()" />
+			<input type="button" value="删除" id="btnDel" name="btnDel" />
+			<input type="button" value="保存" id="btnSave" name="btnSave" />
+			<input type="button" value="取消" id="btnCancel" name="btnCancel" />
+
 		</div>
 	</fieldset>
 </body>

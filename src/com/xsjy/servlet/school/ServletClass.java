@@ -35,7 +35,7 @@ public class ServletClass extends BaseServlet {
 
 	/* Ajax返回前台的结果集 */
 	private ArrayList<Object> arrResult;
-	
+
 	/* 当前登录系统的用户对象 */
 	Pojo_YHXX beanUser;
 
@@ -63,21 +63,21 @@ public class ServletClass extends BaseServlet {
 			insertData(inputdata);
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataCount
 	 * @Description: 获取列表数据个数
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月26日 上午10:44:08
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	private void getDataCount(Map<String, String[]> inputdata) throws Exception {
 		PojoClass dataBean = (PojoClass) this.getObject(inputdata, "BeanIn", PojoClass.class);
 		int dataCount = 0;
-		
+
 		try {
 			dataCount = service.getDataCount(dataBean);
 			arrResult.add("SUCCESS");
@@ -91,14 +91,14 @@ public class ServletClass extends BaseServlet {
 	}
 
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataList
 	 * @Description: 获取数据列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ljg
-	 * @date 2014年12月17日 上午10:31:43
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	private void getDataList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "Sort");// 排序关键字
@@ -112,11 +112,11 @@ public class ServletClass extends BaseServlet {
 
 		try {
 			if(beanUser==null){
-				dataList = service.getDataList(beanIn, page, limit, sort,"");	
+				dataList = service.getDataList(beanIn, page, limit, sort,"");
 			}else{
 				dataList = service.getDataList(beanIn, page, limit, sort,beanUser.getYHXX_YHID());
 			}
-			
+
 			arrResult.add("SUCCESS");
 			arrResult.add(dataList);
 		} catch (Exception e) {
@@ -127,7 +127,7 @@ public class ServletClass extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: checkRoleAndData
 	 * @Description: 判断数据是否存在，角色是否正确
 	 * @param inputdata
@@ -159,7 +159,7 @@ public class ServletClass extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertData
 	 * @Description: 新增数据
 	 * @param inputdata
@@ -171,7 +171,7 @@ public class ServletClass extends BaseServlet {
 	private void insertData(Map<String, String[]> inputdata) throws Exception {
 		String classId = this.getString(inputdata, "classID");//班次ID
 		boolean result = false;
-		
+
 		try {
 			result = service.insertData(classId, beanUser);
 			if (result) {

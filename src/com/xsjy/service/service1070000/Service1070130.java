@@ -8,11 +8,12 @@ import java.util.UUID;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
-import com.xsjy.pojo.Custom.pojo_1070000.Pojo1070130;
+
 import com.framework.core.BaseService;
 import com.framework.dao.DBManager;
 import com.framework.log.MyLogger;
 import com.framework.util.MyStringUtils;
+import com.xsjy.pojo.Custom.pojo_1070000.Pojo1070130;
 
 public class Service1070130 extends BaseService {
 
@@ -30,20 +31,20 @@ public class Service1070130 extends BaseService {
 	 * @date 2014-12-13
 	 */
 	public String getSystemdate() throws Exception{
-		Date now = new Date(); 
+		Date now = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");//可以方便地修改日期格式
-		String date = dateFormat.format( now ); 
+		String date = dateFormat.format( now );
 		return date;
 	}
 	public String getDate() throws Exception{
-		Date now = new Date(); 
+		Date now = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");//可以方便地修改日期格式
-		String date = dateFormat.format( now ); 
+		String date = dateFormat.format( now );
 		return date;
-	
+
 	}
 	public String getDatenext() throws Exception{
-		Date now = new Date(); 
+		Date now = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");//可以方便地修改日期格式
 		Calendar calendar = Calendar.getInstance();//日历对象
 		calendar.setTime(now);//设置当前日期
@@ -57,7 +58,7 @@ public class Service1070130 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-12-13
+	 * @date 2017-08-01
 	 */
 	public int getTeacherList_TotalCount(Pojo1070130 beanIn) throws Exception {
 		int result = 0;
@@ -75,7 +76,7 @@ public class Service1070130 extends BaseService {
 			if (MyStringUtils.isNotBlank(beanIn.getJSXX_SFRZ())&&!("000").equals(beanIn.getJSXX_SFRZ())) {
 				sql.append(" AND A.JSXX_SFRZ = '").append(beanIn.getJSXX_SFRZ())
 					.append("'");
-			}	
+			}
 			result = db.queryForInteger(sql);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -123,14 +124,14 @@ public class Service1070130 extends BaseService {
 			sql.append("        A.JSXX_GRJJ");// 个人简介
 			sql.append("   FROM JSXX A LEFT JOIN JSZG B ON A.JSXX_JSZG = B.JSZG_ZGID");
 			sql.append("  WHERE   A.JSXX_SCBZ = '0' ");
-			if (MyStringUtils.isNotBlank(beanIn.getJSXX_JSXM())) {		
+			if (MyStringUtils.isNotBlank(beanIn.getJSXX_JSXM())) {
 				sql.append("  AND A.JSXX_JSXM like '%").append(beanIn.getJSXX_JSXM())
 					.append("%'");
 			}
 			if (MyStringUtils.isNotBlank(beanIn.getJSXX_SFRZ())&&!("000").equals(beanIn.getJSXX_SFRZ())) {
 				sql.append("  AND A.JSXX_SFRZ = '").append(beanIn.getJSXX_SFRZ())
 					.append("'");
-			}	
+			}
 			sql.append(" ORDER BY ");
 			sql.append("        A.JSXX_SFRZ ASC,A.JSXX_CJSJ DESC");
 			StringBuffer execSql = this.getPageSqL(sql.toString(), page, limit,
@@ -154,13 +155,12 @@ public class Service1070130 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-12-13
+	 * @date 2017-08-01
 	 */
 	public int identificateTeacher(Pojo1070130 beanIn,String uuid) throws Exception {
 		int result = 0;
 		int resultrz = 0;
 		int resultjs = 0;
-		String sysdate = getSystemdate();
 		String date = getDate();
 		String nextdate = getDatenext();
 		try {
@@ -172,20 +172,20 @@ public class Service1070130 extends BaseService {
 			strbuf.append(" SET ");
 			strbuf.append("     JSXX_SFRZ='1',");// 是否认证
 			strbuf.append("     JSXX_GXR='").append(beanIn.getJSXX_GXR()).append("',");// 修改人
-			strbuf.append("     JSXX_GXSJ='" + sysdate + "'");// 修改时间
+			strbuf.append("     JSXX_GXSJ=NOW()");// 修改时间
 			strbuf.append(" WHERE 1 = 1 AND JSXX_SCBZ = '0'");
 			strbuf.append("  AND   JSXX_JSID='").append(beanIn.getJSXX_JSID()).append("'");// 教师ID
-			resultrz = db.executeSQL(strbuf);		
+			resultrz = db.executeSQL(strbuf);
 			StringBuffer strbufjs = new StringBuffer();
 			strbufjs.append(" UPDATE ");
 			strbufjs.append("     YHXX ");
 			strbufjs.append(" SET ");
 			strbufjs.append("     YHXX_JSID='105',");// 是否认证
 			strbufjs.append("     YHXX_GXR='").append(beanIn.getJSXX_GXR()).append("',");// 修改人
-			strbufjs.append("     YHXX_GXSJ='" + sysdate + "'");// 修改时间
+			strbufjs.append("     YHXX_GXSJ=NOW()");// 修改时间
 			strbufjs.append(" WHERE 1 = 1 AND YHXX_SCBZ = '0'");
 			strbufjs.append("  AND   YHXX_UUID='").append(beanIn.getJSXX_JSID()).append("'");// 教师ID
-			resultjs = db.executeSQL(strbufjs);	
+			resultjs = db.executeSQL(strbufjs);
 			//教师认证后系统自动发布认证通过的消息
 			StringBuffer strbufxx = new StringBuffer();
 			String xxid = UUID.randomUUID().toString().replace("-", "").toUpperCase(); //获取32位随机数
@@ -212,9 +212,9 @@ public class Service1070130 extends BaseService {
 			strbufxx.append("     '" + date + "', ");
 			strbufxx.append("     '" + nextdate + "', ");
 			strbufxx.append("     '" + beanIn.getJSXX_GXR() + "', ");
-			strbufxx.append("     '" + sysdate + "', ");
+			strbufxx.append("     NOW(), ");
 			strbufxx.append("     '" + beanIn.getJSXX_GXR() + "', ");
-			strbufxx.append("     '" + sysdate + "'");
+			strbufxx.append("     NOW()");
 			strbufxx.append(" ) ");
 			db.executeSQL(strbufxx);
 			//插入消息明细
@@ -241,11 +241,11 @@ public class Service1070130 extends BaseService {
 			strbufmx.append("     '" + beanIn.getJSXX_JSXM() + "', ");
 			strbufmx.append("     '0', ");
 			strbufmx.append("     '" + beanIn.getJSXX_GXR() + "', ");
-			strbufmx.append("     '" + sysdate + "', ");
+			strbufmx.append("     NOW(), ");
 			strbufmx.append("     '" + beanIn.getJSXX_GXR() + "', ");
-			strbufmx.append("     '" + sysdate + "'");
+			strbufmx.append("     NOW()");
 			strbufmx.append(" ) ");
-			db.executeSQL(strbufmx);		
+			db.executeSQL(strbufmx);
 			if(resultrz>0&&resultjs>0){
 				db.commit();
 				result = 1;

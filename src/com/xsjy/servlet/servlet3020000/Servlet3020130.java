@@ -20,7 +20,7 @@ import com.xsjy.pojo.Custom.pojo_3020000.Pojo3020132;
 import com.xsjy.service.service3020000.Service3020130;
 
 /**
- * 
+ *
  * @ClassName: Servlet3020130
  * @Package:com.xsjy.servlet.servlet3020000
  * @Description: 我的学生控制类
@@ -45,16 +45,16 @@ public class Servlet3020130 extends BaseServlet {
 	public static final String CMD_TALK_INSERT = "CMD_TALK_INSERT";
 	public static final String CMD_TALK_UPDATE = "CMD_TALK_UPDATE";
 	public static final String CMD_TALK_DELETE = "CMD_TALK_DELETE";
-	
+
 	/* 本Servlet对应的Service */
 	private Service3020130 service;
-	
+
 	/* Ajax返回前台的结果集 */
 	private ArrayList<Object> arrResult;
-	
+
 	/* 当前登录系统的用户对象 */
 	Pojo_YHXX beanUser;
-	
+
     public Servlet3020130() {
         super();
     }
@@ -66,9 +66,9 @@ public class Servlet3020130 extends BaseServlet {
 		service = new Service3020130();
 		arrResult = new ArrayList<Object>();
 		beanUser = (Pojo_YHXX)getSessionObject(SessionAttribute.LOGIN_USER);
-		
+
 		String CMD = this.getString(inputdata, "CMD");
-		
+
 		if (CMD_INDEX_SELECT.equals(CMD)) {
 			getDataList(inputdata);
 		} else if (CMD_INDEX_DETAIL.equals(CMD)) {
@@ -92,14 +92,14 @@ public class Servlet3020130 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataList
 	 * @Description: 获取数据列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2015年1月9日 下午1:35:39
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	private void getDataList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -110,7 +110,7 @@ public class Servlet3020130 extends BaseServlet {
 
 		int TotalCount = 0;
 		List<Pojo3020130> dataList = new ArrayList<Pojo3020130>();
-		
+
 		try {
 			beanIn.setJSBM(beanUser.getYHXX_YHID());//获取当前登陆教师ID
 			TotalCount = service.getDataCount(beanIn);
@@ -123,14 +123,14 @@ public class Servlet3020130 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDetailDataList
 	 * @Description: 获取数据详情列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2015年1月9日 下午3:24:28
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	private void getDetailDataList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -141,7 +141,7 @@ public class Servlet3020130 extends BaseServlet {
 
 		int TotalCount = 0;
 		List<Pojo3020130> dataList = new ArrayList<Pojo3020130>();
-		
+
 		try {
 			beanIn.setJSBM(beanUser.getYHXX_YHID());//获取当前登陆教师ID
 			TotalCount = service.getDetailDataCount(beanIn);
@@ -154,14 +154,14 @@ public class Servlet3020130 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getSendDataList
 	 * @Description: 获取发布信息数据列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2015年1月12日 上午10:42:14
+	 * @author czl
+	 * @date 2017-08-04
 	 */
 	private void getSendDataList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -173,7 +173,7 @@ public class Servlet3020130 extends BaseServlet {
 
 		int TotalCount = 0;
 		List<Pojo3020131> dataList = new ArrayList<Pojo3020131>();
-		
+
 		try {
 			TotalCount = service.getSendDataCount(beanIn);
 			dataList = service.getSendDataList(beanIn, page, limit, sort);
@@ -185,20 +185,20 @@ public class Servlet3020130 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertSendData
 	 * @Description: 新增发布信息数据
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2015年1月12日 上午10:42:33
+	 * @author czl
+	 * @date 2017-08-04
 	 */
 	private void insertSendData(Map<String, String[]> inputdata) throws Exception {
 		Pojo3020131 beanIn = (Pojo3020131) this.getObject(inputdata, "BeanIn",Pojo3020131.class);
 		beanIn.setXXXX_GXR(beanUser.getYHXX_YHID());
 		boolean result = false;
-		
+
 		try {
 			result = service.insertSendData(beanIn,beanUser.getYHXX_UUID());
 			if (result) {
@@ -215,20 +215,20 @@ public class Servlet3020130 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: updateSendData
 	 * @Description: 更新发布信息数据
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2015年1月12日 上午10:42:47
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	private void updateSendData(Map<String, String[]> inputdata) throws Exception {
 		Pojo3020131 beanIn = (Pojo3020131) this.getObject(inputdata, "BeanIn",Pojo3020131.class);
 		beanIn.setXXXX_GXR(beanUser.getYHXX_YHID());
 		boolean result = false;
-		
+
 		try {
 			result = service.updateSendData(beanIn);
 			if (result) {
@@ -245,20 +245,20 @@ public class Servlet3020130 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: deleteSendData
 	 * @Description: 删除发布信息数据
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2015年1月12日 上午10:43:20
+	 * @author czl
+	 * @date 2017-08-04
 	 */
 	private void deleteSendData(Map<String, String[]> inputdata) throws Exception {
 		Pojo3020131 beanIn = (Pojo3020131) this.getObject(inputdata, "BeanIn",Pojo3020131.class);
 		beanIn.setXXXX_GXR(beanUser.getYHXX_YHID());
 		boolean result = false;
-		
+
 		try {
 			result = service.deleteSendData(beanIn);
 			if (result) {
@@ -275,14 +275,14 @@ public class Servlet3020130 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getTalkDataList
 	 * @Description: 获取评价信息数据列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2015年1月12日 下午3:45:50
+	 * @author czl
+	 * @date 2017-08-07
 	 */
 	private void getTalkDataList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -294,7 +294,7 @@ public class Servlet3020130 extends BaseServlet {
 
 		int TotalCount = 0;
 		List<Pojo3020132> dataList = new ArrayList<Pojo3020132>();
-		
+
 		try {
 			TotalCount = service.getTalkDataCount(beanIn);
 			dataList = service.getTalkDataList(beanIn, page, limit, sort);
@@ -306,20 +306,20 @@ public class Servlet3020130 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertTalkData
 	 * @Description: 新增评价信息数据
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2015年1月12日 下午3:14:57
+	 * @author czl
+	 * @date 2017-08-07
 	 */
 	private void insertTalkData(Map<String, String[]> inputdata) throws Exception {
 		Pojo3020132 beanIn = (Pojo3020132) this.getObject(inputdata, "BeanIn",Pojo3020132.class);
 		beanIn.setPJXX_GXR(beanUser.getYHXX_YHID());
 		boolean result = false;
-		
+
 		try {
 			result = service.insertTalkData(beanIn,beanUser.getYHXX_UUID());
 			if (result) {
@@ -336,20 +336,20 @@ public class Servlet3020130 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: updateTalkData
 	 * @Description: 更新评价信息数据
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2015年1月12日 下午3:15:11
+	 * @author czl
+	 * @date 2017-08-07
 	 */
 	private void updateTalkData(Map<String, String[]> inputdata) throws Exception {
 		Pojo3020132 beanIn = (Pojo3020132) this.getObject(inputdata, "BeanIn",Pojo3020132.class);
 		beanIn.setPJXX_GXR(beanUser.getYHXX_YHID());
 		boolean result = false;
-		
+
 		try {
 			result = service.updateTalkData(beanIn);
 			if (result) {
@@ -366,20 +366,20 @@ public class Servlet3020130 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: deleteTalkData
 	 * @Description: 删除评价信息数据
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2015年1月12日 下午3:15:37
+	 * @author czl
+	 * @date 2017-08-07
 	 */
 	private void deleteTalkData(Map<String, String[]> inputdata) throws Exception {
 		Pojo3020132 beanIn = (Pojo3020132) this.getObject(inputdata, "BeanIn",Pojo3020132.class);
 		beanIn.setPJXX_GXR(beanUser.getYHXX_YHID());
 		boolean result = false;
-		
+
 		try {
 			result = service.deleteTalkData(beanIn);
 			if (result) {

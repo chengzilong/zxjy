@@ -111,7 +111,7 @@ function login_click(){
                     location.href='<%=basePath%>/bin/jsp/home/home.jsp';
             	}
             }else if(CMD=="CMD_NOEXIST"){
-               alert("用户不存在。");
+               alert("用户不存在或者没激活。");
                $('#username').focus();
             }else if(CMD=="CMD_PASS_ERR"){
                alert('用户名或密码不正确。');

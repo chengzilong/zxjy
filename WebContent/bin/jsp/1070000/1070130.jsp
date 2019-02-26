@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet1070000.Servlet1070110"%> 
-<%@ page import="com.xsjy.servlet.servlet1070000.Servlet1070130"%> 
+<%@ page import="com.xsjy.servlet.servlet1070000.Servlet1070110"%>
+<%@ page import="com.xsjy.servlet.servlet1070000.Servlet1070130"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -55,7 +55,7 @@ $(document).ready(function(){
        }}
    ];
 
-   intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80; 
+   intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80;
    if(intheight<100){
 	   intheight = 100;
    }
@@ -104,28 +104,28 @@ $(document).ready(function(){
 			obj.JSXX_JSXM=item.JSXX_JSXM;	//教师姓名
 			obj.JSXX_XBMC=item.JSXX_XBMC;//性别
 			obj.JSXX_CSRQ=item.JSXX_CSRQ;	//出生日期
-			obj.JSXX_LXFS=item.JSXX_LXFS;//联系方式	
+			obj.JSXX_LXFS=item.JSXX_LXFS;//联系方式
 			obj.JSXX_ZZ=item.JSXX_ZZ;//住址
 			obj.JSXX_XL=item.JSXX_XL;//学历
 			obj.JSXX_BYXX=item.JSXX_BYXX;//毕业学校
 			obj.JSXX_BYNF=item.JSXX_BYNF;//毕业年份
-			obj.JSXX_SFZH=item.JSXX_SFZH;//身份证号	
+			obj.JSXX_SFZH=item.JSXX_SFZH;//身份证号
 			obj.JSXX_ZY=item.JSXX_ZY;//专业
 			obj.JSXX_NJ=item.JSXX_NJ;//年级
 			obj.JSXX_JNJY=item.JSXX_JNJY;//几年经验
 			obj.JSXX_JSZG=item.JSXX_JSZG;//教师资格
 			obj.JSXX_SCLY=item.JSXX_SCLY;//擅长领域
-			obj.JSXX_XQAH=item.JSXX_XQAH;//兴趣爱好	
+			obj.JSXX_XQAH=item.JSXX_XQAH;//兴趣爱好
 			obj.JSXX_GRJJ=item.JSXX_GRJJ;//个人简介
 			obj.JSXX_SFRZ=item.JSXX_SFRZ;//是否认证
 			iframeLayerOpen('<%=basePath%>/bin/jsp/1070000/1070111.jsp');
         }
    });
-   
+
    $('#btnSearch').on('click', function(){
 	   loadGridByBean();
    });
-    loadGridByBean();  
+    loadGridByBean();
 });
 function makeBeanIn(strJSXM,strSFRZ){
 	this.JSXX_JSXM = strJSXM;
@@ -159,7 +159,7 @@ function Teacheridentification(strJSID,strJSBM,strJSXM){
       url: "<%=basePath%>/Servlet1070130",
       data: {
          CMD    : "<%=Servlet1070130.CMD_IDENTIFICATE%>",
-         BeanIn : JSON.stringify(beanIn)   
+         BeanIn : JSON.stringify(beanIn)
       },
       complete :function(response){},
       success: function(response){
@@ -169,6 +169,8 @@ function Teacheridentification(strJSID,strJSBM,strJSXM){
              loadGridByBean();
           }else if(strResault=="FAILURE"){
         	  layer.msg('提示：操作失败！', 1, 8);
+          }else if(strResault=="ERROR"){
+              layer.msg('提示：系统错误！', 1, 8);
           }
       }
    });
@@ -181,7 +183,7 @@ function setKmList(strJSID){
 		dataType  : "json",
 		url: "<%=basePath%>/Servlet1070110",
 		data: {
-			CMD    : "<%=Servlet1070110.CMD_OWNKMLISTINFO%>",	                                                  
+			CMD    : "<%=Servlet1070110.CMD_OWNKMLISTINFO%>",
 		    JSID     :strJSID
 		},
 		complete :function(response){},
@@ -206,10 +208,10 @@ function setKmList(strJSID){
 				<td><input id="txtSelJSXM" name="商户代码" maxlength="20" /></td>
 				<th style="width:100px">是否认证</th>
 				<td style="width:100px" >
-					<select id="txtSelSFRZ"> 
-						<option value="000" selected>所有</option> 
-						<option value="0" >未认证</option> 
-						<option value="1" >已认证</option> 
+					<select id="txtSelSFRZ">
+						<option value="000" selected>所有</option>
+						<option value="0" >未认证</option>
+						<option value="1" >已认证</option>
 					</select>
 				</td>
 				<th  style="width:100px"><input type="button" value="查询" id="btnSearch" /></th>

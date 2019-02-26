@@ -6,21 +6,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import javax.servlet.annotation.WebServlet;
+import com.framework.core.BaseServlet;
+import com.framework.log.MyLogger;
 import com.framework.session.SessionAttribute;
 import com.xsjy.pojo.BaseTable.Pojo_YHXX;
-import com.xsjy.pojo.Custom.pojo_1110000.Pojo1110120;
 import com.xsjy.pojo.Custom.pojo_1070000.Pojo1070111;
 import com.xsjy.pojo.Custom.pojo_1070000.Pojo1070112;
 import com.xsjy.pojo.Custom.pojo_1070000.Pojo1070113;
 import com.xsjy.pojo.Custom.pojo_1070000.Pojo1070114;
+import com.xsjy.pojo.Custom.pojo_1110000.Pojo1110120;
 import com.xsjy.service.service1110000.Service1110120;
-import com.framework.core.BaseServlet;
-import com.framework.log.MyLogger;
 
 /**
  * Servlet implementation class Servlet1110120
@@ -28,7 +27,7 @@ import com.framework.log.MyLogger;
 @WebServlet("/Servlet1110120")
 public class Servlet1110120 extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	/* 命令定义部分 */
 	public static final String CMD_DATA = "CMD_DATA";
 	public static final String CMD_UPDATE = "CMD_UPDATE";
@@ -52,7 +51,7 @@ public class Servlet1110120 extends BaseServlet {
 			throws IOException, ServletException, Exception {
 		service = new Service1110120();
 		arrResult = new ArrayList<Object>();
-		
+
 		String CMD = this.getString(inputdata, "CMD");
 		if (CMD_DATA.equals(CMD)) {
 			getTeacherInfo(inputdata);
@@ -77,10 +76,10 @@ public class Servlet1110120 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2015-01-07
+	 * @date 2017-07-28
 	 */
 	private void getTeacherInfo(Map<String, String[]> inputdata) throws Exception {
-		
+
 		Pojo1110120 Data = null;
 		Pojo_YHXX beanUser = (Pojo_YHXX)getSessionObject(SessionAttribute.LOGIN_USER);
 		try {
@@ -109,7 +108,7 @@ public class Servlet1110120 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2015-01-07
+	 * @date 2017-07-28
 	 */
 	private void updateTeacher(Map<String, String[]> inputdata) throws Exception {
 		String kcmcs = this.getString(inputdata, "KCMCS");
@@ -220,7 +219,7 @@ public class Servlet1110120 extends BaseServlet {
 					arrResult.add(PageData);
 					arrResult.add("");
 				}
-				
+
 			}else
 			{
 				arrResult.add("LIST_NULL");

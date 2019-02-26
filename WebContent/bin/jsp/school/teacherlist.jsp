@@ -7,7 +7,7 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
 
-%>  	
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -313,7 +313,7 @@ function getDataInfo() {
 			</div>
 		</div>
 		<!-- 显示广告区（右面） end -->
-		
+
 	</div>
 	<!-- 主体 begin -->
 	<div class="clear"></div>

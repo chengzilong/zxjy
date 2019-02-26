@@ -16,7 +16,7 @@ import com.xsjy.pojo.Custom.pojo_school.PojoSchool;
 import com.xsjy.service.school.ServiceSchool;
 
 /**
- * 
+ *
  * @ClassName: ServletSchool
  * @Package:com.xsjy.servlet.school
  * @Description: 网站学生查询教师学校
@@ -29,17 +29,17 @@ import com.xsjy.service.school.ServiceSchool;
 @WebServlet("/ServletSchool")
 public class ServletSchool extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String CMD_SELECTJS = "CMD_SELECTJS";
 	public static final String CMD_SELECTINFO = "CMD_SELECTINFO";
 	public static final String CMD_SELECTXX = "CMD_SELECTXX";
-	
+
 	//本Servlet对应的Service
 	private ServiceSchool service;
-	
+
 	/* Ajax返回前台的结果集 */
 	private ArrayList<Object> arrResult;
-	
+
 	public ServletSchool() {
 		super();
 	}
@@ -50,7 +50,7 @@ public class ServletSchool extends BaseServlet {
 			throws IOException, ServletException, Exception {
 		service = new ServiceSchool();
 		arrResult = new ArrayList<Object>();
-		
+
 		if (CMD_SELECTJS.equals(CMD)) {
 			getjsDataList(inputdata);
 		} else if(CMD_SELECTXX.equals(CMD)){
@@ -60,18 +60,18 @@ public class ServletSchool extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getjsDataList
 	 * @Description: 获取页面数据列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-12-30
+	 * @date 2017-07-14
 	 */
 	private void getjsDataList(Map<String, String[]> inputdata) throws Exception {
 		List<PojoSchool> dataBeanList = new ArrayList<PojoSchool>();
-		
+
 		try {
 			dataBeanList = service.getDataBeanList();
 			if (dataBeanList.size() > 0) {
@@ -88,18 +88,18 @@ public class ServletSchool extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getxxDataList
 	 * @Description: 获取页面数据列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-12-30
+	 * @date 2017-07-14
 	 */
 	private void getxxDataList(Map<String, String[]> inputdata) throws Exception {
 		List<PojoSchool> dataBeanList = new ArrayList<PojoSchool>();
-		
+
 		try {
 			dataBeanList = service.getDataBeanList();
 			if (dataBeanList.size() > 0) {
@@ -116,18 +116,18 @@ public class ServletSchool extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getjsDataInfo
 	 * @Description: 获取页面数据列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-12-31
+	 * @date 2017-07-14
 	 */
 	private void getjsDataInfo(Map<String, String[]> inputdata) throws Exception {
 		List<PojoSchool> dataBeanList = new ArrayList<PojoSchool>();
-		
+
 		try {
 			dataBeanList = service.getDataBeanInfo();
 			if (dataBeanList.size() > 0) {

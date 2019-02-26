@@ -19,7 +19,7 @@ import com.xsjy.pojo.Custom.pojo_school.PojoTeacher;
 import com.xsjy.service.school.ServiceTeacher;
 
 /**
- * 
+ *
  * @ClassName: ServletTeacher
  * @Package:com.xsjy.servlet.school
  * @Description: 网站学生查询教师控制类
@@ -32,7 +32,7 @@ import com.xsjy.service.school.ServiceTeacher;
 @WebServlet("/ServletTeacher")
 public class ServletTeacher extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String CMD_DATA_COUNT = "CMD_DATA_COUNT";
 	public static final String CMD_DATA_LIST = "CMD_DATA_LIST";
 	public static final String CMD_DATA_DETAIL = "CMD_DATA_DETAIL";
@@ -40,16 +40,16 @@ public class ServletTeacher extends BaseServlet {
 	public static final String CMD_HDXX_LIST = "CMD_HDXX_LIST";
 	public static final String CMD_ATTENTION = "CMD_ATTENTION";
 	public static final String CMD_CANCEL_ATTENTION = "CMD_CANCEL_ATTENTION";
-	
+
 	//本Servlet对应的Service
 	private ServiceTeacher service;
-	
+
 	/* Ajax返回前台的结果集 */
 	private ArrayList<Object> arrResult;
-	
+
 	/* 当前登录系统的用户对象 */
 	Pojo_YHXX beanUser;
-	
+
 	public ServletTeacher() {
 		super();
 	}
@@ -61,7 +61,7 @@ public class ServletTeacher extends BaseServlet {
 		service = new ServiceTeacher();
 		arrResult = new ArrayList<Object>();
 		beanUser = (Pojo_YHXX)getSessionObject(SessionAttribute.LOGIN_USER);
-		
+
 		if (CMD_DATA_COUNT.equals(CMD)) {
 			getDataCount(inputdata);
 		} else if (CMD_DATA_LIST.equals(CMD)) {
@@ -79,19 +79,19 @@ public class ServletTeacher extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataCount
 	 * @Description: 获取列表数据个数
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月26日 上午10:44:08
+	 * @author czl
+	 * @date 2017-7-14
 	 */
 	private void getDataCount(Map<String, String[]> inputdata) throws Exception {
 		PojoTeacher dataBean = (PojoTeacher) this.getObject(inputdata, "BeanIn", PojoTeacher.class);
 		int dataCount = 0;
-		
+
 		try {
 			dataCount = service.getDataBeanCount(dataBean);
 			arrResult.add("SUCCESS");
@@ -104,19 +104,19 @@ public class ServletTeacher extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataList
 	 * @Description: 获取页面数据列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月26日 上午10:40:26
+	 * @author czl
+	 * @date 2017-07-18
 	 */
 	private void getDataList(Map<String, String[]> inputdata) throws Exception {
 		PojoTeacher dataBean = (PojoTeacher) this.getObject(inputdata, "BeanIn", PojoTeacher.class);
 		List<PojoTeacher> dataBeanList = new ArrayList<PojoTeacher>();
-		
+
 		try {
 			dataBeanList = service.getDataBeanList(dataBean);
 			if (dataBeanList.size() > 0) {
@@ -133,7 +133,7 @@ public class ServletTeacher extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataDetail
 	 * @Description: 获取页面数据详情（基本信息、课程排班、评价信息个数、回答信息个数、班次信息）
 	 * @param inputdata
@@ -151,7 +151,7 @@ public class ServletTeacher extends BaseServlet {
 		int pjxxCount = 0;
 		int hdxxCount = 0;
 		List<Pojo3030120> classList = new ArrayList<Pojo3030120>();
-		
+
 		try {
 			dataBean = service.getDataBean(teaId, beanUser == null?"":beanUser.getYHXX_YHID());//基本信息
 			rotaDateList = service.getRotaDateList();//课程排班
@@ -159,7 +159,7 @@ public class ServletTeacher extends BaseServlet {
 			pjxxCount = service.getPjxxCount(teaId);//评价信息个数
 			hdxxCount = service.getHdxxCount(teaId);//回答信息个数
 			classList = service.getClassList(teaId);//班次信息
-			
+
 			if (dataBean != null) {
 				arrResult.add("SUCCESS");
 				arrResult.add(dataBean);
@@ -179,7 +179,7 @@ public class ServletTeacher extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getPjxxList
 	 * @Description: 获取评价信息数据列表
 	 * @param inputdata
@@ -192,7 +192,7 @@ public class ServletTeacher extends BaseServlet {
 		String page = this.getString(inputdata, "PAGE");
 		String teaId = this.getString(inputdata, "TEAID");
 		List<PojoTeacher> pjxxList = new ArrayList<PojoTeacher>();
-		
+
 		try {
 			pjxxList = service.getPjxxList(page, teaId);
 			if (pjxxList.size() > 0) {
@@ -209,7 +209,7 @@ public class ServletTeacher extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getHdxxList
 	 * @Description: 获取回答信息数据列表
 	 * @param inputdata
@@ -222,7 +222,7 @@ public class ServletTeacher extends BaseServlet {
 		String page = this.getString(inputdata, "PAGE");
 		String teaId = this.getString(inputdata, "TEAID");
 		List<PojoTeacher> hdxxList = new ArrayList<PojoTeacher>();
-		
+
 		try {
 			hdxxList = service.getHdxxList(page, teaId);
 			if (hdxxList.size() > 0) {
@@ -239,7 +239,7 @@ public class ServletTeacher extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: attention
 	 * @Description: 增加关注教师数据
 	 * @param inputdata
@@ -251,7 +251,7 @@ public class ServletTeacher extends BaseServlet {
 	private void attention(Map<String, String[]> inputdata) throws Exception {
 		String teaId = this.getString(inputdata, "TEAID");
 		boolean result = false;
-		
+
 		try {
 			if (beanUser != null) {
 				result = service.attention(beanUser, teaId);
@@ -271,7 +271,7 @@ public class ServletTeacher extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: cancelAttention
 	 * @Description: 取消关注教师数据
 	 * @param inputdata
@@ -283,7 +283,7 @@ public class ServletTeacher extends BaseServlet {
 	private void cancelAttention(Map<String, String[]> inputdata) throws Exception {
 		String teaId = this.getString(inputdata, "TEAID");
 		boolean result = false;
-		
+
 		try {
 			result = service.cancelAttention(beanUser, teaId);
 			if (result) {

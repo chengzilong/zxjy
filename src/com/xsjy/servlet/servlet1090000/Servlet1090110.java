@@ -18,7 +18,7 @@ import com.xsjy.pojo.Custom.pojo_1090000.Pojo1090110;
 import com.xsjy.service.service1090000.Service1090110;
 
 /**
- * 
+ *
  * @ClassName: Servlet1090110
  * @Package:com.xsjy.servlet.servlet1090000
  * @Description: 课程信息控制类
@@ -39,16 +39,16 @@ public class Servlet1090110 extends BaseServlet {
 	public static final String CMD_INSERT = "CMD_INSERT";
 	public static final String CMD_UPDATE = "CMD_UPDATE";
 	public static final String CMD_DELETE = "CMD_DELETE";
-	
+
 	/* 本Servlet对应的Service */
 	private Service1090110 service;
-	
+
 	/* Ajax返回前台的结果集 */
 	private ArrayList<Object> arrResult;
-	
+
 	/* 当前登录系统的用户对象 */
 	Pojo_YHXX beanUser;
-	
+
     public Servlet1090110() {
         super();
     }
@@ -60,9 +60,9 @@ public class Servlet1090110 extends BaseServlet {
 		service = new Service1090110();
 		arrResult = new ArrayList<Object>();
 		beanUser = (Pojo_YHXX)getSessionObject(SessionAttribute.LOGIN_USER);
-		
+
 		String CMD = this.getString(inputdata, "CMD");
-		
+
 		if (CMD_SELECT.equals(CMD)) {
 			getDataList(inputdata);
 		} else if (CMD_CHK_EXIST.equals(CMD)) {
@@ -73,17 +73,17 @@ public class Servlet1090110 extends BaseServlet {
 			updateData(inputdata);
 		} else if (CMD_DELETE.equals(CMD)) {
 			deleteData(inputdata);
-		}		
+		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataList
 	 * @Description: 获取数据列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月8日 下午2:14:30
+	 * @author czl
+	 * @date 2017-08-01
 	 */
 	private void getDataList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -94,7 +94,7 @@ public class Servlet1090110 extends BaseServlet {
 
 		int TotalCount = 0;
 		List<Pojo1090110> dataList = new ArrayList<Pojo1090110>();
-		
+
 		try {
 			TotalCount = service.getDataCount(beanIn);
 			dataList = service.getDataList(beanIn, page, limit, sort);
@@ -106,14 +106,14 @@ public class Servlet1090110 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: checkDataExist
 	 * @Description: 判断数据是否存在
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月8日 下午3:14:10
+	 * @author czl
+	 * @date 2017-08-01
 	 */
 	private void checkDataExist(Map<String, String[]> inputdata) throws Exception {
 		Pojo1090110 beanIn = (Pojo1090110) this.getObject(inputdata, "BeanIn",Pojo1090110.class);
@@ -134,21 +134,21 @@ public class Servlet1090110 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertData
 	 * @Description: 新增数据
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月8日 下午3:33:53
+	 * @author czl
+	 * @date 2017-08-01
 	 */
 	private void insertData(Map<String, String[]> inputdata) throws Exception {
 		Pojo1090110 beanIn = (Pojo1090110) this.getObject(inputdata, "BeanIn",Pojo1090110.class);
 		beanIn.setKCXX_CJR(beanUser.getYHXX_YHID());
 		beanIn.setKCXX_GXR(beanUser.getYHXX_YHID());
 		int ret = 0;
-		
+
 		try {
 			ret = service.insertData(beanIn);
 			if(ret>0){
@@ -165,20 +165,20 @@ public class Servlet1090110 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: updateData
 	 * @Description: 更新数据
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月8日 下午3:37:24
+	 * @author czl
+	 * @date 2017-08-01
 	 */
 	private void updateData(Map<String, String[]> inputdata) throws Exception {
 		Pojo1090110 beanIn = (Pojo1090110) this.getObject(inputdata, "BeanIn",Pojo1090110.class);
 		beanIn.setKCXX_GXR(beanUser.getYHXX_YHID());
 		int ret = 0;
-		
+
 		try {
 			ret = service.updateData(beanIn);
 			if(ret>0){
@@ -195,19 +195,19 @@ public class Servlet1090110 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: deleteData
 	 * @Description: 删除数据
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月8日 下午3:41:28
+	 * @author czl
+	 * @date 2017-08-01
 	 */
 	private void deleteData(Map<String, String[]> inputdata) throws Exception {
 		Pojo1090110 beanIn = (Pojo1090110) this.getObject(inputdata, "BeanIn",Pojo1090110.class);
 		int ret = 0;
-		
+
 		try {
 			ret = service.deleteData(beanIn);
 			if(ret>0){

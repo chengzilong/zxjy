@@ -17,26 +17,26 @@ import com.xsjy.pojo.Custom.pojo_9010000.Pojo9010130;
 public class Service9010130 extends BaseService {
 
 	private DBManager db;
-	
+
 	public Service9010130() {
 		db = new DBManager();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getJsxxDataCount
 	 * @Description: 获取DB中角色信息记录个数
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年10月27日 下午3:28:30
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public int getJsxxDataCount() throws Exception {
 		int count = 0;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("         COUNT(A.YHJS_JSID)  ");//角色信息个数
@@ -53,22 +53,22 @@ public class Service9010130 extends BaseService {
 		return count;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getJsxxData
 	 * @Description: 获取角色信息列表
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo9010130>
-	 * @author ztz
-	 * @date 2014年10月27日 下午3:21:07
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public List<Pojo9010120> getJsxxData(int page,
 			int limit, String sort) throws Exception {
 		List<Pojo9010120> jsxxList = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     A.YHJS_JSID, ");//角色ID
@@ -77,21 +77,21 @@ public class Service9010130 extends BaseService {
 			strbuf.append("     CASE WHEN A.YHJS_JSLX = 0 THEN '工作人员' WHEN A.YHJS_JSLX = 1 THEN '教师' ELSE '学生' END AS JSLX, ");//角色类型
 			strbuf.append("     A.YHJS_JSMS, ");//角色描述
 			strbuf.append("     B.YHXX_YHMC AS YHJS_CJR, ");//创建人
-			strbuf.append("     TO_CHAR(TO_DATE(A.YHJS_CJSJ, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD') AS YHJS_CJSJ,  ");//创建时间
+			strbuf.append("     LEFT(YHJS_CJSJ,10) AS YHJS_CJSJ,  ");//创建时间
 			strbuf.append("     B.YHXX_YHMC AS YHJS_GXR, ");//更新人
-			strbuf.append("     TO_CHAR(TO_DATE(A.YHJS_GXSJ, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD') AS YHJS_GXSJ  ");//更新时间
+			strbuf.append("     LEFT(YHJS_GXSJ,10) AS YHJS_GXSJ  ");//更新时间
 			strbuf.append(" FROM ");
 			strbuf.append("     YHJS A, YHXX B ");
 			strbuf.append(" WHERE  ");
 			strbuf.append("     A.YHJS_CJR = B.YHXX_YHID ");
 			strbuf.append(" AND A.YHJS_GXR = B.YHXX_YHID ");
-			
+
 			StringBuffer execSql = this.getPageSqL(strbuf.toString(), page, limit,
 					sort);
-			
+
 			ResultSetHandler<List<Pojo9010120>> rsh = new BeanListHandler<Pojo9010120>(
 					Pojo9010120.class);
-			
+
 			jsxxList = db.queryForBeanListHandler(execSql, rsh);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -102,21 +102,21 @@ public class Service9010130 extends BaseService {
 		return jsxxList;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getMenuDataCount
 	 * @Description: 获取DB中菜单信息记录个数
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年10月27日 下午4:09:31
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public int getMenuDataCount(String jslx) throws Exception {
 		int count = 0;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("         COUNT(A.MENU_CDID)  ");//菜单信息个数
@@ -124,7 +124,7 @@ public class Service9010130 extends BaseService {
 			strbuf.append("         MENU A ");
 			strbuf.append(" WHERE ");
 			strbuf.append("         A.MENU_SCBZ = '0' ");
-			strbuf.append(" AND A.MENU_CDLX = '").append(jslx).append("'");
+			strbuf.append(" AND (A.MENU_CDLX = '").append(jslx).append("' OR A.MENU_CDLX = '3')");
 
 			count = db.queryForInteger(strbuf);
 		} catch (Exception e) {
@@ -136,22 +136,22 @@ public class Service9010130 extends BaseService {
 		return count;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getMenuData
 	 * @Description: 获取菜单信息列表
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo_MENU>
-	 * @author ztz
-	 * @date 2014年10月27日 下午4:12:02
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public List<Pojo9010130> getMenuData(String jsid, String jslx, int page,
 			int limit, String sort) throws Exception {
 		List<Pojo9010130> menuList = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("         A.MENU_CDID, ");//菜单ID
@@ -169,24 +169,22 @@ public class Service9010130 extends BaseService {
 			strbuf.append("         CASE WHEN YHJS_JSID IS NULL THEN '未关联' ELSE '已关联' END AS MENU_SFGL, ");//是否关联
 			strbuf.append("         CASE WHEN YHJS_JSID IS NULL THEN '0' ELSE '1' END AS MENU_GLZT ");//关联状态
 			strbuf.append(" FROM ");
-			strbuf.append("         MENU A, YHXX B, JSQX C, YHJS D ");
+			strbuf.append("         MENU A ");
+			strbuf.append(" INNER JOIN YHXX B ON A.MENU_CJR = B.YHXX_YHID AND A.MENU_GXR = B.YHXX_YHID ");
+			strbuf.append(" LEFT JOIN JSQX C ON A.MENU_CDID = C.JSQX_CDID AND C.JSQX_JSID = '").append(jsid).append("'");
+			strbuf.append(" LEFT JOIN YHJS D ON C.JSQX_JSID = D.YHJS_JSID ");
 			strbuf.append(" WHERE  ");
-			strbuf.append("         A.MENU_CJR = B.YHXX_YHID ");
-			strbuf.append(" AND A.MENU_GXR = B.YHXX_YHID ");
-			strbuf.append(" AND A.MENU_CDID = C.JSQX_CDID(+) ");
-			strbuf.append(" AND C.JSQX_JSID = D.YHJS_JSID(+) ");
-			strbuf.append(" AND A.MENU_SCBZ = '0' ");
-			strbuf.append(" AND C.JSQX_JSID(+) = '").append(jsid).append("'");
+			strbuf.append(" A.MENU_SCBZ = '0' ");
 			strbuf.append(" AND (A.MENU_CDLX = '").append(jslx).append("' OR A.MENU_CDLX = '3')");
 			strbuf.append(" ORDER BY ");
-			strbuf.append("         A.MENU_CDID ");
-			
+			strbuf.append("         MENU_GLZT DESC,A.MENU_CDID ");
+
 			StringBuffer execSql = this.getPageSqL(strbuf.toString(), page, limit,
 					sort);
 
 			ResultSetHandler<List<Pojo9010130>> rsh = new BeanListHandler<Pojo9010130>(
 					Pojo9010130.class);
-			
+
 			menuList = db.queryForBeanListHandler(execSql, rsh);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -197,7 +195,7 @@ public class Service9010130 extends BaseService {
 		return menuList;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: relationMenu
 	 * @Description: 角色关联菜单
 	 * @param cdids
@@ -205,8 +203,8 @@ public class Service9010130 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return boolean
-	 * @author ztz
-	 * @date 2014年10月29日 上午8:54:45
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public boolean relationMenu(String jsid, String cdids, Pojo_YHXX beanUser) throws Exception {
 		boolean result = false;
@@ -214,11 +212,11 @@ public class Service9010130 extends BaseService {
 		StringBuffer strbuf = null;
 		boolean flag = false;
 		String fjdid = "";
-		
+
 		try {
 			db.openConnection();
 			db.beginTran();
-			
+
 			String[] cdid = cdids.split(",");
 			for(int i = 0; i < cdid.length; i++) {
 				strbuf = new StringBuffer();
@@ -237,9 +235,9 @@ public class Service9010130 extends BaseService {
 				strbuf.append("         '"+jsid+"', ");//角色ID
 				strbuf.append("         "+cdid[i]+", ");//菜单ID
 				strbuf.append("         '"+beanUser.getYHXX_YHID()+"', ");//创建人
-				strbuf.append("         TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS'), ");//创建时间
+				strbuf.append("         NOW(), ");//创建时间
 				strbuf.append("         '"+beanUser.getYHXX_YHID()+"', ");//更新人
-				strbuf.append("         TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')  ");//更新时间
+				strbuf.append("         NOW() ");//更新时间
 				strbuf.append(" ) ");
 				count += db.executeSQL(strbuf);
 				Pojo_MENU menu = this.getCDCJ(cdid[i]);
@@ -249,7 +247,7 @@ public class Service9010130 extends BaseService {
 					fjdid = menu.getMENU_FJDID();
 				}
 			}
-			
+
 			if(!flag &&  this.isRelation(jsid, fjdid)) {
 				StringBuffer strbufFJD = new StringBuffer();
 				strbufFJD.append(" INSERT INTO ");
@@ -267,13 +265,13 @@ public class Service9010130 extends BaseService {
 				strbufFJD.append("         '"+jsid+"', ");//角色ID
 				strbufFJD.append("         "+fjdid+", ");//菜单ID
 				strbufFJD.append("         '"+beanUser.getYHXX_YHID()+"', ");//创建人
-				strbufFJD.append("         TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS'), ");//创建时间
+				strbufFJD.append("         NOW(), ");//创建时间
 				strbufFJD.append("         '"+beanUser.getYHXX_YHID()+"', ");//更新人
-				strbufFJD.append("         TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')  ");//更新时间
+				strbufFJD.append("         NOW() ");//更新时间
 				strbufFJD.append(" ) ");
 				db.executeSQL(strbufFJD);
 			}
-			
+
 			if(count == cdid.length) {
 				result = true;
 				db.commit();
@@ -290,7 +288,7 @@ public class Service9010130 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: cancelRelationMenu
 	 * @Description: 取消角色关联菜单
 	 * @param cdids
@@ -298,8 +296,8 @@ public class Service9010130 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return boolean
-	 * @author ztz
-	 * @date 2014年10月29日 上午8:55:21
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	public boolean cancelRelationMenu(String jsid, String cdids, Pojo_YHXX beanUser) throws Exception {
 		boolean result = false;
@@ -307,25 +305,25 @@ public class Service9010130 extends BaseService {
 		try {
 			db.openConnection();
 			db.beginTran();
-			
+
 			StringBuffer strbuf = new StringBuffer();
-			strbuf.append(" DELETE ");
-			strbuf.append("          JSQX A ");
+			strbuf.append(" DELETE FROM ");
+			strbuf.append("          JSQX ");
 			strbuf.append(" WHERE ");
-			strbuf.append("          A.JSQX_JSID = '").append(jsid).append("'");
-			strbuf.append(" AND A.JSQX_CDID IN (").append(cdids).append(")");
+			strbuf.append("          JSQX_JSID = '").append(jsid).append("'");
+			strbuf.append(" AND JSQX_CDID IN (").append(cdids).append(")");
 			count = db.executeSQL(strbuf);
-			
+
 			String[] cdid = cdids.split(",");
 			for(int i = 0; i < cdid.length; i++) {
 				Pojo_MENU menu = this.getCDCJ(cdid[i]);
 				if(menu.getMENU_CDCJ().equals("0")) {//判断取消关联的菜单中是否存在父节点菜单
 					StringBuffer strbufOther = new StringBuffer();
-					strbufOther.append(" DELETE ");
-					strbufOther.append("          JSQX A ");
+					strbufOther.append(" DELETE FROM ");
+					strbufOther.append("          JSQX");
 					strbufOther.append(" WHERE ");
-					strbufOther.append("          A.JSQX_JSID = '").append(jsid).append("'");
-					strbufOther.append(" AND EXISTS(SELECT T.MENU_CDID FROM MENU T WHERE T.MENU_CDID = A.JSQX_CDID AND T.MENU_FJDID = ").append(cdid[i]).append(")");
+					strbufOther.append("          JSQX_JSID = '").append(jsid).append("'");
+					strbufOther.append(" AND EXISTS(SELECT T.MENU_CDID FROM MENU T WHERE T.MENU_CDID = JSQX.JSQX_CDID AND T.MENU_FJDID = ").append(cdid[i]).append(")");
 					db.executeSQL(strbufOther);
 					break;
 				}
@@ -345,20 +343,20 @@ public class Service9010130 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getCDCJ
 	 * @Description: 根据菜单ID获取菜单层级
 	 * @param cdid
 	 * @return
 	 * @throws Exception
 	 * @return String
-	 * @author ztz
-	 * @date 2014年10月30日 下午3:08:47
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private Pojo_MENU getCDCJ(String cdid) throws Exception {
 		StringBuffer strbuf = new StringBuffer();
 		Pojo_MENU menu = new Pojo_MENU();
-		
+
 		try {
 			strbuf.append(" SELECT ");
 			strbuf.append("         MENU_CDCJ, ");//菜单层级
@@ -367,10 +365,10 @@ public class Service9010130 extends BaseService {
 			strbuf.append("         MENU ");
 			strbuf.append(" WHERE ");
 			strbuf.append("         MENU_CDID = ").append(cdid);//菜单ID
-			
+
 			ResultSetHandler<Pojo_MENU> rsh = new BeanHandler<Pojo_MENU>(
 					Pojo_MENU.class);
-			
+
 			menu = db.queryForBeanHandler(strbuf, rsh);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -379,20 +377,20 @@ public class Service9010130 extends BaseService {
 		return menu;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: isRelation
 	 * @Description: 根据角色ID和菜单ID判断菜单是否已经关联
 	 * @param cdid
 	 * @return
 	 * @throws Exception
 	 * @return boolean
-	 * @author ztz
-	 * @date 2014年10月30日 下午4:46:30
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private boolean isRelation(String jsid, String cdid) throws Exception {
 		StringBuffer strbuf = new StringBuffer();
 		boolean result = false;
-		
+
 		try {
 			strbuf.append(" SELECT ");
 			strbuf.append("         COUNT(JSQX_CDID) ");

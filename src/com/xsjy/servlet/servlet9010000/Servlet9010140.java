@@ -19,7 +19,7 @@ import com.xsjy.pojo.Custom.pojo_9010000.Pojo9010140;
 import com.xsjy.service.service9010000.Service9010140;
 
 /**
- * 
+ *
  * @ClassName: Servlet9010140
  * @Package:com.xsjy.servlet.servlet9010000
  * @Description: 菜单管理控制类
@@ -33,7 +33,7 @@ import com.xsjy.service.service9010000.Service9010140;
 @WebServlet("/Servlet9010140")
 public class Servlet9010140 extends BaseServlet {
 private static final long serialVersionUID = 1L;
-	
+
 	/* 命令定义部分 */
 	public static final String CMD_SELECT = "CMD_SELECT";
 	public static final String CMD_INSERT = "CMD_INSERT";
@@ -41,7 +41,7 @@ private static final long serialVersionUID = 1L;
 	public static final String CMD_DELETE = "CMD_DELETE";
 	public static final String CMD_CHK_EXIST = "CMD_CHK_EXIST";
 	public static final String CMD_RECOVERY = "CMD_RECOVERY";
-	
+
 	/* 本Servlet对应的Service */
 	private Service9010140 service;
 	/* Ajax返回前台的结果集 */
@@ -57,9 +57,9 @@ private static final long serialVersionUID = 1L;
 			throws IOException, ServletException, Exception {
 		service = new Service9010140();
 		arrResult = new ArrayList<Object>();
-		
+
 		String CMD = this.getString(inputdata, "CMD");
-		
+
 		if (CMD_SELECT.equals(CMD)) {
 			getMenuList(inputdata);
 		} else if (CMD_CHK_EXIST.equals(CMD)) {
@@ -72,17 +72,17 @@ private static final long serialVersionUID = 1L;
 			deleteMenu(inputdata);
 		} else if (CMD_RECOVERY.equals(CMD)) {
 			recoveryMenu(inputdata);
-		}		
+		}
 	}
-	
+
 	/**
-	 * @FunctionName: getUserList
-	 * @Description: 查询用户列表
+	 * @FunctionName: getMenuList
+	 * @Description: 查询菜单列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ljg
-	 * @date 2014年7月22日 上午10:34:12
+	 * @author czl
+	 * @date 2017-07-28
 	 */
 	private void getMenuList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -93,7 +93,7 @@ private static final long serialVersionUID = 1L;
 
 		int TotalCount = 0;
 		List<Pojo9010140> PageData = new ArrayList<Pojo9010140>();
-		
+
 		try {
 			TotalCount = service.getMenuList_TotalCount(beanIn);
 			PageData = service.getMenuList_PageData(beanIn, page, limit, sort);
@@ -106,13 +106,13 @@ private static final long serialVersionUID = 1L;
 		}
 	}
 	/**
-	 * @FunctionName: chkUserExist
-	 * @Description: 判断用户是否已存在
+	 * @FunctionName: chkMenuExist
+	 * @Description: 判断菜单是否已存在
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ljg
-	 * @date 2014年7月22日 上午10:35:33
+	 * @author czl
+	 * @date 2017-07-28
 	 */
 	private void chkMenuExist(Map<String, String[]> inputdata) throws Exception {
 		Pojo_MENU beanIn = (Pojo_MENU) this.getObject(inputdata, "BeanIn",Pojo_MENU.class);
@@ -133,14 +133,14 @@ private static final long serialVersionUID = 1L;
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertMenu
 	 * @Description: 新增菜单信息
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月30日 上午11:16:34
+	 * @author czl
+	 * @date 2017-07-28
 	 */
 	private void insertMenu(Map<String, String[]> inputdata) throws Exception {
 		Pojo_MENU beanIn = (Pojo_MENU) this.getObject(inputdata, "BeanIn",Pojo_MENU.class);
@@ -148,7 +148,7 @@ private static final long serialVersionUID = 1L;
 		beanIn.setMENU_CJR(beanUser.getYHXX_YHID());
 		beanIn.setMENU_GXR(beanUser.getYHXX_YHID());
 		int ret = 0;
-		
+
 		try {
 			ret = service.insertMenu(beanIn);
 			if(ret>0){
@@ -165,21 +165,21 @@ private static final long serialVersionUID = 1L;
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: updateMenu
 	 * @Description: 修改菜单信息
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月30日 上午11:16:49
+	 * @author czl
+	 * @date 2017-07-28
 	 */
 	private void updateMenu(Map<String, String[]> inputdata) throws Exception {
 		Pojo_MENU beanIn = (Pojo_MENU) this.getObject(inputdata, "BeanIn",Pojo_MENU.class);
 		Pojo_YHXX beanUser = (Pojo_YHXX)getSessionObject(SessionAttribute.LOGIN_USER);
 		beanIn.setMENU_GXR(beanUser.getYHXX_YHID());
 		int ret = 0;
-		
+
 		try {
 			ret = service.updateMenu(beanIn);
 			if(ret>0){
@@ -196,19 +196,19 @@ private static final long serialVersionUID = 1L;
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: deleteMenu
 	 * @Description: 删除菜单信息
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月30日 上午11:17:03
+	 * @author czl
+	 * @date 2017-07-28
 	 */
 	private void deleteMenu(Map<String, String[]> inputdata) throws Exception {
 		Pojo_MENU beanIn = (Pojo_MENU) this.getObject(inputdata, "BeanIn",Pojo_MENU.class);
 		int ret = 0;
-		
+
 		try {
 			ret = service.deleteMenu(beanIn);
 			if(ret>0){
@@ -225,19 +225,19 @@ private static final long serialVersionUID = 1L;
 		}
 	}
 	/**
-	 * 
-	 * @FunctionName: recoveryUser
+	 *
+	 * @FunctionName: recoveryMenu
 	 * @Description: 恢复删除的菜单
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月30日 下午6:12:43
+	 * @author czl
+	 * @date 2017-07-28
 	 */
 	private void recoveryMenu(Map<String, String[]> inputdata) throws Exception {
 		Pojo_MENU beanIn = (Pojo_MENU) this.getObject(inputdata, "BeanIn",Pojo_MENU.class);
 		int ret = 0;
-		
+
 		try {
 			ret = service.recoveryMenu(beanIn);
 			if(ret>0){

@@ -23,15 +23,15 @@ public class ServiceLession extends BaseService {
 	}
 
 	/**
-	 * 
-	 * @FunctionName: getCourseCount
+	 *
+	 * @FunctionName: getDataCount
 	 * @Description: 统计列表数据个数
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年12月17日 上午10:30:29
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	public int getDataCount(PojoLession beanIn) throws Exception {
 		int result = 0;
@@ -43,11 +43,16 @@ public class ServiceLession extends BaseService {
 			strbuf.append(" SELECT ");
 			strbuf.append("     COUNT(A.KCFY_FYID) ");// 数据个数
 			strbuf.append(" FROM ");
-			strbuf.append("     KCFY A, KCXX B, KCLX C, SKSD D, JSXX E, ");
+			strbuf.append("     KCFY A ");
+			strbuf.append(" INNER JOIN KCXX B ON A.KCFY_XXID = B.KCXX_KCID ");
+			strbuf.append(" INNER JOIN KCLX C ON A.KCFY_LXID = C.KCLX_LXID ");
+			strbuf.append(" INNER JOIN SKSD D ON A.KCFY_SDID = D.SKSD_SDID ");
+			strbuf.append(" LEFT JOIN JSXX E ON A.KCFY_JSID = E.JSXX_JSID ");
+			strbuf.append(" LEFT JOIN ");
 			strbuf.append(" (SELECT ");
 			strbuf.append("     F.JSQY_JSID AS QY_JSID, ");
-			strbuf.append("     WMSYS.WM_CONCAT (G.XZQY_QYID) AS SKQYID, ");
-			strbuf.append("     WMSYS.WM_CONCAT (G.XZQY_QYMC) AS SKQYMC ");
+			strbuf.append("     GROUP_CONCAT(G.XZQY_QYID) AS SKQYID, ");
+			strbuf.append("     GROUP_CONCAT(G.XZQY_QYMC) AS SKQYMC ");
 			strbuf.append(" FROM ");
 			strbuf.append("     JSQY F, XZQY G ");
 			strbuf.append(" WHERE ");
@@ -55,7 +60,7 @@ public class ServiceLession extends BaseService {
 			strbuf.append(" AND F.JSQY_SCBZ = 0 ");
 			strbuf.append(" AND G.XZQY_SCBZ = 0 ");
 			strbuf.append(" GROUP BY ");
-			strbuf.append("     F.JSQY_JSID) F ");
+			strbuf.append("     F.JSQY_JSID) F ON E.JSXX_JSID = F.QY_JSID ");
 			strbuf.append(" WHERE 1=1 ");
 			strbuf.append(this.searchCourseSql(beanIn));
 
@@ -70,7 +75,7 @@ public class ServiceLession extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * @FunctionName: getCourseList
 	 * @Description: 获取列表数据明细
 	 * @param beanIn
@@ -80,8 +85,8 @@ public class ServiceLession extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return List<PojoLession>
-	 * @author ztz
-	 * @date 2014年12月17日 上午10:30:39
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	public List<PojoLession> getDataList(PojoLession beanIn, int page,
 			int limit, String sort, String userid) throws Exception {
@@ -119,8 +124,8 @@ public class ServiceLession extends BaseService {
 			strbuf.append("     KCFY A, KCXX B, KCLX C, SKSD D, JSXX E, ");
 			strbuf.append(" (SELECT ");
 			strbuf.append("     F.JSQY_JSID AS QY_JSID, ");
-			strbuf.append("     WMSYS.WM_CONCAT (G.XZQY_QYID) AS SKQYID, ");
-			strbuf.append("     WMSYS.WM_CONCAT (G.XZQY_QYMC) AS SKQYMC ");
+			strbuf.append("     GROUP_CONCAT(G.XZQY_QYID) AS SKQYID, ");
+			strbuf.append("     GROUP_CONCAT(G.XZQY_QYMC) AS SKQYMC ");
 			strbuf.append(" FROM ");
 			strbuf.append("     JSQY F, XZQY G ");
 			strbuf.append(" WHERE ");
@@ -137,17 +142,17 @@ public class ServiceLession extends BaseService {
 				strbuf.append("    BMXX");
 				strbuf.append(" WHERE ");
 				strbuf.append("    BMXX_SCBZ = '0'");
-				strbuf.append(" AND BMXX_XSID = '").append(this.getStudentId(userid)).append("') G");				
+				strbuf.append(" AND BMXX_XSID = '").append(this.getStudentId(userid)).append("') G");
 			}
 
-			//strbuf.append(" AND BMXX_KCFYID = '").append(lessionID).append("'");			
+			//strbuf.append(" AND BMXX_KCFYID = '").append(lessionID).append("'");
 //
 
 			strbuf.append(" WHERE 1=1 ");
 			if(!"".equals(userid)){
-				strbuf.append("AND A.KCFY_FYID=G.BMXX_KCFYID(+) ");// 课程信息ID	
+				strbuf.append("AND A.KCFY_FYID=G.BMXX_KCFYID(+) ");// 课程信息ID
 			}
-			
+
 			strbuf.append(this.searchCourseSql(beanIn));
 
 			StringBuffer execSql = this.getPageSqL(strbuf.toString(), page,limit, sort);
@@ -164,57 +169,52 @@ public class ServiceLession extends BaseService {
 	}
 
 	/**
-	 * 
+	 *
 	 * @FunctionName: searchCourseSql
 	 * @Description: 查询条件部分
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return String
-	 * @author ztz
-	 * @date 2014年12月17日 上午10:30:52
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	private String searchCourseSql(PojoLession beanIn) throws Exception {
 		StringBuffer strbuf = new StringBuffer();
 
 		try {
 			/* 公共部分 */
-			strbuf.append(" AND A.KCFY_XXID = B.KCXX_KCID");
-			strbuf.append(" AND A.KCFY_LXID = C.KCLX_LXID");
-			strbuf.append(" AND A.KCFY_SDID = D.SKSD_SDID");
-			strbuf.append(" AND A.KCFY_JSID = E.JSXX_JSID(+)");
-			strbuf.append(" AND E.JSXX_JSID = F.QY_JSID(+) ");
 			strbuf.append(" AND A.KCFY_SCBZ = '0'");
 			strbuf.append(" AND B.KCXX_SCBZ = '0'");
 			strbuf.append(" AND C.KCLX_SCBZ = '0'");
 			strbuf.append(" AND D.SKSD_SCBZ = '0'");
-			
+
 			/* 教学学段 */
 			if (MyStringUtils.isNotBlank(beanIn.getJXXD()) && !("000").equals(beanIn.getJXXD())) {
 				strbuf.append("  AND B.KCXX_KCJD = '").append(beanIn.getJXXD()).append("'");
 			}
-			
+
 			/* 求教学科 */
 			if (MyStringUtils.isNotBlank(beanIn.getQJXK())
 					&& !("000").equals(beanIn.getQJXK())) {
 				strbuf.append("  AND B.KCXX_KMID = '").append(beanIn.getQJXK()).append("'");
 			}
-			
+
 			/* 课程类型 */
 			if (MyStringUtils.isNotBlank(beanIn.getKCLX()) && !("000").equals(beanIn.getKCLX())) {
 				strbuf.append("  AND A.KCFY_LXID = '").append(beanIn.getKCLX()).append("'");
 			}
-			
+
 			/* 上课时段 */
 			if (MyStringUtils.isNotBlank(beanIn.getSKSD()) && !("000").equals(beanIn.getSKSD())) {
 				strbuf.append("  AND A.KCFY_SDID = '").append(beanIn.getSKSD()).append("'");
 			}
-			
+
 			/* 授课区域 */
 			if (MyStringUtils.isNotBlank(beanIn.getSKQY()) && !("000").equals(beanIn.getSKQY())) {
 				strbuf.append("  AND F.SKQYID LIKE '%").append(beanIn.getSKQY()).append("%'");
 			}
-			
+
 			/* 课程费用 */
 			if (MyStringUtils.isNotBlank(beanIn.getKCFY()) && !("000").equals(beanIn.getKCFY())) {
 				if(beanIn.getKCFY().equals("1")){
@@ -232,7 +232,7 @@ public class ServiceLession extends BaseService {
 		return strbuf.toString();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: isDataExist
 	 * @Description: 判断数据是否存在
 	 * @param lessionID
@@ -245,10 +245,10 @@ public class ServiceLession extends BaseService {
 	 */
 	public boolean isDataExist(String lessionID, String yhid) throws Exception {
 		boolean result = false;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("    COUNT(BMXX_BMID)");//报名ID
@@ -259,7 +259,7 @@ public class ServiceLession extends BaseService {
 			strbuf.append(" AND BMXX_XSID = '").append(this.getStudentId(yhid)).append("'");
 			strbuf.append(" AND BMXX_KCFYID = '").append(lessionID).append("'");
 			int count = db.queryForInteger(strbuf);
-			
+
 			if (count > 0) result = true;
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -270,7 +270,7 @@ public class ServiceLession extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getStudentId
 	 * @Description: 获取学生信息表ID
 	 * @param yhid
@@ -282,7 +282,7 @@ public class ServiceLession extends BaseService {
 	 */
 	private String getStudentId(String yhid) throws Exception {
 		String stuId = "";
-		
+
 		try {
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
@@ -294,7 +294,7 @@ public class ServiceLession extends BaseService {
 			strbuf.append(" AND A.YHXX_SCBZ = '0'");
 			strbuf.append(" AND B.XSXX_SCBZ = '0'");
 			strbuf.append(" AND A.YHXX_YHID = '").append(yhid).append("'");
-			
+
 			stuId = db.queryForString(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -303,7 +303,7 @@ public class ServiceLession extends BaseService {
 		return stuId;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getLessionData
 	 * @Description: 获取课程费用信息
 	 * @param lessionID
@@ -315,7 +315,7 @@ public class ServiceLession extends BaseService {
 	 */
 	private Pojo_BMXX getLessionData(String lessionID) throws Exception {
 		Pojo_BMXX beanIn = new Pojo_BMXX();
-		
+
 		try {
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
@@ -331,9 +331,9 @@ public class ServiceLession extends BaseService {
 			strbuf.append(" WHERE ");
 			strbuf.append("    A.KCFY_SCBZ = '0'");
 			strbuf.append(" AND A.KCFY_FYID = '").append(lessionID).append("'");
-			
+
 			ResultSetHandler<Pojo_BMXX> rs = new BeanHandler<Pojo_BMXX>(Pojo_BMXX.class);
-			
+
 			beanIn = db.queryForBeanHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -342,7 +342,7 @@ public class ServiceLession extends BaseService {
 		return beanIn;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertData
 	 * @Description: 新增数据
 	 * @param lessionID
@@ -362,10 +362,10 @@ public class ServiceLession extends BaseService {
 		try {
 			db.openConnection();
 			db.beginTran();
-			
+
 			beanIn = this.getLessionData(lessionID);
 			beanIn.setBMXX_XSID(this.getStudentId(beanUser.getYHXX_YHID()));
-			
+
 			StringBuffer strbufBMXX = new StringBuffer();
 			strbufBMXX.append(" INSERT INTO ");
 			strbufBMXX.append("     BMXX ");
@@ -421,7 +421,7 @@ public class ServiceLession extends BaseService {
 			strbufBMXX.append("     TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')  ");//更新时间
 			strbufBMXX.append(" ) ");
 			countBMXX = db.executeSQL(strbufBMXX);
-			
+
 			if (countBMXX > 0) {
 				db.commit();
 				result = true;

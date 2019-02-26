@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet3020000.Servlet3020110"%> 
+<%@ page import="com.xsjy.servlet.servlet3020000.Servlet3020110"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -41,13 +41,13 @@ $(document).ready(function(){
        { title:'住址', name:'XSXX_ZZ' ,width:200, sortable:true, align:'center',lockDisplay: true  },
        { title:'阶段年级', name:'JDNJ' ,width:100, sortable:true, align:'center',lockDisplay: true  },
        { title:'个人简介', name:'XSXX_CRJJ' ,width:300, sortable:true, align:'center',lockDisplay: true  },
-       { title:'创建人', name:'XSXX_CJR' ,width:50,hidden: true,sortable:true, align:'center',lockDisplay: true },
-       { title:'创建时间', name:'XSXX_CJSJ' ,width:100,hidden: true,sortable:true, align:'center',lockDisplay: true },
-       { title:'修改人', name:'XSXX_GXR' ,width:50,hidden: true,sortable:true, align:'center',lockDisplay: true },
-       { title:'修改时间', name:'XSXX_GXSJ' ,width:100,hidden: true,sortable:true, align:'center',lockDisplay: true }
+       { title:'创建人', name:'XSXX_CJR' ,width:50,hidden: true,sortable:true, align:'center',lockDisplay: false },
+       { title:'创建时间', name:'XSXX_CJSJ' ,width:100,hidden: true,sortable:true, align:'center',lockDisplay: false },
+       { title:'修改人', name:'XSXX_GXR' ,width:50,hidden: true,sortable:true, align:'center',lockDisplay: false },
+       { title:'修改时间', name:'XSXX_GXSJ' ,width:100,hidden: true,sortable:true, align:'center',lockDisplay: false }
    ];
-             
-    intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80; 
+
+    intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80;
    if(intheight<100){
 	   intheight = 100;
    }
@@ -75,7 +75,7 @@ $(document).ready(function(){
             })
         ]
       });
-   
+
 	//重新查询数据
    $('#btnSearch').on('click', function(){
 	   loadGridByBean();
@@ -100,7 +100,6 @@ $(document).ready(function(){
     loadGridByBean();
     //初始化下拉列表
     loadSearchSelect($("#selectJd"),"TYPE_SSJD","阶段");
-    loadSearchSelect($("#selectNj"),"TYPE_XSNJ","年级");
 });
 
 function btn_Add(){
@@ -172,6 +171,41 @@ function deleteData(dataId, xsbm){
 	});
 	return blnRet;
 }
+function changeJD(){
+    if( $('#selectJd').val()=="000"){
+        $("#selectNj").empty();
+	    $("#selectNj").append("<option value='000' selected>所有</option>");
+    }else if( $('#selectJd').val()=="0"){
+	    $("#selectNj").empty();
+	    $("#selectNj").append("<option value='000' selected>所有</option>");
+		$("#selectNj").append("<option value='1'>一年级</option>");
+		$("#selectNj").append("<option value='2'>二年级</option>");
+		$("#selectNj").append("<option value='3'>三年级</option>");
+		$("#selectNj").append("<option value='4'>四年级</option>");
+		$("#selectNj").append("<option value='5'>五年级</option>");
+		$("#selectNj").append("<option value='6'>六年级</option>");
+	}else if( $('#selectJd').val()=="1"){
+	    $("#selectNj").empty();
+	    $("#selectNj").append("<option value='000' selected>所有</option>");
+		$("#selectNj").append("<option value='1'>一年级</option>");
+		$("#selectNj").append("<option value='2'>二年级</option>");
+		$("#selectNj").append("<option value='3'>三年级</option>");
+	}else if( $('#selectJd').val()=="2"){
+	    $("#selectNj").empty();
+	    $("#selectNj").append("<option value='000' selected>所有</option>");
+		$("#selectNj").append("<option value='1'>一年级</option>");
+		$("#selectNj").append("<option value='2'>二年级</option>");
+		$("#selectNj").append("<option value='3'>三年级</option>");
+	}else if( $('#selectJd').val()=="3"){
+	    $("#selectNj").empty();
+	    $("#selectNj").append("<option value='000' selected>所有</option>");
+		$("#selectNj").append("<option value='1'>一年级</option>");
+		$("#selectNj").append("<option value='2'>二年级</option>");
+		$("#selectNj").append("<option value='3'>三年级</option>");
+		$("#selectNj").append("<option value='4'>四年级</option>");
+	}
+
+}
 </script>
 </head>
 <body>
@@ -184,9 +218,13 @@ function deleteData(dataId, xsbm){
 				<th style="width:100px">学生姓名</th>
 				<td><input id="txtSelectName" name="学生姓名" maxlength="20" /></td>
 				<th style="width:100px">阶段</th>
-				<td><select id="selectJd" style="width: 100px"></select></td>
+				<td><select id="selectJd" style="width: 100px" onchange="changeJD()"></select></td>
 				<th style="width:100px">年级</th>
-				<td><select id="selectNj" style="width: 100px"></select></td>
+				<td>
+                    <select id="selectNj" style="width: 100px">
+                        <option value="000" selected>所有</option>
+                    </select>
+                </td>
 				<th  style="width:100px"><input type="button" value="查询" id="btnSearch" /></th>
 			</tr>
 		</table>
@@ -199,8 +237,8 @@ function deleteData(dataId, xsbm){
 		<legend>操作</legend>
 		<div id="buttonCanvas" class="gToolbar gTbrCenter ">
 			<input type="button" value="新增" onclick="btn_Add()" />
-			<input type="button" value="修改" onclick="btn_Upd()" /> 
-			<input type="button" value="删除" id="btnDel" name="btnDel" /> 
+			<input type="button" value="修改" onclick="btn_Upd()" />
+			<input type="button" value="删除" id="btnDel" name="btnDel" />
 		</div>
 	</fieldset>
 </body>

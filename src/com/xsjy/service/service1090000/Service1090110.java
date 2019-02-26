@@ -19,22 +19,22 @@ public class Service1090110 extends BaseService {
 		db = new DBManager();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataCount
 	 * @Description: 统计列表数据个数
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年12月8日 下午2:16:33
+	 * @author czl
+	 * @date 2017-08-01
 	 */
 	public int getDataCount(Pojo1090110 beanIn) throws Exception {
 		int result = 0;
 
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     COUNT(A.KCXX_KCID) ");//数据个数
@@ -47,7 +47,7 @@ public class Service1090110 extends BaseService {
 			strbuf.append(" AND B.JDJY_SCBZ = '0'");
 			strbuf.append(" AND C.KMXX_SCBZ = '0'");
 			strbuf.append(this.searchSql(beanIn));
-			
+
 			result = db.queryForInteger(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -58,7 +58,7 @@ public class Service1090110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataList
 	 * @Description: 获取列表数据明细
 	 * @param beanIn
@@ -68,16 +68,16 @@ public class Service1090110 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo1090110>
-	 * @author ztz
-	 * @date 2014年12月8日 下午2:16:44
+	 * @author czl
+	 * @date 2017-08-01
 	 */
 	public List<Pojo1090110> getDataList(Pojo1090110 beanIn, int page,
 			int limit, String sort) throws Exception {
 		List<Pojo1090110> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     A.KCXX_KCID, ");//课程ID
@@ -104,7 +104,7 @@ public class Service1090110 extends BaseService {
 			strbuf.append(this.searchSql(beanIn));
 			strbuf.append(" ORDER BY ");
 			strbuf.append("     A.KCXX_CJSJ DESC ");
-			
+
 			StringBuffer execSql = this.getPageSqL(strbuf.toString(), page, limit,
 					sort);
 			ResultSetHandler<List<Pojo1090110>> rs = new BeanListHandler<Pojo1090110>(
@@ -120,7 +120,7 @@ public class Service1090110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: searchSql
 	 * @Description: 查询条件部分
 	 * @param beanIn
@@ -132,8 +132,13 @@ public class Service1090110 extends BaseService {
 	 */
 	private String searchSql(Pojo1090110 beanIn) throws Exception {
 		StringBuffer strbuf = new StringBuffer();
-		
+
 		try {
+		    /* 所属阶段 */
+            if (MyStringUtils.isNotBlank(beanIn.getKCXX_KCID())) {
+                strbuf.append(" AND A.KCXX_KCID != '").append(beanIn.getKCXX_KCID())
+                        .append("'");
+            }
 			/* 所属阶段 */
 			if (MyStringUtils.isNotBlank(beanIn.getKCXX_KCJD())) {
 				if (!"000".equals(beanIn.getKCXX_KCJD())) {
@@ -160,15 +165,15 @@ public class Service1090110 extends BaseService {
 		return strbuf.toString();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertData
 	 * @Description: 新增数据
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年12月8日 下午3:34:16
+	 * @author czl
+	 * @date 2017-08-01
 	 */
 	public int insertData(Pojo1090110 beanIn) throws Exception {
 		int result = 0;
@@ -177,7 +182,7 @@ public class Service1090110 extends BaseService {
 		try {
 			db.openConnection();
 			db.beginTran();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" INSERT INTO ");
 			strbuf.append("     KCXX ");
@@ -202,11 +207,11 @@ public class Service1090110 extends BaseService {
 			strbuf.append("     '"+MyStringUtils.safeToString(beanIn.getKCXX_KCMS())+"', ");//课程描述
 			strbuf.append("     '0', ");//删除标志
 			strbuf.append("     '"+beanIn.getKCXX_CJR()+"', ");//创建人
-			strbuf.append("     TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS'), ");//创建时间
+			strbuf.append("     NOW(), ");//创建时间
 			strbuf.append("     '"+beanIn.getKCXX_GXR()+"', ");//更新人
-			strbuf.append("     TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')  ");//更新时间
+			strbuf.append("     NOW() ");//更新时间
 			strbuf.append(" ) ");
-			
+
 			result = db.executeSQL(strbuf);
 			db.commit();
 		} catch (Exception e) {
@@ -219,23 +224,23 @@ public class Service1090110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: updateData
 	 * @Description: 更新数据
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年12月8日 下午3:37:58
+	 * @author czl
+	 * @date 2017-08-01
 	 */
 	public int updateData(Pojo1090110 beanIn) throws Exception {
 		int result = 0;
-		
+
 		try {
 			db.openConnection();
 			db.beginTran();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" UPDATE ");
 			strbuf.append("     KCXX ");
@@ -245,10 +250,10 @@ public class Service1090110 extends BaseService {
 			strbuf.append("     KCXX_KCMC='").append(beanIn.getJDMC() + beanIn.getKMMC()).append("',");//课程名称=阶段名称+科目名称
 			strbuf.append("     KCXX_KCMS='").append(beanIn.getKCXX_KCMS()).append("',");//课程描述
 			strbuf.append("     KCXX_GXR='").append(beanIn.getKCXX_GXR()).append("',");//更新人
-			strbuf.append("     KCXX_GXSJ=TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')");//更新时间
+			strbuf.append("     KCXX_GXSJ=NOW()");//更新时间
 			strbuf.append(" WHERE ");
 			strbuf.append("     KCXX_KCID='").append(beanIn.getKCXX_KCID()).append("'");//课程ID
-			
+
 			result = db.executeSQL(strbuf);
 			db.commit();
 		} catch (Exception e) {
@@ -261,15 +266,15 @@ public class Service1090110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: deleteData
 	 * @Description: 删除数据
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年12月8日 下午3:41:49
+	 * @author czl
+	 * @date 2017-08-01
 	 */
 	public int deleteData(Pojo1090110 beanIn) throws Exception {
 		int result = 0;
@@ -279,11 +284,11 @@ public class Service1090110 extends BaseService {
 			db.beginTran();
 
 			StringBuffer strbuf = new StringBuffer();
-			strbuf.append(" DELETE ");
+			strbuf.append(" DELETE FROM ");
 			strbuf.append("     KCXX ");
 			strbuf.append(" WHERE ");
 			strbuf.append("     KCXX_KCID='").append(beanIn.getKCXX_KCID()).append("'");//课程ID
-			
+
 			result = db.executeSQL(strbuf);
 			db.commit();
 		} catch (Exception e) {

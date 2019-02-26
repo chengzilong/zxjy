@@ -6,15 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.annotation.WebServlet;
+
+import com.framework.core.BaseServlet;
+import com.framework.log.MyLogger;
 import com.xsjy.common.SessionValue;
 import com.xsjy.pojo.BaseTable.Pojo_YHXX;
 import com.xsjy.pojo.Custom.pojo_1090000.Pojo1090210;
 import com.xsjy.service.service1090000.Service1090210;
-import com.framework.core.BaseServlet;
-import com.framework.log.MyLogger;
 
 /**
  * Servlet implementation class Servlet1090210
@@ -22,7 +23,7 @@ import com.framework.log.MyLogger;
 @WebServlet("/Servlet1090210")
 public class Servlet1090210 extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	/* 命令定义部分 */
 	public static final String CMD_SELECT = "CMD_SELECT";
 	public static final String CMD_CHK_EXIST = "CMD_CHK_EXIST";
@@ -44,7 +45,7 @@ public class Servlet1090210 extends BaseServlet {
 			throws IOException, ServletException, Exception {
 		service = new Service1090210();
 		arrResult = new ArrayList<Object>();
-		
+
 		String CMD = this.getString(inputdata, "CMD");
 		if (CMD_SELECT.equals(CMD)) {
 			getAreaList(inputdata);
@@ -65,7 +66,7 @@ public class Servlet1090210 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-12-26
+	 * @date 2017-07-27
 	 */
 	private void getAreaList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -93,7 +94,7 @@ public class Servlet1090210 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2015-01-23
+	 * @date 2017-07-27
 	 */
 	private void checkAreaexist(Map<String, String[]> inputdata) throws Exception {
 		String strQYBM = this.getString(inputdata, "QYBM");// 区域编码
@@ -149,7 +150,7 @@ public class Servlet1090210 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-12-26
+	 * @date 2017-07-27
 	 */
 	private void updateArea(Map<String, String[]> inputdata) throws Exception {
 		Pojo1090210 beanIn = (Pojo1090210) this.getObject(inputdata, "BeanIn",Pojo1090210.class);
@@ -178,7 +179,7 @@ public class Servlet1090210 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-12-26
+	 * @date 2017-07-27
 	 */
 	private void deleteArea(Map<String, String[]> inputdata) throws Exception {
 		Pojo1090210 beanIn = (Pojo1090210) this.getObject(inputdata, "BeanIn",Pojo1090210.class);

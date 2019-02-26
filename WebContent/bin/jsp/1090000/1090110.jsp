@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet1090000.Servlet1090110"%> 
+<%@ page import="com.xsjy.servlet.servlet1090000.Servlet1090110"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
 
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -44,8 +44,8 @@ $(document).ready(function(){
        { title:'修改人', name:'KCXX_GXR' ,width:50,sortable:true, align:'center',lockDisplay: true,hidden:true },
        { title:'修改时间', name:'KCXX_GXSJ' ,width:100,sortable:true, align:'center',lockDisplay: true,hidden:true }
    ];
-             
-    intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80; 
+
+    intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80;
    if(intheight<100){
 	   intheight = 100;
    }
@@ -72,10 +72,10 @@ $(document).ready(function(){
             })
         ]
       });
-   
+
    mmg.on('rowSelected', function(e, item, rowIndex, colIndex){//选择数据行
 	   var arrList = mmg.selectedRows();
-	 
+
 	   if(arrList.length>0){
 		   $('#selectEditSsjd').val(arrList[0].KCXX_KCJD);
 			$('#selectEditKmmc').val(arrList[0].KCXX_KMID);
@@ -151,7 +151,7 @@ $(document).ready(function(){
     			layer.alert('请选择要修改的数据行！', 0, '友情提示');
     			return;
     		}
-    		if(funEditCheck()==false) return;
+    		if(funEditCheck(arrList[0].KCXX_KCID)==false) return;
     		layer.confirm('是否修改选中数据？', function() {
 	    		if(updateData(arrList[0].KCXX_KCID)==true){
 		             //重新查询数据
@@ -176,14 +176,14 @@ $(document).ready(function(){
 	 		   setButtonStatus("2");
 	 		   mmg.deselect('all');
 	 	   }
-	   });  
+	   });
     });
     loadSearchSelect($("#selectSsjd"),"TYPE_SSJD","所属阶段");
     loadSearchSelect($("#selectKmmc"),"TYPE_KMMC","科目名称");
-    
+
     loadEditSelect($("#selectEditSsjd"),"TYPE_SSJD","所属阶段");
     loadEditSelect($("#selectEditKmmc"),"TYPE_KMMC","科目名称");
-    
+
     loadGridByBean();
 });
 
@@ -344,7 +344,7 @@ function setButtonStatus(strFlag) {
 		$('#selectEditSsjd').attr("disabled","disabled");
 		$('#selectEditKmmc').attr("disabled","disabled");
 		$('#txtEditKcms').attr("disabled","disabled");
-		
+
 		$('#selectEditSsjd').val("000");
 		$('#selectEditKmmc').val("000");
 		$('#txtEditKcms').val("");
@@ -359,7 +359,7 @@ function setButtonStatus(strFlag) {
 			$('#selectEditSsjd').removeAttr("disabled");
 			$('#selectEditKmmc').removeAttr("disabled");
 			$('#txtEditKcms').removeAttr("disabled");
-			
+
 			$('#selectEditSsjd').val("000");
 			$('#selectEditKmmc').val("000");
 			$('#txtEditKcms').val("");
@@ -386,7 +386,7 @@ function setButtonStatus(strFlag) {
 	}
 }
 //验证编辑输入数据
-function funEditCheck() {
+function funEditCheck(KCID) {
 	if (optionFlag == "Add" || optionFlag == "Upd") {
 		if ($('#selectEditSsjd').val() == "000") {
 			layer.alert('请选择所属阶段！', 0, '友情提示', function() {
@@ -410,7 +410,7 @@ function funEditCheck() {
 				return false;
 			}
 		} else if (optionFlag == "Upd") {//修改：判断是否课程信息已存在
-			if (checkExist() == true) {
+			if (checkExist(KCID) == true) {
 				layer.alert('课程信息已存在，无需再次修改！', 0, '友情提示', function() {
 					layer.close(layer.index);
 				});
@@ -421,10 +421,10 @@ function funEditCheck() {
 	return true;
 }
 //验证数据重复
-function checkExist(){
+function checkExist(KCID){
 	var blnRet = false;
 	var beanIn = new makeBeanIn(
-			"",
+	        KCID,
 			$('#selectEditSsjd').val(),
 			"",
 			$('#selectEditKmmc').val(),
@@ -490,10 +490,10 @@ function checkExist(){
 		</table>
 		<div id="buttonCanvas" class="gToolbar gTbrCenter ">
 			<input type="button" value="新增" id="btnAdd" name="btnAdd" onclick="btn_Add()" />
-			<input type="button" value="修改" id="btnUpd" name="btnUpd" onclick="btn_Upd()" /> 
-			<input type="button" value="删除" id="btnDel" name="btnDel" /> 
-			<input type="button" value="保存" id="btnSave" name="btnSave" /> 
-			<input type="button" value="取消" id="btnCancel" name="btnCancel" /> 
+			<input type="button" value="修改" id="btnUpd" name="btnUpd" onclick="btn_Upd()" />
+			<input type="button" value="删除" id="btnDel" name="btnDel" />
+			<input type="button" value="保存" id="btnSave" name="btnSave" />
+			<input type="button" value="取消" id="btnCancel" name="btnCancel" />
 		</div>
 	</fieldset>
 </body>

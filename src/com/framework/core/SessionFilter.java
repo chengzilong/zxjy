@@ -48,6 +48,7 @@ public class SessionFilter implements Filter {
 				|| urisub.equals("/bin/jsp/school/contactus.jsp")
 				|| urisub.equals("/bin/jsp/school/aboutus.jsp")
 				|| urisub.equals("/bin/jsp/login/login.jsp")
+				|| urisub.equals("/bin/jsp/login/point.jsp")
 				|| urisub.equals("/bin/jsp/login/register.jsp")) {
 			chain.doFilter(request, response);
 		} else {
@@ -58,9 +59,9 @@ public class SessionFilter implements Filter {
 			} else {
 				chain.doFilter(request, response);
 			}
-			
+
 		}
-		
+
 
 	}
 

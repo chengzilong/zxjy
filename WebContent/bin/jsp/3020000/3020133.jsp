@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet3020000.Servlet3020130"%> 
+<%@ page import="com.xsjy.servlet.servlet3020000.Servlet3020130"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
 
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="<%=basePath%>/bin/css/mmgrid/normalize.css" type="text/css">
 <link rel="stylesheet" href="<%=basePath%>/bin/css/mmgrid/tablesize.css" type="text/css">
 <!--表格样式End  -->
-<title>科目信息</title>
+<title>评价信息</title>
 <script type="text/javascript" src="<%=basePath%>/bin/js/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="<%=basePath%>/bin/js/common.js"></script>
 <script type="text/javascript" src="<%=basePath%>/bin/js/json2.js"></script>
@@ -44,8 +44,8 @@ $(document).ready(function(){
        { title:'评价积分', name:'PJXX_PJJF' ,width:50, sortable:true, align:'center',lockDisplay: true  },
        { title:'评价时间', name:'PJXX_PJSJ' ,width:80, sortable:true, align:'center',lockDisplay: true  }
    ];
-      //表格高度       
-    intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#infoRegion').height()-80; 
+      //表格高度
+    intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#infoRegion').height()-80;
    if(intheight<100){
 	   intheight = 100;
    }
@@ -79,7 +79,7 @@ $(document).ready(function(){
 	   if(arrList.length>0){
          $('#txtEditPjjf').val(arrList[0].PJXX_PJJF);
          $('#txtEditPjnr').val(arrList[0].PJXX_PJNR);
-         setButtonStatus("4");   
+         setButtonStatus("4");
 	   } else {
 		   $('#txtEditPjjf').val("");
 		   $('#txtEditPjnr').val("");
@@ -91,7 +91,7 @@ $(document).ready(function(){
 		   if(arrList.length>0){
 	         $('#txtEditPjjf').val(arrList[0].PJXX_PJJF);
 	         $('#txtEditPjnr').val(arrList[0].PJXX_PJNR);
-	         setButtonStatus("4");   
+	         setButtonStatus("4");
 		   }
 	   }else{
 		   $('#txtEditPjjf').val("");
@@ -111,7 +111,7 @@ $(document).ready(function(){
 	   if(arrList.length>0){
          $('#txtEditPjjf').val(arrList[0].PJXX_PJJF);
          $('#txtEditPjnr').val(arrList[0].PJXX_PJNR);
-         setButtonStatus("4");   
+         setButtonStatus("4");
 	   } else {
 		   $('#txtEditPjjf').val("");
 		   $('#txtEditPjnr').val("");
@@ -328,7 +328,7 @@ function setButtonStatus(strFlag) {
 		$('#btnCancel').attr("disabled", "disabled");
 		$('#txtEditPjjf').attr("disabled","disabled");
 		$('#txtEditPjnr').attr("disabled","disabled");
-		
+
 		$('#txtEditPjjf').val("");
 		$('#txtEditPjnr').val("");
 	} else if (strFlag.substring(0, 1) == "3") {
@@ -341,7 +341,7 @@ function setButtonStatus(strFlag) {
 		if (strFlag == "31") {//新增
 			$('#txtEditPjjf').removeAttr("disabled");
 			$('#txtEditPjnr').removeAttr("disabled");
-			
+
 			$('#txtEditPjjf').val("");
 			$('#txtEditPjnr').val("");
 			$('#txtEditPjjf').focus();
@@ -414,10 +414,10 @@ function funEditCheck() {
 		</table>
 		<div id="buttonCanvas" class="gToolbar gTbrCenter ">
 			<input type="button" value="新增" id="btnAdd" name="btnAdd" onclick="btn_Add()" />
-			<input type="button" value="修改" id="btnUpd" name="btnUpd" onclick="btn_Upd()" /> 
-			<input type="button" value="删除" id="btnDel" name="btnDel" /> 
-			<input type="button" value="保存" id="btnSave" name="btnSave" /> 
-			<input type="button" value="取消" id="btnCancel" name="btnCancel" /> 
+			<input type="button" value="修改" id="btnUpd" name="btnUpd" onclick="btn_Upd()" />
+			<input type="button" value="删除" id="btnDel" name="btnDel" />
+			<input type="button" value="保存" id="btnSave" name="btnSave" />
+			<input type="button" value="取消" id="btnCancel" name="btnCancel" />
 		</div>
 	</fieldset>
 </body>

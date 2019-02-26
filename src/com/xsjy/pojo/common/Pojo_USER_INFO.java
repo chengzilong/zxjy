@@ -6,13 +6,16 @@ import java.io.Serializable;
  * @ClassName: SELECT_LIST
  * @Package:com.blank.pojo.common
  * @Description: 下拉列表键值对共通类
- * @author ljg
- * @date 2014年7月21日 上午9:12:55
+ * @author czl
+ * @date 2017--7-13
  * @update
  */
 public class Pojo_USER_INFO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	/** The value of the simple UUID property. */
+    private String USER_UUID;
 
 	/** The value of the simple 用户名称 property. */
 	private String USER_NAME;
@@ -32,6 +35,14 @@ public class Pojo_USER_INFO implements Serializable {
 	/** The value of the simple 头像路径 property. */
 	private String HEAD_PICS;
 
+	/**
+     * Return the value of the UUID column.
+     *
+     * @return java.lang.String
+     */
+    public String getUSER_UUID() {
+        return this.USER_UUID;
+    }
 
 	/**
 	 * Return the value of the 用户名称 column.
@@ -86,6 +97,16 @@ public class Pojo_USER_INFO implements Serializable {
 	public String getHEAD_PICS() {
 		return this.HEAD_PICS;
 	}
+
+	/**
+     * Set the value of the UUID column.
+     *
+     * @param String
+     *            USER_UUID
+     */
+    public void setUSER_UUID(String USER_UUID) {
+        this.USER_UUID = USER_UUID;
+    }
 
 	/**
 	 * Set the value of the 用户名称 column.

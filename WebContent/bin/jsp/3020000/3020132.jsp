@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet3020000.Servlet3020130"%> 
+<%@ page import="com.xsjy.servlet.servlet3020000.Servlet3020130"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
 
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="<%=basePath%>/bin/css/mmgrid/normalize.css" type="text/css">
 <link rel="stylesheet" href="<%=basePath%>/bin/css/mmgrid/tablesize.css" type="text/css">
 <!--表格样式End  -->
-<title>科目信息</title>
+<title>发布信息</title>
 <script type="text/javascript" src="<%=basePath%>/bin/js/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="<%=basePath%>/bin/js/common.js"></script>
 <script type="text/javascript" src="<%=basePath%>/bin/js/json2.js"></script>
@@ -64,8 +64,8 @@ $(document).ready(function(){
        { title:'有效时间', name:'XXXX_YXSJ' ,width:80, sortable:true, align:'center',lockDisplay: true  },
        { title:'查看状态', name:'CKZT' ,width:80, sortable:true, align:'center',lockDisplay: true  }
    ];
-      //表格高度       
-    intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#infoRegion').height()-80; 
+      //表格高度
+    intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#infoRegion').height()-80;
    if(intheight<100){
 	   intheight = 100;
    }
@@ -101,7 +101,7 @@ $(document).ready(function(){
          $('#txtEditFbrq').val(arrList[0].XXXX_FBSJ);
          $('#txtEditYxrq').val(arrList[0].XXXX_YXSJ);
          $('#txtEditFbnr').val(arrList[0].XXXX_FBNR);
-         setButtonStatus("4");   
+         setButtonStatus("4");
 	   } else {
 		   $('#txtEditFbzt').val("");
 		   $('#txtEditFbrq').val("");
@@ -117,7 +117,7 @@ $(document).ready(function(){
 	         $('#txtEditFbrq').val(arrList[0].XXXX_FBSJ);
 	         $('#txtEditYxrq').val(arrList[0].XXXX_YXSJ);
 	         $('#txtEditFbnr').val(arrList[0].XXXX_FBNR);
-	         setButtonStatus("4");   
+	         setButtonStatus("4");
 		   }
 	   }else{
 		   $('#txtEditFbzt').val("");
@@ -141,7 +141,7 @@ $(document).ready(function(){
          $('#txtEditFbrq').val(arrList[0].XXXX_FBSJ);
          $('#txtEditYxrq').val(arrList[0].XXXX_YXSJ);
          $('#txtEditFbnr').val(arrList[0].XXXX_FBNR);
-         setButtonStatus("4");   
+         setButtonStatus("4");
 	   } else {
 		   $('#txtEditFbzt').val("");
 		   $('#txtEditFbrq').val("");
@@ -210,7 +210,7 @@ $(document).ready(function(){
  	 	   }
  	  });
     });
-    
+
     loadGridByBean();
 });
 
@@ -374,7 +374,7 @@ function setButtonStatus(strFlag) {
 		$('#txtEditFbrq').attr("disabled","disabled");
 		$('#txtEditYxrq').attr("disabled","disabled");
 		$('#txtEditFbnr').attr("disabled","disabled");
-		
+
 		$('#txtEditFbzt').val("");
 		$('#txtEditFbrq').val("");
 		$('#txtEditYxrq').val("");
@@ -391,7 +391,7 @@ function setButtonStatus(strFlag) {
 			$('#txtEditFbrq').removeAttr("disabled");
 			$('#txtEditYxrq').removeAttr("disabled");
 			$('#txtEditFbnr').removeAttr("disabled");
-			
+
 			$('#txtEditFbzt').val("");
 			$('#txtEditFbrq').val(timeStr);
 			$('#txtEditYxrq').val("");
@@ -485,10 +485,10 @@ function funEditCheck() {
 		</table>
 		<div id="buttonCanvas" class="gToolbar gTbrCenter ">
 			<input type="button" value="新增" id="btnAdd" name="btnAdd" onclick="btn_Add()" />
-			<input type="button" value="修改" id="btnUpd" name="btnUpd" onclick="btn_Upd()" /> 
-			<input type="button" value="删除" id="btnDel" name="btnDel" /> 
-			<input type="button" value="保存" id="btnSave" name="btnSave" /> 
-			<input type="button" value="取消" id="btnCancel" name="btnCancel" /> 
+			<input type="button" value="修改" id="btnUpd" name="btnUpd" onclick="btn_Upd()" />
+			<input type="button" value="删除" id="btnDel" name="btnDel" />
+			<input type="button" value="保存" id="btnSave" name="btnSave" />
+			<input type="button" value="取消" id="btnCancel" name="btnCancel" />
 		</div>
 	</fieldset>
 </body>

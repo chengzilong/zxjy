@@ -101,7 +101,7 @@ public class DBManager {
 	 * result = queryForArrayHandler(sql);<br>
 	 * String USER_ID = result[0];<br>
 	 * String USER_NAME = result[1];<br>
-	 * 
+	 *
 	 * @Method: queryForArrayHandler
 	 * @Description: 将ResultSet中第一行的数据转化成对象数组.
 	 * @param sql
@@ -132,7 +132,7 @@ public class DBManager {
 	 * &nbsp;&nbsp;String USER_ID = result[i][0];<br>
 	 * &nbsp;&nbsp;String USER_NAME = result[i][1];<br>
 	 * }
-	 * 
+	 *
 	 * @Method: queryForArrayListHandler
 	 * @Description: 将ResultSet中所有的数据转化成List
 	 * @param sql
@@ -161,7 +161,7 @@ public class DBManager {
 	 * ResultSetHandler<TBL_USER> rsh = new
 	 * BeanHandler<TBL_USER>(TBL_USER.class);<br>
 	 * resultBean = queryForBeanHandler(sql, rsh);
-	 * 
+	 *
 	 * @Method: queryForBeanHandler
 	 * @Description: 将ResultSet中第一行的数据转化成类对象.
 	 * @param sql
@@ -191,15 +191,15 @@ public class DBManager {
 	 * ResultSetHandler<List<TBL_USER>> rsh = new
 	 * BeanListHandler<TBL_USER>(TBL_USER.class);<br>
 	 * resultBeanList = queryForBeanListHandler(sql, rsh);
-	 * 
-	 * @Method: queryForBeanListHandler 
+	 *
+	 * @Method: queryForBeanListHandler
 	 * @Description: 将ResultSet中所有的数据转化成List
 	 * @param sql      --SQL语句
 	 * @param rsh      --BeanListHandler<T>
 	 * @return pojo的List集合
 	 * @throws Exception
 	 * @author misty
-	 * @date 2014年2月18日 下午12:10:24 
+	 * @date 2014年2月18日 下午12:10:24
 	 */
 	public <T> T queryForBeanListHandler(StringBuffer sql,
 			ResultSetHandler<T> rsh) throws Exception {
@@ -218,14 +218,14 @@ public class DBManager {
 	 * StringBuffer sql = new
 	 * StringBuffer("SELECT USER_NAME FROM TBL_USER WHERE USER_ID='admin'");<br>
 	 * result = queryForString(sql);
-	 * 
-	 * @Method: queryForString 
-	 * @Description: 将ResultSet中一条记录的其中某一列的数据存成String. 
+	 *
+	 * @Method: queryForString
+	 * @Description: 将ResultSet中一条记录的其中某一列的数据存成String.
 	 * @param sql      --SQL语句
 	 * @return String  --字符串结果
 	 * @throws Exception
 	 * @author misty
-	 * @date 2014年2月18日 下午12:11:59 
+	 * @date 2014年2月18日 下午12:11:59
 	 */
 	public String queryForString(StringBuffer sql) throws Exception {
 		// SQL语句输入Debug日志。
@@ -244,14 +244,14 @@ public class DBManager {
 	 * StringBuffer sql = new
 	 * StringBuffer("SELECT COUNT(SUER_ID) FROM TBL_USER WHERE USER_LEVLE='1'");<br>
 	 * result = queryForInteger(sql);
-	 * 
-	 * @Method: queryForInteger 
-	 * @Description: 将ResultSet中一条记录的其中某一列的数据存成Integer. 
+	 *
+	 * @Method: queryForInteger
+	 * @Description: 将ResultSet中一条记录的其中某一列的数据存成Integer.
 	 * @param sql      --SQL语句
 	 * @return int     --整数结果
 	 * @throws Exception
 	 * @author misty
-	 * @date 2014年2月18日 下午12:13:16 
+	 * @date 2014年2月18日 下午12:13:16
 	 */
 	public int queryForInteger(StringBuffer sql) throws Exception {
 		// SQL语句输入Debug日志。
@@ -259,9 +259,9 @@ public class DBManager {
 
 		run = new QueryRunner();
 		return (run.query(this.conn, formartSQL(sql.toString()),
-				new ScalarHandler<BigDecimal>(1))).intValue();
+				new ScalarHandler<Long>(1))).intValue();
 	}
-	
+
 	public int queryForInteger(String sql) throws Exception {
 		// SQL语句输入Debug日志。
 		MyLogger.debug(sql);
@@ -269,7 +269,7 @@ public class DBManager {
 		run = new QueryRunner();
 		return (run.query(this.conn, formartSQL(sql),new ScalarHandler<BigDecimal>(1))).intValue();
 	}
-	
+
 	/**
 	 * 数据查询操作.<br>
 	 * 将ResultSet中一条记录的其中某一列的数据存成Object.<br>
@@ -278,14 +278,14 @@ public class DBManager {
 	 * StringBuffer sql = new
 	 * StringBuffer("SELECT COUNT(SUER_ID) FROM TBL_USER WHERE USER_LEVLE='1'");<br>
 	 * result = queryForObject(sql);
-	 * 
-	 * @Method: queryForObject 
+	 *
+	 * @Method: queryForObject
 	 * @Description: 将ResultSet中一条记录的其中某一列的数据存成Object
 	 * @param sql     --SQL语句
 	 * @return Object -- 对象结果
 	 * @throws Exception
 	 * @author misty
-	 * @date 2014年2月18日 下午12:13:16 
+	 * @date 2014年2月18日 下午12:13:16
 	 */
 	public Object queryForObject(StringBuffer sql) throws Exception {
 		// SQL语句输入Debug日志。
@@ -296,14 +296,14 @@ public class DBManager {
 				new ScalarHandler<Object>(1));
 	}
 
-	/** 
-	 * @Method: executeSQL 
+	/**
+	 * @Method: executeSQL
 	 * @Description: 执行SQL语句.
 	 * @param sql      --SQL语句
 	 * @return         --执行完成的数据条数
 	 * @throws Exception
 	 * @author misty
-	 * @date 2014年2月18日 下午12:16:48 
+	 * @date 2014年2月18日 下午12:16:48
 	 */
 	public int executeSQL(StringBuffer sql) throws Exception {
 		// SQL语句输入Debug日志。
@@ -314,13 +314,13 @@ public class DBManager {
 
 	}
 
-	/** 
-	 * @Method: formartSQL 
-	 * @Description: 格式化sql语句。 
+	/**
+	 * @Method: formartSQL
+	 * @Description: 格式化sql语句。
 	 * @param sql      --SQL语句
 	 * @return String  --字符串
 	 * @author misty
-	 * @date 2014年2月18日 下午12:17:48 
+	 * @date 2014年2月18日 下午12:17:48
 	 */
 	private String formartSQL(String sql) {
 		return sql;

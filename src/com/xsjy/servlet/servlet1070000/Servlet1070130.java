@@ -6,17 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import javax.servlet.annotation.WebServlet;
+import com.framework.core.BaseServlet;
+import com.framework.log.MyLogger;
 import com.framework.session.SessionAttribute;
 import com.xsjy.pojo.BaseTable.Pojo_YHXX;
 import com.xsjy.pojo.Custom.pojo_1070000.Pojo1070130;
 import com.xsjy.service.service1070000.Service1070130;
-import com.framework.core.BaseServlet;
-import com.framework.log.MyLogger;
 
 /**
  * Servlet implementation class Servlet1070130
@@ -24,7 +23,7 @@ import com.framework.log.MyLogger;
 @WebServlet("/Servlet1070130")
 public class Servlet1070130 extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	/* 命令定义部分 */
 	public static final String CMD_SELECT = "CMD_SELECT";
 	public static final String CMD_IDENTIFICATE = "CMD_IDENTIFICATE";
@@ -43,7 +42,7 @@ public class Servlet1070130 extends BaseServlet {
 			throws IOException, ServletException, Exception {
 		service = new Service1070130();
 		arrResult = new ArrayList<Object>();
-		
+
 		String CMD = this.getString(inputdata, "CMD");
 		if (CMD_SELECT.equals(CMD)) {
 			getTeacherList(inputdata);
@@ -58,7 +57,7 @@ public class Servlet1070130 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-12-13
+	 * @date 2017-07-31
 	 */
 	private void getTeacherList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -86,7 +85,7 @@ public class Servlet1070130 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-12-13
+	 * @date 2017-08-01
 	 */
 	private void identificateTeacher(Map<String, String[]> inputdata) throws Exception {
 		Pojo1070130 beanIn = (Pojo1070130) this.getObject(inputdata, "BeanIn",Pojo1070130.class);
@@ -108,5 +107,5 @@ public class Servlet1070130 extends BaseServlet {
 			print(arrResult);
 		}
 	}
-	
+
 }

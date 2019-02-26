@@ -17,12 +17,13 @@
 <link href="<%=basePath%>/bin/css/resources/newlayout_zy.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" type="text/css" href="<%=basePath%>/bin/js/common/header/header.css" id="headercss"/>
 <script language="JavaScript" src="<%=basePath%>/bin/js/common.js"></script>
+<script language="JavaScript" src="<%=basePath%>/bin/js/util/validateUtil.js"></script>
 <script language="JavaScript" src="<%=basePath%>/bin/js/jquery-1.9.1.js"></script>
 <script language="JavaScript">
 $(document).ready(function(){
 
-	$("#phonenumber").on("blur",function() {
-		if($("#phonenumber").val()==""){
+	$("#emailAddress").on("blur",function() {
+		if($("#emailAddress").val()==""){
 			$("#spphonenumber").show();
 		}
 
@@ -70,7 +71,7 @@ function cancel_repwd(){
 	$("#sprepassword").hide();
 }
 function focus_phonenumber(){
-	$("#phonenumber").focus();
+	$("#emailAddress").focus();
 }
 function focus_code(){
 	$("#code").focus();
@@ -86,9 +87,14 @@ function focus_repwd(){
 }
 function regist_click(){
 	//判断非空
-	if($('#phonenumber').val() == ""){
+	if($('#emailAddress').val() == ""){
 		alert("邮箱不能为空！");
-		$('#phonenumber').focus();
+		$('#emailAddress').focus();
+		return false;
+	}
+	if(!checkEmail($('#emailAddress').val())){
+		alert("邮箱格式不正确！");
+		$('#emailAddress').focus();
 		return false;
 	}
 	if($('#nickname').val() == ""){
@@ -112,7 +118,7 @@ function regist_click(){
 		return false;
 	}
 	if(checkSJHMExist()){
-		alert("该手机号码已经注册！");
+		alert("该邮箱已经注册！");
 		return false;
 	}
 
@@ -125,7 +131,7 @@ function regist_click(){
 		return false;
 	}
 
-	var strSJHM = $('#phonenumber').val();
+	var strSJHM = $('#emailAddress').val();
 	var strYHQF=$('input:radio[name="RadioGroup1"]:checked').val();
 	var strNC = $('#nickname').val();
 	var strDLMM = $('#password').val();
@@ -147,8 +153,8 @@ function regist_click(){
   		success : function(response) {
 			var strResault = response[0];
 			if (strResault == "SUCCESS") {
-				alert("恭喜您！注册成功！");
-				location.href='<%=basePath%>/bin/jsp/login/login.jsp';
+				//alert("恭喜您！注册成功！请前往邮箱激活");
+				location.href='<%=basePath%>/bin/jsp/login/point.jsp';
 			} else{
 				alert("对不起！注册失败！");
 			}
@@ -157,7 +163,7 @@ function regist_click(){
 }
 function checkSJHMExist(){
 	var blnRet = false;
-	var strSJHM = $('#phonenumber').val();
+	var strSJHM = $('#emailAddress').val();
 
 	$.ajax({
 		async     : false,
@@ -230,7 +236,7 @@ function createCode(){
 						</div>
 						<div class="clear">&nbsp;</div>
 						<div class="tr input_wrap loginname_wrap">
-							<input type="text" id="phonenumber" onkeydown="cancel_phonenumber()" >
+							<input type="text" id="emailAddress" onkeydown="cancel_phonenumber()" >
 							<span onclick="focus_phonenumber()" id="spphonenumber" style="color:#999;position:relative;bottom:27px;left:9px;">邮箱</span>
 						</div>
 						<div class="tr input_wrap password_wrap">
@@ -239,8 +245,6 @@ function createCode(){
 						</div>
 						<div class="tr">
 							<input type="button" id="checkCode" class="checkcode" style="width:60px" onClick="createCode()" />
-							<span class="heshiphone">获取手机验证</span>
-							<input class="submit2" onClick="createCode()" value="发送验证码">
 						</div>
 						<div id = "usertypeimg">
 							<p  style="padding:90px 0 0 0;margin:0 0 0 40px;">

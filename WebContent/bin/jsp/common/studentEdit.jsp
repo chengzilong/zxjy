@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet1060000.Servlet1060110"%> 
+<%@ page import="com.xsjy.servlet.servlet1060000.Servlet1060110"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -40,22 +40,21 @@ $(document).ready(function(){
 		},
 		ajaxPost:true
 	});
-	
+
 	studentForm.addRule([{
 		ele:".inputxt:eq(0)",
 		datatype:"*6-20"
 	},
 	{
 		ele:".inputxt:eq(1)",
-		datatype:"s"	
+		datatype:"s"
 	},
 	{
 		ele:".inputxt:eq(2)",
-		datatype:"m"	
+		datatype:"m"
 	}]);
 	//初始化下拉列表
     loadEditSelect($("#selectEditJd"),"TYPE_SSJD","阶段");
-    loadEditSelect($("#selectEditNj"),"TYPE_XSNJ","年级");
 	/* 表单信息验证End */
 	$.getUrlParam = function(name) {
 		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -74,6 +73,7 @@ $(document).ready(function(){
 		$('#txtEditLxfs').val(dataBean.XSXX_LXFS);
 		$('#txtEditZz').val(dataBean.XSXX_ZZ);
 		$('#selectEditJd').val(dataBean.XSXX_JD);
+		changeJD();
 		$('#selectEditNj').val(dataBean.XSXX_NJ);
 		$('#txtEditGrjj').val(dataBean.XSXX_CRJJ);
 	}
@@ -250,27 +250,62 @@ function checkExist(){
 	});
 	return blnRet;
 }
+function changeJD(){
+    if( $('#selectEditJd').val()=="000"){
+        $("#selectEditNj").empty();
+	    $("#selectEditNj").append("<option value='000' selected>请选择</option>");
+    }else if( $('#selectEditJd').val()=="0"){
+	    $("#selectEditNj").empty();
+	    $("#selectEditNj").append("<option value='000' selected>请选择</option>");
+		$("#selectEditNj").append("<option value='1'>一年级</option>");
+		$("#selectEditNj").append("<option value='2'>二年级</option>");
+		$("#selectEditNj").append("<option value='3'>三年级</option>");
+		$("#selectEditNj").append("<option value='4'>四年级</option>");
+		$("#selectEditNj").append("<option value='5'>五年级</option>");
+		$("#selectEditNj").append("<option value='6'>六年级</option>");
+	}else if( $('#selectEditJd').val()=="1"){
+	    $("#selectEditNj").empty();
+	    $("#selectEditNj").append("<option value='000' selected>请选择</option>");
+		$("#selectEditNj").append("<option value='1'>一年级</option>");
+		$("#selectEditNj").append("<option value='2'>二年级</option>");
+		$("#selectEditNj").append("<option value='3'>三年级</option>");
+	}else if( $('#selectEditJd').val()=="2"){
+	    $("#selectEditNj").empty();
+	    $("#selectEditNj").append("<option value='000' selected>请选择</option>");
+		$("#selectEditNj").append("<option value='1'>一年级</option>");
+		$("#selectEditNj").append("<option value='2'>二年级</option>");
+		$("#selectEditNj").append("<option value='3'>三年级</option>");
+	}else if( $('#selectEditJd').val()=="3"){
+	    $("#selectEditNj").empty();
+	    $("#selectEditNj").append("<option value='000' selected>所有</option>");
+		$("#selectEditNj").append("<option value='1'>一年级</option>");
+		$("#selectEditNj").append("<option value='2'>二年级</option>");
+		$("#selectEditNj").append("<option value='3'>三年级</option>");
+		$("#selectEditNj").append("<option value='4'>四年级</option>");
+	}
+
+}
 </script>
 </head>
 <body style="background: none;">
 <form id="studentForm">
-	<div id="main-content" > 			
-		<div class="content-box chuan_mar2">				
-			<div class="content-box-header">					
-				<h3>学生基本信息</h3>					
-				<div class="clear"></div>					
-			</div>				
-			<div class="content-box-content">					
-				<div class="tab-content default-tab" id="tab1">						
-				  <fieldset>								
+	<div id="main-content" >
+		<div class="content-box chuan_mar2">
+			<div class="content-box-header">
+				<h3>学生基本信息</h3>
+				<div class="clear"></div>
+			</div>
+			<div class="content-box-content">
+				<div class="tab-content default-tab" id="tab1">
+				  <fieldset>
 					<p>
 						<label>学生编码：</label>
 							<input class="text-input small-input" type="hidden" id="txtEditXsid" name="small-input" />
-							<input class="text-input small-input inputxt" type="text" id="txtEditXsbm" name="small-input" /> 
+							<input class="text-input small-input inputxt" type="text" id="txtEditXsbm" name="small-input" />
 					</p>
 					<p>
 						<label>学生姓名：</label>
-							<input class="text-input small-input inputxt" type="text" id="txtEditXsxm" name="small-input" /> 
+							<input class="text-input small-input inputxt" type="text" id="txtEditXsxm" name="small-input" />
 					</p>
 					<p>
 						<label>性别：</label>
@@ -279,19 +314,22 @@ function checkExist(){
 					</p>
 					<p>
 						<label>出生日期：</label>
-						<input class="text-input medium-input datepicker" type="text" readonly="readonly" id="txtEditCsrq" name="medium-input" onclick="laydate()" /> 
+						<input class="text-input medium-input datepicker" type="text" readonly="readonly" id="txtEditCsrq" name="medium-input" onclick="laydate()" />
 					</p>
 					<p>
 						<label>联系方式：</label>
-						<input class="text-input medium-input datepicker inputxt" type="text" id="txtEditLxfs" name="medium-input" /> 
+						<input class="text-input medium-input datepicker inputxt" type="text" id="txtEditLxfs" name="medium-input" />
 					</p>
 					<p>
 						<label>住址：</label>
-						<input class="text-input medium-input datepicker" type="text" id="txtEditZz" name="medium-input" /> 
+						<input class="text-input medium-input datepicker" type="text" id="txtEditZz" name="medium-input" />
 					</p>
 					<p>
 						<label>阶段年级：</label>
-						<select class="small-input" id="selectEditJd"></select><select class="small-input" id="selectEditNj"></select> 
+						<select class="small-input" id="selectEditJd" onchange="changeJD()"></select>
+                        <select class="small-input" id="selectEditNj">
+                          <option value="000" selected>请选择</option>
+                        </select>
 					</p>
 					<p>
 						<label>个人简介：</label>
@@ -300,9 +338,9 @@ function checkExist(){
 					<p >
 						<input class="button" type="submit" value="保 存" id="btnSave" name="btnSave" />&nbsp;&nbsp;<input class="button"  type="submit" value="取 消" id="btnCancel" name="btnCancel" />
 					</p>
-				  </fieldset>					
+				  </fieldset>
 				</div>
-			</div>				
+			</div>
 		</div>
 		<div class="clear"></div>
 	</div>

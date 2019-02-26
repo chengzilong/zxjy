@@ -3,6 +3,7 @@ package com.xsjy.service.service1090000;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
@@ -15,7 +16,7 @@ import com.xsjy.pojo.Custom.pojo_1090000.Pojo1090210;
 public class Service1090210 extends BaseService {
 
 	private DBManager db;
-	
+
 	public Service1090210() {
 		db = new DBManager();
 	}
@@ -28,9 +29,9 @@ public class Service1090210 extends BaseService {
 	 * @date 2014-12-26
 	 */
 	public String getSystemdate() throws Exception{
-		Date now = new Date(); 
+		Date now = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");//可以方便地修改日期格式
-		String date = dateFormat.format( now ); 
+		String date = dateFormat.format( now );
 		return date;
 	}
 	/**
@@ -40,7 +41,7 @@ public class Service1090210 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-12-26
+	 * @date 2017-07-27
 	 */
 	public int getAreaList_TotalCount(Pojo1090210 beanIn) throws Exception {
 		int result = 0;
@@ -51,9 +52,9 @@ public class Service1090210 extends BaseService {
 			sql.append(" SELECT COUNT(XZQY_QYID)");
 			sql.append("   FROM XZQY A ");
 			sql.append("  WHERE 1 = 1  AND  XZQY_SCBZ = '0' ");
-			if (MyStringUtils.isNotBlank(beanIn.getXZQY_QYMC())) {	
+			if (MyStringUtils.isNotBlank(beanIn.getXZQY_QYMC())) {
 				sql.append("  AND A.XZQY_QYMC LIKE '%").append(beanIn.getXZQY_QYMC())
-					.append("%'");	
+					.append("%'");
 			}
 			result = db.queryForInteger(sql);
 		} catch (Exception e) {
@@ -72,7 +73,7 @@ public class Service1090210 extends BaseService {
 	 * @throws Exception
 	 * @return List<Pojo1090210>
 	 * @author czl
-	 * @date 2014-12-26
+	 * @date 2017-07-27
 	 */
 	public List<Pojo1090210> getAreaList_PageData(Pojo1090210 beanIn, int page,
 			int limit, String sort) throws Exception {
@@ -83,14 +84,14 @@ public class Service1090210 extends BaseService {
 			sql.append(" SELECT A.XZQY_QYID,");//区域ID
 			sql.append("        A.XZQY_QYMC,");// 区域名称
 			sql.append("        A.XZQY_QYJB,");// 区域级别
-			sql.append("        A.XZQY_QYJB||'级'AS QYJB,");// 区域级别
+			sql.append("        CONCAT(A.XZQY_QYJB,'级')AS QYJB,");// 区域级别
 			sql.append("        A.XZQY_SJID,");// 上级ID
 			sql.append("        B.XZQY_QYMC AS SJQY");// 上级ID
 			sql.append("   FROM XZQY A LEFT JOIN XZQY B ON A.XZQY_SJID = B.XZQY_QYID");
 			sql.append("  WHERE   A.XZQY_SCBZ = '0'");
-			if (MyStringUtils.isNotBlank(beanIn.getXZQY_QYMC())) {	
+			if (MyStringUtils.isNotBlank(beanIn.getXZQY_QYMC())) {
 				sql.append("  AND A.XZQY_QYMC LIKE '%").append(beanIn.getXZQY_QYMC())
-					.append("%'");	
+					.append("%'");
 			}
 			sql.append(" ORDER BY ");
 			sql.append("        A.XZQY_QYID");
@@ -115,7 +116,7 @@ public class Service1090210 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2015-01-23
+	 * @date 2017-07-27
 	 */
 	public int checkAreaexist(String strQYBM) throws Exception {
 		int result = 0;
@@ -126,9 +127,9 @@ public class Service1090210 extends BaseService {
 			sql.append(" SELECT COUNT(XZQY_QYID)");
 			sql.append("   FROM XZQY A ");
 			sql.append("  WHERE 1 = 1 AND XZQY_SCBZ = '0' ");
-			if (MyStringUtils.isNotBlank(strQYBM)) {	
+			if (MyStringUtils.isNotBlank(strQYBM)) {
 				sql.append("  AND A.XZQY_QYID = '").append(strQYBM)
-					.append("'");	
+					.append("'");
 			}
 			result = db.queryForInteger(sql);
 		} catch (Exception e) {
@@ -146,14 +147,13 @@ public class Service1090210 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-12-26
+	 * @date 2017-07-27
 	 */
 	public int insertArea(Pojo1090210 beanIn) throws Exception {
 		int result = 0;
-		String sysdate = getSystemdate();
 		try {
 			db.openConnection();
-			StringBuffer strbuf = new StringBuffer();		
+			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" INSERT INTO ");
 			strbuf.append("     XZQY ");
 			strbuf.append(" ( ");
@@ -173,9 +173,9 @@ public class Service1090210 extends BaseService {
 			strbuf.append("     '" + beanIn.getXZQY_QYJB() + "', ");
 			strbuf.append("     '" + beanIn.getXZQY_SJID() + "', ");
 			strbuf.append("     '" + beanIn.getXZQY_CJR() + "', ");
-			strbuf.append("     '" + sysdate + "', ");
+			strbuf.append("     NOW(), ");
 			strbuf.append("     '" + beanIn.getXZQY_GXR() + "', ");
-			strbuf.append("     '" + sysdate + "' ");
+			strbuf.append("     NOW() ");
 			strbuf.append(" ) ");
 			result = db.executeSQL(strbuf);
 		} catch (Exception e) {
@@ -194,11 +194,10 @@ public class Service1090210 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-12-26
+	 * @date 2017-07-27
 	 */
 	public int updateArea(Pojo1090210 beanIn) throws Exception {
 		int result = 0;
-		String sysdate = getSystemdate();
 		try {
 			db.openConnection();
 			StringBuffer strbuf = new StringBuffer();
@@ -210,7 +209,7 @@ public class Service1090210 extends BaseService {
 			strbuf.append("     XZQY_QYJB='").append(beanIn.getXZQY_QYJB()).append("',");// 区域级别
 			strbuf.append("     XZQY_SJID='").append(beanIn.getXZQY_SJID()).append("',");// 上级ID
 			strbuf.append("     XZQY_GXR='").append(beanIn.getXZQY_GXR()).append("',");// 修改人
-			strbuf.append("     XZQY_GXSJ='" + sysdate + "'");// 修改时间
+			strbuf.append("     XZQY_GXSJ=NOW()");// 修改时间
 			strbuf.append(" WHERE 1 = 1 AND XZQY_SCBZ = '0'");
 			strbuf.append("  AND   XZQY_QYID='").append(beanIn.getYBM()).append("'");// 区域ID
 			result = db.executeSQL(strbuf);
@@ -230,14 +229,14 @@ public class Service1090210 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-12-26
+	 * @date 2017-07-27
 	 */
 	public int deleteArea(Pojo1090210 beanIn) throws Exception {
 		int result = 0;
 		try {
 			db.openConnection();
 			StringBuffer strbuf = new StringBuffer();
-			strbuf.append(" DELETE ");
+			strbuf.append(" DELETE FROM ");
 			strbuf.append("     XZQY ");
 			strbuf.append(" WHERE 1 = 1 AND XZQY_QYID='").append(beanIn.getXZQY_QYID())
 					.append("'");

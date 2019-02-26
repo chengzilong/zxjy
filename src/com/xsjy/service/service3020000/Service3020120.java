@@ -24,30 +24,40 @@ public class Service3020120 extends BaseService {
 		db = new DBManager();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataCount
 	 * @Description: 统计列表数据个数
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:36:25
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public int getDataCount(Pojo3020120 beanIn) throws Exception {
 		int result = 0;
 
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     COUNT(A.BMXX_BMID) ");//数据个数
 			strbuf.append(" FROM ");
-			strbuf.append("     BMXX A, XSXX B, KCXX C, KCLX D, SKSD E, JSXX F, JSXX G, BMFS H, BMZT I, BCXX J, YHXX K ");
+			strbuf.append("     BMXX A ");
+			strbuf.append(" INNER JOIN XSXX B ON A.BMXX_XSID = B.XSXX_XSID ");
+			strbuf.append(" INNER JOIN KCXX C ON A.BMXX_XXID = C.KCXX_KCID ");
+			strbuf.append(" INNER JOIN KCLX D ON A.BMXX_LXID = D.KCLX_LXID ");
+			strbuf.append(" INNER JOIN SKSD E ON A.BMXX_SDID = E.SKSD_SDID ");
+			strbuf.append(" LEFT JOIN JSXX F ON A.BMXX_JSID = F.JSXX_JSID AND F.JSXX_SCBZ = '0' ");
+			strbuf.append(" LEFT JOIN JSXX G ON A.BMXX_TJJSID = G.JSXX_JSID AND G.JSXX_SCBZ = '0' ");
+			strbuf.append(" INNER JOIN BMFS H ON A.BMXX_BMFS = H.BMFS_FSID ");
+            strbuf.append(" INNER JOIN BMZT I ON A.BMXX_BMZT = I.BMZT_BMZTID ");
+			strbuf.append(" LEFT JOIN BCXX J ON A.BMXX_SSBC = J.BCXX_BCID ");
+			strbuf.append(" INNER JOIN YHXX K ON A.BMXX_CJR = K.YHXX_YHID ");
 			strbuf.append(" WHERE 1=1 ");
 			strbuf.append(this.searchSql(beanIn));
-			
+
 			result = db.queryForInteger(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -58,7 +68,7 @@ public class Service3020120 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataList
 	 * @Description: 获取列表数据明细
 	 * @param beanIn
@@ -68,16 +78,16 @@ public class Service3020120 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo3020120>
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:36:33
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public List<Pojo3020120> getDataList(Pojo3020120 beanIn, int page,
 			int limit, String sort) throws Exception {
 		List<Pojo3020120> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     A.BMXX_BMID, ");//报名ID
@@ -107,16 +117,26 @@ public class Service3020120 extends BaseService {
 			strbuf.append("     A.BMXX_BZXX, ");//备注信息
 			strbuf.append("     A.BMXX_SCBZ, ");//删除标志
 			strbuf.append("     K.YHXX_YHMC AS BMXX_CJR, ");//创建人
-			strbuf.append("     TO_CHAR(TO_DATE(A.BMXX_CJSJ, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS') AS BMXX_CJSJ, ");//创建时间
+			strbuf.append("     A.BMXX_CJSJ, ");//创建时间
 			strbuf.append("     A.BMXX_GXR, ");//更新人
 			strbuf.append("     A.BMXX_GXSJ  ");//更新时间
 			strbuf.append(" FROM ");
-			strbuf.append("     BMXX A, XSXX B, KCXX C, KCLX D, SKSD E, JSXX F, JSXX G, BMFS H, BMZT I, BCXX J, YHXX K ");
+			strbuf.append("     BMXX A ");
+			strbuf.append(" INNER JOIN XSXX B ON A.BMXX_XSID = B.XSXX_XSID ");
+            strbuf.append(" INNER JOIN KCXX C ON A.BMXX_XXID = C.KCXX_KCID ");
+            strbuf.append(" INNER JOIN KCLX D ON A.BMXX_LXID = D.KCLX_LXID ");
+            strbuf.append(" INNER JOIN SKSD E ON A.BMXX_SDID = E.SKSD_SDID ");
+            strbuf.append(" LEFT JOIN JSXX F ON A.BMXX_JSID = F.JSXX_JSID AND F.JSXX_SCBZ = '0' ");
+            strbuf.append(" LEFT JOIN JSXX G ON A.BMXX_TJJSID = G.JSXX_JSID AND G.JSXX_SCBZ = '0' ");
+            strbuf.append(" INNER JOIN BMFS H ON A.BMXX_BMFS = H.BMFS_FSID ");
+            strbuf.append(" INNER JOIN BMZT I ON A.BMXX_BMZT = I.BMZT_BMZTID ");
+            strbuf.append(" LEFT JOIN BCXX J ON A.BMXX_SSBC = J.BCXX_BCID ");
+            strbuf.append(" INNER JOIN YHXX K ON A.BMXX_CJR = K.YHXX_YHID ");
 			strbuf.append(" WHERE 1=1 ");
 			strbuf.append(this.searchSql(beanIn));
 			strbuf.append(" ORDER BY ");
 			strbuf.append("     A.BMXX_CJSJ DESC ");
-			
+
 			StringBuffer execSql = this.getPageSqL(strbuf.toString(), page, limit,
 					sort);
 			ResultSetHandler<List<Pojo3020120>> rs = new BeanListHandler<Pojo3020120>(
@@ -132,38 +152,26 @@ public class Service3020120 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: searchSql
 	 * @Description: 查询条件部分
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return String
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:36:43
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	private String searchSql(Pojo3020120 beanIn) throws Exception {
 		StringBuffer strbuf = new StringBuffer();
-		
+
 		try {
 			/* 公共部分 */
-			strbuf.append(" AND A.BMXX_XSID = B.XSXX_XSID");
-			strbuf.append(" AND A.BMXX_XXID = C.KCXX_KCID");
-			strbuf.append(" AND A.BMXX_LXID = D.KCLX_LXID");
-			strbuf.append(" AND A.BMXX_SDID = E.SKSD_SDID");
-			strbuf.append(" AND A.BMXX_JSID = F.JSXX_JSID(+)");
-			strbuf.append(" AND A.BMXX_TJJSID = G.JSXX_JSID(+)");
-			strbuf.append(" AND A.BMXX_BMFS = H.BMFS_FSID");
-			strbuf.append(" AND A.BMXX_BMZT = I.BMZT_BMZTID");
-			strbuf.append(" AND A.BMXX_SSBC = J.BCXX_BCID(+)");
-			strbuf.append(" AND A.BMXX_CJR = K.YHXX_YHID");
 			strbuf.append(" AND A.BMXX_SCBZ = '0'");
 			strbuf.append(" AND B.XSXX_SCBZ = '0'");
 			strbuf.append(" AND C.KCXX_SCBZ = '0'");
 			strbuf.append(" AND D.KCLX_SCBZ = '0'");
 			strbuf.append(" AND E.SKSD_SCBZ = '0'");
-			strbuf.append(" AND F.JSXX_SCBZ(+) = '0'");
-			strbuf.append(" AND G.JSXX_SCBZ(+) = '0'");
 			strbuf.append(" AND H.BMFS_SCBZ = '0'");
 			strbuf.append(" AND I.BMZT_SCBZ = '0'");
 			strbuf.append(" AND K.YHXX_SCBZ = '0'");
@@ -186,22 +194,22 @@ public class Service3020120 extends BaseService {
 		return strbuf.toString();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getXsxx
 	 * @Description: 获取学生信息
 	 * @param xsdh
 	 * @return
 	 * @throws Exception
 	 * @return Pojo_XSXX
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:36:53
+	 * @author czl
+	 * @date 2017-08-03
 	 */
-	public Pojo_XSXX getXsxx(String xsdh) throws Exception {
+	public Pojo_XSXX getXsxx(String xsbm) throws Exception {
 		Pojo_XSXX dataBean = new Pojo_XSXX();
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     A.XSXX_XSID, ");//学生ID
@@ -209,8 +217,8 @@ public class Service3020120 extends BaseService {
 			strbuf.append(" FROM ");
 			strbuf.append("     XSXX A ");
 			strbuf.append(" WHERE 1=1 ");
-			strbuf.append(" AND A.XSXX_XSBM = '").append(xsdh).append("'");//学生编码
-			
+			strbuf.append(" AND A.XSXX_XSBM = '").append(xsbm).append("'");//学生编码
+
 			ResultSetHandler<Pojo_XSXX> rsh = new BeanHandler<Pojo_XSXX>(Pojo_XSXX.class);
 			dataBean = db.queryForBeanHandler(strbuf, rsh);
 		} catch (Exception e) {
@@ -222,30 +230,34 @@ public class Service3020120 extends BaseService {
 		return dataBean;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getCourseCount
 	 * @Description: 统计列表数据个数
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:37:08
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public int getCourseCount(Pojo3020121 beanIn) throws Exception {
 		int result = 0;
 
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     COUNT(A.KCFY_FYID) ");//数据个数
 			strbuf.append(" FROM ");
-			strbuf.append("     KCFY A, KCXX B, KCLX C, SKSD D, JSXX E ");
+			strbuf.append("     KCFY A ");
+			strbuf.append(" INNER JOIN KCXX B ON A.KCFY_XXID = B.KCXX_KCID ");
+			strbuf.append(" INNER JOIN KCLX C ON A.KCFY_LXID = C.KCLX_LXID ");
+			strbuf.append(" INNER JOIN SKSD D ON A.KCFY_SDID = D.SKSD_SDID ");
+			strbuf.append(" LEFT JOIN JSXX E ON A.KCFY_JSID = E.JSXX_JSID AND E.JSXX_SCBZ = '0' ");
 			strbuf.append(" WHERE 1=1 ");
 			strbuf.append(this.searchCourseSql(beanIn));
-			
+
 			result = db.queryForInteger(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -256,7 +268,7 @@ public class Service3020120 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getCourseList
 	 * @Description: 获取列表数据明细
 	 * @param beanIn
@@ -266,16 +278,16 @@ public class Service3020120 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo3020121>
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:37:48
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public List<Pojo3020121> getCourseList(Pojo3020121 beanIn, int page,
 			int limit, String sort) throws Exception {
 		List<Pojo3020121> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     A.KCFY_FYID, ");//费用ID
@@ -296,10 +308,14 @@ public class Service3020120 extends BaseService {
 			strbuf.append("     A.KCFY_GXR, ");//更新人
 			strbuf.append("     A.KCFY_GXSJ  ");//更新时间
 			strbuf.append(" FROM ");
-			strbuf.append("     KCFY A, KCXX B, KCLX C, SKSD D, JSXX E ");
+			strbuf.append("     KCFY A ");
+			strbuf.append(" INNER JOIN KCXX B ON A.KCFY_XXID = B.KCXX_KCID ");
+            strbuf.append(" INNER JOIN KCLX C ON A.KCFY_LXID = C.KCLX_LXID ");
+            strbuf.append(" INNER JOIN SKSD D ON A.KCFY_SDID = D.SKSD_SDID ");
+            strbuf.append(" LEFT JOIN JSXX E ON A.KCFY_JSID = E.JSXX_JSID AND E.JSXX_SCBZ = '0' ");
 			strbuf.append(" WHERE 1=1 ");
 			strbuf.append(this.searchCourseSql(beanIn));
-			
+
 			StringBuffer execSql = this.getPageSqL(strbuf.toString(), page, limit,
 					sort);
 			ResultSetHandler<List<Pojo3020121>> rs = new BeanListHandler<Pojo3020121>(
@@ -315,30 +331,25 @@ public class Service3020120 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: searchCourseSql
 	 * @Description: 查询条件部分
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return String
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:37:59
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	private String searchCourseSql(Pojo3020121 beanIn) throws Exception {
 		StringBuffer strbuf = new StringBuffer();
-		
+
 		try {
 			/* 公共部分 */
-			strbuf.append(" AND A.KCFY_XXID = B.KCXX_KCID");
-			strbuf.append(" AND A.KCFY_LXID = C.KCLX_LXID");
-			strbuf.append(" AND A.KCFY_SDID = D.SKSD_SDID");
-			strbuf.append(" AND A.KCFY_JSID = E.JSXX_JSID(+)");
 			strbuf.append(" AND A.KCFY_SCBZ = '0'");
 			strbuf.append(" AND B.KCXX_SCBZ = '0'");
 			strbuf.append(" AND C.KCLX_SCBZ = '0'");
 			strbuf.append(" AND D.SKSD_SCBZ = '0'");
-			strbuf.append(" AND E.JSXX_SCBZ(+) = '0'");
 			if (!MyStringUtils.isNotBlank(beanIn.getSEARCH_JSBM()) && !MyStringUtils.isNotBlank(beanIn.getJSXM())) {
 				strbuf.append(" AND E.JSXX_JSBM = '").append(beanIn.getCURRENT_JSBM()).append("'");
 			}
@@ -357,30 +368,35 @@ public class Service3020120 extends BaseService {
 		return strbuf.toString();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getClassCount
 	 * @Description: 统计列表数据个数
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:38:07
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public int getClassCount(Pojo3020122 beanIn) throws Exception {
 		int result = 0;
 
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     COUNT(M.BCXX_BCID) ");//数据个数
 			strbuf.append(" FROM ");
-			strbuf.append("     BCXX M, KCFY A, KCXX B, KCLX C, SKSD D, JSXX E ");
+			strbuf.append("     BCXX M ");
+			strbuf.append(" INNER JOIN KCFY A ON M.BCXX_KCFYID = A.KCFY_FYID ");
+			strbuf.append(" INNER JOIN KCXX B ON A.KCFY_XXID = B.KCXX_KCID ");
+			strbuf.append(" INNER JOIN KCLX C ON A.KCFY_LXID = C.KCLX_LXID ");
+			strbuf.append(" INNER JOIN SKSD D ON A.KCFY_SDID = D.SKSD_SDID ");
+			strbuf.append(" LEFT JOIN JSXX E ON A.KCFY_JSID = E.JSXX_JSID AND E.JSXX_SCBZ = '0' ");
 			strbuf.append(" WHERE 1=1 ");
 			strbuf.append(this.searchClassSql(beanIn));
-			
+
 			result = db.queryForInteger(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -391,7 +407,7 @@ public class Service3020120 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getClassList
 	 * @Description: 获取列表数据明细
 	 * @param beanIn
@@ -401,16 +417,16 @@ public class Service3020120 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo3020122>
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:38:56
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public List<Pojo3020122> getClassList(Pojo3020122 beanIn, int page,
 			int limit, String sort) throws Exception {
 		List<Pojo3020122> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     M.BCXX_BCID, ");//班次ID
@@ -438,10 +454,15 @@ public class Service3020120 extends BaseService {
 			strbuf.append("     M.BCXX_GXR, ");//更新人
 			strbuf.append("     M.BCXX_GXSJ  ");//更新时间
 			strbuf.append(" FROM ");
-			strbuf.append("     BCXX M, KCFY A, KCXX B, KCLX C, SKSD D, JSXX E ");
+			strbuf.append("     BCXX M ");
+			strbuf.append(" INNER JOIN KCFY A ON M.BCXX_KCFYID = A.KCFY_FYID ");
+            strbuf.append(" INNER JOIN KCXX B ON A.KCFY_XXID = B.KCXX_KCID ");
+            strbuf.append(" INNER JOIN KCLX C ON A.KCFY_LXID = C.KCLX_LXID ");
+            strbuf.append(" INNER JOIN SKSD D ON A.KCFY_SDID = D.SKSD_SDID ");
+            strbuf.append(" LEFT JOIN JSXX E ON A.KCFY_JSID = E.JSXX_JSID AND E.JSXX_SCBZ = '0' ");
 			strbuf.append(" WHERE 1=1 ");
 			strbuf.append(this.searchClassSql(beanIn));
-			
+
 			StringBuffer execSql = this.getPageSqL(strbuf.toString(), page, limit,
 					sort);
 			ResultSetHandler<List<Pojo3020122>> rs = new BeanListHandler<Pojo3020122>(
@@ -457,32 +478,26 @@ public class Service3020120 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: searchClassSql
 	 * @Description: 查询条件部分
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return String
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:39:09
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	private String searchClassSql(Pojo3020122 beanIn) throws Exception {
 		StringBuffer strbuf = new StringBuffer();
-		
+
 		try {
 			/* 公共部分 */
-			strbuf.append(" AND M.BCXX_KCFYID = A.KCFY_FYID");
-			strbuf.append(" AND A.KCFY_XXID = B.KCXX_KCID");
-			strbuf.append(" AND A.KCFY_LXID = C.KCLX_LXID");
-			strbuf.append(" AND A.KCFY_SDID = D.SKSD_SDID");
-			strbuf.append(" AND A.KCFY_JSID = E.JSXX_JSID(+)");
 			strbuf.append(" AND M.BCXX_SCBZ = '0'");
 			strbuf.append(" AND A.KCFY_SCBZ = '0'");
 			strbuf.append(" AND B.KCXX_SCBZ = '0'");
 			strbuf.append(" AND C.KCLX_SCBZ = '0'");
 			strbuf.append(" AND D.SKSD_SCBZ = '0'");
-			strbuf.append(" AND E.JSXX_SCBZ(+) = '0'");
 			strbuf.append(" AND M.BCXX_BCZT NOT IN ('2')");
 			if (!MyStringUtils.isNotBlank(beanIn.getSEARCH_JSBM()) && !MyStringUtils.isNotBlank(beanIn.getJSXM())) {
 				strbuf.append(" AND E.JSXX_JSBM = '").append(beanIn.getCURRENT_JSBM()).append("'");
@@ -518,15 +533,15 @@ public class Service3020120 extends BaseService {
 		return strbuf.toString();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: deleteData
 	 * @Description: 删除数据
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return boolean
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:39:27
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public boolean deleteData(Pojo_BMXX beanIn) throws Exception {
 		boolean result = false;
@@ -543,20 +558,20 @@ public class Service3020120 extends BaseService {
 			strbufBMXX.append(" SET ");
 			strbufBMXX.append("     BMXX_SCBZ='1',");//删除标志
 			strbufBMXX.append("     BMXX_GXR='").append(beanIn.getBMXX_GXR()).append("',");//更新人
-			strbufBMXX.append("     BMXX_GXSJ=TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')");//更新时间
+			strbufBMXX.append("     BMXX_GXSJ=NOW()");//更新时间
 			strbufBMXX.append(" WHERE ");
 			strbufBMXX.append("     BMXX_BMID='").append(beanIn.getBMXX_BMID()).append("'");//报名ID
 			countBMXX = db.executeSQL(strbufBMXX);
 			if (MyStringUtils.isNotBlank(beanIn.getBMXX_SSBC())) {
 				StringBuffer strbufBCXS = new StringBuffer();
-				strbufBCXS.append(" DELETE ");
+				strbufBCXS.append(" DELETE FROM ");
 				strbufBCXS.append("     BCXS ");
 				strbufBCXS.append(" WHERE 1=1");
 				strbufBCXS.append(" AND BCXS_XSID='").append(beanIn.getBMXX_XSID()).append("'");//学生ID
 				strbufBCXS.append(" AND BCXS_BCID='").append(beanIn.getBMXX_SSBC()).append("'");//班次ID
 				countBCXS = db.executeSQL(strbufBCXS);
 			}
-			
+
 			if (countBMXX > 0) {
 				if (MyStringUtils.isNotBlank(beanIn.getBMXX_SSBC()) && countBCXS > 0 && countBMXX == countBCXS) {
 					db.commit();
@@ -586,25 +601,25 @@ public class Service3020120 extends BaseService {
 	 * @throws Exception
 	 * @return String
 	 * @author czl
-	 * @date 2015-02-12
+	 * @date 2017-08-03
 	 */
 	public int checkBcxsexist(String stuid,String bcid) throws Exception {
 		int result = 0;
 		try {
-			db.openConnection();		
+			db.openConnection();
 			StringBuffer sql = new StringBuffer();
 			sql.append(" SELECT COUNT(BCXS_BCXSID)");
 			sql.append("   FROM BCXS A ");
 			sql.append("  WHERE 1 = 1 AND BCXS_SCBZ = '0' ");
-			if (MyStringUtils.isNotBlank(stuid)) {	
+			if (MyStringUtils.isNotBlank(stuid)) {
 				sql.append("  AND A.BCXS_XSID = '").append(stuid)
-					.append("'");	
+					.append("'");
 			}
-			if (MyStringUtils.isNotBlank(bcid)) {	
+			if (MyStringUtils.isNotBlank(bcid)) {
 				sql.append("  AND A.BCXS_BCID = '").append(bcid)
-					.append("'");	
+					.append("'");
 			}
-			result = db.queryForInteger(sql);			
+			result = db.queryForInteger(sql);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
 			throw e;
@@ -614,15 +629,15 @@ public class Service3020120 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertData
 	 * @Description: 新增数据
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return boolean
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:39:37
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public boolean insertData(Pojo3020120 beanIn) throws Exception {
 		boolean result = false;
@@ -634,7 +649,7 @@ public class Service3020120 extends BaseService {
 		try {
 			db.openConnection();
 			db.beginTran();
-			
+
 			StringBuffer strbufBMXX = new StringBuffer();
 			strbufBMXX.append(" INSERT INTO ");
 			strbufBMXX.append("     BMXX ");
@@ -695,9 +710,9 @@ public class Service3020120 extends BaseService {
 			strbufBMXX.append("     '"+beanIn.getBMXX_BZXX()+"', ");//备注信息
 			strbufBMXX.append("     '0', ");//删除标志
 			strbufBMXX.append("     '"+beanIn.getBMXX_CJR()+"', ");//创建人
-			strbufBMXX.append("     TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS'), ");//创建时间
+			strbufBMXX.append("     NOW(), ");//创建时间
 			strbufBMXX.append("     '"+beanIn.getBMXX_GXR()+"', ");//更新人
-			strbufBMXX.append("     TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')  ");//更新时间
+			strbufBMXX.append("     NOW() ");//更新时间
 			strbufBMXX.append(" ) ");
 			countBMXX = db.executeSQL(strbufBMXX);
 			/* 如果是选班，则向BCXS表插入记录Start */
@@ -722,9 +737,9 @@ public class Service3020120 extends BaseService {
 				strbufBCXS.append("     '"+beanIn.getBMXX_XSID()+"', ");//学生ID
 				strbufBCXS.append("     '0', ");//删除标志（0-正常 1-删除）
 				strbufBCXS.append("     '"+beanIn.getBMXX_CJR()+"', ");//创建人
-				strbufBCXS.append("     TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS'), ");//创建时间
+				strbufBCXS.append("     NOW(), ");//创建时间
 				strbufBCXS.append("     '"+beanIn.getBMXX_GXR()+"', ");//更新人
-				strbufBCXS.append("     TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')  ");//更新时间
+				strbufBCXS.append("     NOW() ");//更新时间
 				strbufBCXS.append(" ) ");
 				countBCXS = db.executeSQL(strbufBCXS);
 			}
@@ -752,25 +767,25 @@ public class Service3020120 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: updateData
 	 * @Description: 更新数据
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return boolean
-	 * @author ztz
-	 * @date 2015年1月8日 上午10:39:57
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	public boolean updateData(Pojo3020120 beanIn) throws Exception {
 		boolean result = false;
 		int countBMXX = 0;
 		int countBCXS = 0;
-		
+
 		try {
 			db.openConnection();
 			db.beginTran();
-			
+
 			StringBuffer strbufBMXX = new StringBuffer();
 			strbufBMXX.append(" UPDATE ");
 			strbufBMXX.append("     BMXX ");
@@ -793,7 +808,7 @@ public class Service3020120 extends BaseService {
 			}
 			strbufBMXX.append("     BMXX_BZXX='").append(beanIn.getBMXX_BZXX()).append("',");//备注信息
 			strbufBMXX.append("     BMXX_GXR='").append(beanIn.getBMXX_GXR()).append("',");//更新人
-			strbufBMXX.append("     BMXX_GXSJ=TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')");//更新时间
+			strbufBMXX.append("     BMXX_GXSJ=NOW()");//更新时间
 			strbufBMXX.append(" WHERE ");
 			strbufBMXX.append("     BMXX_BMID='").append(beanIn.getBMXX_BMID()).append("'");//报名ID
 			countBMXX = db.executeSQL(strbufBMXX);
@@ -805,7 +820,7 @@ public class Service3020120 extends BaseService {
 				strbufBCXS.append(" SET ");
 				strbufBCXS.append("     BCXS_BCID='").append(beanIn.getBMXX_SSBC()).append("',");//班次ID
 				strbufBCXS.append("     BCXS_GXR='").append(beanIn.getBMXX_GXR()).append("',");//更新人
-				strbufBCXS.append("     BCXS_GXSJ=TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')");//更新时间
+				strbufBCXS.append("     BCXS_GXSJ=NOW()");//更新时间
 				strbufBCXS.append(" WHERE 1=1");
 				strbufBCXS.append(" AND BCXS_BCID='").append(beanIn.getYBCID()).append("'");//班次ID
 				strbufBCXS.append(" AND BCXS_XSID='").append(beanIn.getBMXX_XSID()).append("'");//学生ID

@@ -58,47 +58,72 @@ public class BaseService {
 		return result;
 	}
 
-	public StringBuffer getPageSqL(String strBaseSQL, int page, int limit,
-			String sort) {
-		StringBuffer pageSql = new StringBuffer();
+   /**
+    * @Method: getPageSqL
+    * @Description: mysql的分页处理
+    * @author czl
+    * @date 2017-07-28
+    */
+   public StringBuffer getPageSqL(String strBaseSQL, int page, int limit,
+            String sort) {
+        StringBuffer pageSql = new StringBuffer();
 
-		try {
-			pageSql.append(" SELECT * FROM  ");
-			pageSql.append(" ( ");
-			pageSql.append(" SELECT ");
-			pageSql.append("     RESULT_DATA.* , ");// 查询结果集
-			pageSql.append("     ROWNUM RN  ");// 行号
-			pageSql.append(" FROM ( ");
+        try {
+            pageSql.append(strBaseSQL);
+            pageSql.append(" LIMIT ");
+            // 分页处理，下限。
+            pageSql.append((page - 1) * limit + ", ");
+            // 分页处理，上限。
+            pageSql.append(limit);
+        } catch (Exception e) {
+            MyLogger.error(this.getClass().getName(), e);
+            pageSql.setLength(0);
+        }
 
-			pageSql.append(strBaseSQL);
+        return pageSql;
+    }
 
-			pageSql.append(" ) RESULT_DATA ");
-			// 分页处理，上限。
-			pageSql.append(" WHERE ROWNUM <= " + page * limit + " ");
-			// 排序处理
-			if (MyStringUtils.isNotBlank(sort)) {
-				pageSql.append(" ORDER BY " + sort.replace('.', ' '));
-			}
-			pageSql.append(" ) ");
-			// 分页处理，下限。
-			pageSql.append(" WHERE RN > " + (page - 1) * limit + " ");
+   /**
+    * @Method: getPageSqL
+    * @Description: oracle的分页处理
+    * @author czl
+    * @date 2017-07-28
+    */
+//	public StringBuffer getPageSqL(String strBaseSQL, int page, int limit,
+//			String sort) {
+//		StringBuffer pageSql = new StringBuffer();
+//
+//		try {
+//			pageSql.append(" SELECT * FROM  ");
+//			pageSql.append(" ( ");
+//			pageSql.append(" SELECT ");
+//			pageSql.append("     RESULT_DATA.*  ");// 查询结果集
+//			pageSql.append(" FROM ( ");
+//
+//			pageSql.append(strBaseSQL);
+//
+//			pageSql.append(" ) RESULT_DATA ");
+//			// 分页处理，上限。
+//			pageSql.append(" LIMIT " + page * limit + " ");
+//			// 排序处理
+//			pageSql.append(" ) A");
+//
+//		} catch (Exception e) {
+//			MyLogger.error(this.getClass().getName(), e);
+//			pageSql.setLength(0);
+//		}
+//
+//		return pageSql;
+//	}
 
-		} catch (Exception e) {
-			MyLogger.error(this.getClass().getName(), e);
-			pageSql.setLength(0);
-		}
-
-		return pageSql;
-	}
-	
-	/** 
-	 * @Method: safeNull 
-	 * @Description: 如果字符串为NULL，则返回空串 
+	/**
+	 * @Method: safeNull
+	 * @Description: 如果字符串为NULL，则返回空串
 	 * @param para-字符串对象
 	 * @return
 	 * @throws Exception 返回值说明
 	 * @author misty
-	 * @date 2014年5月19日 下午9:31:00 
+	 * @date 2014年5月19日 下午9:31:00
 	 */
 	public String safeNull(String para) throws Exception{
 		String result = "";
@@ -110,15 +135,15 @@ public class BaseService {
 		}
 		return result;
 	}
-	
-	/** 
-	 * @Method: trimNull 
-	 * @Description: 去空格安全返回字符串 
+
+	/**
+	 * @Method: trimNull
+	 * @Description: 去空格安全返回字符串
 	 * @param para-字符串对象
 	 * @return
 	 * @throws Exception 返回值说明
 	 * @author misty
-	 * @date 2014年5月19日 下午9:31:00 
+	 * @date 2014年5月19日 下午9:31:00
 	 */
 	public String trimNull(String para) throws Exception{
 		String result = "";
@@ -130,15 +155,15 @@ public class BaseService {
 		}
 		return result;
 	}
-	
-	/** 
-	 * @Method: safeNull 
-	 * @Description: 去空格安全返回字符串 
+
+	/**
+	 * @Method: safeNull
+	 * @Description: 去空格安全返回字符串
 	 * @param para-字符串对象
 	 * @return
 	 * @throws Exception 返回值说明
 	 * @author misty
-	 * @date 2014年5月19日 下午9:31:00 
+	 * @date 2014年5月19日 下午9:31:00
 	 */
 	public String trimNumberNull(String para) throws Exception{
 		String result = "NULL";
@@ -151,5 +176,5 @@ public class BaseService {
 		}
 		return result;
 	}
-	
+
 }

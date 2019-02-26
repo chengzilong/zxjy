@@ -20,7 +20,7 @@ import com.xsjy.pojo.common.Pojo_SELECT_LIST;
  * @update
  */
 public class CommonService {
-	
+
 	private DBManager db = null;
 
 	public CommonService() {
@@ -37,15 +37,15 @@ public class CommonService {
 	 */
 	public List<Pojo_SELECT_LIST> getYhjsList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer sql = new StringBuffer();
 			sql.append(" SELECT A.YHJS_JSID AS CODE,");
 			sql.append("        A.YHJS_JSMC AS NAME");
 			sql.append("   FROM YHJS A ");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
 			result = db.queryForBeanListHandler(sql, rs);
@@ -58,7 +58,7 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getZdmcList
 	 * @Description: 站点下拉列表信息
 	 * @param flag
@@ -70,14 +70,14 @@ public class CommonService {
 	 */
 	public List<Pojo_SELECT_LIST> getZdmcList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			db.openConnection();
 			StringBuffer sql = new StringBuffer();
 			sql.append(" SELECT A.PXWD_ZDID AS CODE,");
 			sql.append("        A.PXWD_ZDMC AS NAME");
 			sql.append("   FROM PXWD A ");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
 			result = db.queryForBeanListHandler(sql, rs);
@@ -91,21 +91,21 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getSsjdList
 	 * @Description: 所属阶段下拉列表信息
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo_SELECT_LIST>
-	 * @author ztz
-	 * @date 2014年12月8日 下午2:57:00
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	public List<Pojo_SELECT_LIST> getSsjdList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("         JDJY_JDID AS CODE, ");
@@ -114,10 +114,10 @@ public class CommonService {
 			strbuf.append("         JDJY ");
 			strbuf.append(" WHERE ");
 			strbuf.append("         JDJY_SCBZ = '0' ");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -128,21 +128,21 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getKmmcList
 	 * @Description: 科目名称下拉列表信息
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo_SELECT_LIST>
-	 * @author ztz
-	 * @date 2014年12月8日 下午2:58:57
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	public List<Pojo_SELECT_LIST> getKmmcList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("         KMXX_KMID AS CODE, ");
@@ -151,10 +151,10 @@ public class CommonService {
 			strbuf.append("         KMXX ");
 			strbuf.append(" WHERE ");
 			strbuf.append("         KMXX_SCBZ = '0' ");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -165,7 +165,7 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getKclxList
 	 * @Description: 课程类型下拉列表信息
 	 * @return
@@ -176,10 +176,10 @@ public class CommonService {
 	 */
 	public List<Pojo_SELECT_LIST> getKclxList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("         KCLX_LXID AS CODE, ");
@@ -188,10 +188,10 @@ public class CommonService {
 			strbuf.append("         KCLX ");
 			strbuf.append(" WHERE ");
 			strbuf.append("         KCLX_SCBZ = '0' ");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -202,7 +202,7 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getSksdList
 	 * @Description: 上课时段下拉列表信息
 	 * @return
@@ -213,10 +213,10 @@ public class CommonService {
 	 */
 	public List<Pojo_SELECT_LIST> getSksdList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("         SKSD_SDID AS CODE, ");
@@ -225,10 +225,10 @@ public class CommonService {
 			strbuf.append("         SKSD ");
 			strbuf.append(" WHERE ");
 			strbuf.append("         SKSD_SCBZ = '0' ");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -239,7 +239,7 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getJsxmList
 	 * @Description: 教师姓名下拉列表信息
 	 * @return
@@ -250,10 +250,10 @@ public class CommonService {
 	 */
 	public List<Pojo_SELECT_LIST> getJsxmList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("         JSXX_JSID AS CODE, ");
@@ -262,10 +262,10 @@ public class CommonService {
 			strbuf.append("         JSXX ");
 			strbuf.append(" WHERE ");
 			strbuf.append("         JSXX_SCBZ = '0' ");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -276,7 +276,7 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getKcmcList
 	 * @Description: 课程名称下拉列表信息
 	 * @return
@@ -287,10 +287,10 @@ public class CommonService {
 	 */
 	public List<Pojo_SELECT_LIST> getKcmcList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     KCXX_KCID AS CODE, ");
@@ -305,10 +305,10 @@ public class CommonService {
 			strbuf.append(" AND C.KMXX_SCBZ = '0'");
 			strbuf.append(" ORDER BY ");
 			strbuf.append("     A.KCXX_KCJD");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -319,7 +319,7 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getBmfsList
 	 * @Description: 报名方式下拉列表信息
 	 * @return
@@ -330,10 +330,10 @@ public class CommonService {
 	 */
 	public List<Pojo_SELECT_LIST> getBmfsList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     BMFS_FSID AS CODE, ");
@@ -341,10 +341,10 @@ public class CommonService {
 			strbuf.append(" FROM ");
 			strbuf.append("     BMFS");
 			strbuf.append(" WHERE 1=1 AND BMFS_SCBZ = '0'");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -355,7 +355,7 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getJflxList
 	 * @Description: 交费类型下拉列表信息
 	 * @return
@@ -366,10 +366,10 @@ public class CommonService {
 	 */
 	public List<Pojo_SELECT_LIST> getJflxList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     JFLX_JFLXID AS CODE, ");
@@ -377,10 +377,10 @@ public class CommonService {
 			strbuf.append(" FROM ");
 			strbuf.append("     JFLX");
 			strbuf.append(" WHERE 1=1 AND JFLX_SCBZ = '0'");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -391,7 +391,7 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getBmztList
 	 * @Description: 报名状态下拉列表信息
 	 * @return
@@ -402,10 +402,10 @@ public class CommonService {
 	 */
 	public List<Pojo_SELECT_LIST> getBmztList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     BMZT_BMZTID AS CODE, ");
@@ -413,10 +413,10 @@ public class CommonService {
 			strbuf.append(" FROM ");
 			strbuf.append("     BMZT");
 			strbuf.append(" WHERE 1=1 AND BMZT_SCBZ = '0'");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -427,14 +427,14 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getXsnjList
 	 * @Description: 学生年级下拉列表信息
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo_SELECT_LIST>
-	 * @author ztz
-	 * @date 2014年12月13日 下午5:30:01
+	 * @author czl
+	 * @date 2017-08-02
 	 */
 	public List<Pojo_SELECT_LIST> getXsnjList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
@@ -445,7 +445,7 @@ public class CommonService {
 			sql.append("        TO_CHAR(TO_NUMBER(TO_CHAR(SYSDATE,'yyyy'))-5+ROWNUM) || '级' AS NAME");
 			sql.append("   FROM ALL_OBJECTS");
 			sql.append("  WHERE ROWNUM <= 10");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
 			result = db.queryForBeanListHandler(sql, rs);
@@ -458,7 +458,7 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getXsxmList
 	 * @Description: 学生姓名下拉列表信息
 	 * @return
@@ -469,10 +469,10 @@ public class CommonService {
 	 */
 	public List<Pojo_SELECT_LIST> getXsxmList() throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("         XSXX_XSID AS CODE, ");
@@ -481,10 +481,10 @@ public class CommonService {
 			strbuf.append("         XSXX ");
 			strbuf.append(" WHERE ");
 			strbuf.append("         XSXX_SCBZ = '0' ");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -494,9 +494,9 @@ public class CommonService {
 		}
 		return result;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @FunctionName: getJoinCount
 	 * @Description: 统计临时报名个数
 	 * @param beanIn
@@ -511,7 +511,7 @@ public class CommonService {
 
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     COUNT(A.LSBM_LSBMID) ");//数据个数
@@ -519,7 +519,7 @@ public class CommonService {
 			strbuf.append("     LSBM A ");
 			strbuf.append("  WHERE A.LSBM_XSDH = '").append(phone).append("'");
 			strbuf.append("    AND A.LSBM_SCBZ = '0'");//删除标志（0-正常 1-删除）
-			
+
 			result = db.queryForInteger(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -529,9 +529,9 @@ public class CommonService {
 		}
 		return result;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertJoinLession
 	 * @Description: 新增临时报名数据
 	 * @param beanIn
@@ -549,7 +549,7 @@ public class CommonService {
 		try {
 			db.openConnection();
 			db.beginTran();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" INSERT INTO ");
 			strbuf.append("     LSBM ");
@@ -581,7 +581,7 @@ public class CommonService {
 			strbuf.append("     TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS') ");//更新时间
 			strbuf.append(" ) ");
 			count = db.executeSQL(strbuf);
-			
+
 			if (count > 0) {
 				db.commit();
 				result = true;
@@ -598,27 +598,27 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDayListByNY
 	 * @Description: 通过年月取得日下拉列表内容
 	 * @param strYearMonth
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo_SELECT_LIST>
-	 * @author 
+	 * @author
 	 * @date 2014-12-19
 	 * @author czl
 	 */
 	public List<Pojo_SELECT_LIST> getDayListByNY(String strYearMonth) throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			strYearMonth = strYearMonth.replace("-", "");
 			if(strYearMonth.length()!=6) return result;
-			
+
 			db.openConnection();
-			
-			
+
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("        TO_CHAR(TO_DATE('").append(strYearMonth).append("','YYYYMM')+(ROWNUM-1),'DD') AS CODE, ");
@@ -626,10 +626,10 @@ public class CommonService {
 			strbuf.append(" FROM ");
 			strbuf.append("         DUAL ");
 			strbuf.append(" CONNECT BY ROWNUM<=TO_NUMBER(TO_CHAR(LAST_DAY(TO_DATE('").append(strYearMonth).append("','YYYYMM')),'DD')) ");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -640,26 +640,26 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDayListBegin_End
 	 * @Description: 取得不足一个月的日
 	 * @param strMonth
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo_SELECT_LIST>
-	 * @author 
+	 * @author
 	 * @date 2014-12-23
 	 * @author czl
 	 */
 	public List<Pojo_SELECT_LIST> getDayListBegin_End(String strbMonth,String streMonth) throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			strbMonth = strbMonth.replace("-", "");
 			streMonth = streMonth.replace("-", "");
 			db.openConnection();
-			
-			
+
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("        TO_CHAR(TO_DATE('").append(strbMonth).append("','YYYYMMDD')+(ROWNUM-1),'DD') AS CODE, ");
@@ -667,10 +667,10 @@ public class CommonService {
 			strbuf.append(" FROM ");
 			strbuf.append("         DUAL ");
 			strbuf.append(" CONNECT BY ROWNUM<='").append(Integer.parseInt(streMonth.substring(6, 8))-Integer.parseInt(strbMonth.substring(6, 8))+1).append("'");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -681,26 +681,26 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDayListEnd
 	 * @Description: 取得不足一个月的日
 	 * @param strMonth
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo_SELECT_LIST>
-	 * @author 
+	 * @author
 	 * @date 2014-12-22
 	 * @author czl
 	 */
 	public List<Pojo_SELECT_LIST> getDayListEnd(String strMonth) throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
 			strMonth = strMonth.replace("-", "");
 
 			db.openConnection();
-			
-			
+
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("        TO_CHAR(TO_DATE('").append(strMonth.substring(0, 6)).append("','YYYYMM')+(ROWNUM-1),'DD') AS CODE, ");
@@ -708,10 +708,10 @@ public class CommonService {
 			strbuf.append(" FROM ");
 			strbuf.append("         DUAL ");
 			strbuf.append(" CONNECT BY ROWNUM<='").append(strMonth.substring(6, 8)).append("'");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -722,25 +722,25 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDayListBegin
 	 * @Description: 取得不足一个月的日
 	 * @param strMonth
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo_SELECT_LIST>
-	 * @author 
+	 * @author
 	 * @date 2014-12-22
 	 * @author czl
 	 */
 	public List<Pojo_SELECT_LIST> getDayListBegin(String strMonth) throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
-			strMonth = strMonth.replace("-", "");	
+			strMonth = strMonth.replace("-", "");
 			db.openConnection();
-			
-			
+
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("        TO_CHAR(TO_DATE('").append(strMonth).append("','YYYYMMDD')+(ROWNUM-1),'DD') AS CODE, ");
@@ -748,10 +748,10 @@ public class CommonService {
 			strbuf.append(" FROM ");
 			strbuf.append("         DUAL ");
 			strbuf.append(" CONNECT BY ROWNUM<=TO_NUMBER(TO_CHAR(LAST_DAY(TO_DATE('").append(strMonth.substring(0, 6)).append("','YYYYMM')),'DD')) +1-").append(strMonth.substring(6, 8));
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -762,15 +762,14 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getBCMCList
 	 * @Description: 班次名称下拉列表
 	 * @param beanUser
 	 * @throws Exception
 	 * @return List<SELECT_LIST>
 	 * @author czl
-	 * @date 2014-12-19
-	 * @update ztz at 2015年1月6日 上午11:34:16
+	 * @date 2017-08-07
 	 */
 	public List<Pojo_SELECT_LIST> getBCMCList(Pojo_YHXX beanUser) throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
@@ -789,7 +788,7 @@ public class CommonService {
 			if ("105".equals(beanUser.getYHXX_JSID())) {
 				sql.append(" AND C.JSXX_JSBM = '").append(beanUser.getYHXX_YHID()).append("'");
 			}
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
 			result = db.queryForBeanListHandler(sql, rs);
@@ -801,12 +800,12 @@ public class CommonService {
 			db.closeConnection();
 		}
 		return result;
-	}	
+	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getJSZGList
 	 * @Description: 班次名称下拉列表
-	 * @param 
+	 * @param
 	 * @throws Exception
 	 * @return List<SELECT_LIST>
 	 * @author czl
@@ -832,37 +831,37 @@ public class CommonService {
 			db.closeConnection();
 		}
 		return result;
-	}	
+	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getQYList
 	 * @Description: 取得区域下拉列表
 	 * @param strMonth
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo_SELECT_LIST>
-	 * @author 
+	 * @author
 	 * @date 2014-12-26
 	 * @author czl
 	 */
 	public List<Pojo_SELECT_LIST> getQYList(String strJB) throws Exception {
 		List<Pojo_SELECT_LIST> result = null;
-		
+
 		try {
-			
+
 
 			db.openConnection();
-			
-			
+
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT XZQY_QYID AS CODE,");
 			strbuf.append("        XZQY_QYMC AS NAME");
 			strbuf.append("   FROM XZQY");
 			strbuf.append("   WHERE XZQY_SCBZ = '0' AND XZQY_QYJB = '").append(strJB).append("'");
-			
+
 			ResultSetHandler<List<Pojo_SELECT_LIST>> rs = new BeanListHandler<Pojo_SELECT_LIST>(
 					Pojo_SELECT_LIST.class);
-			
+
 			result = db.queryForBeanListHandler(strbuf, rs);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -873,10 +872,10 @@ public class CommonService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getYXSJList
 	 * @Description: 有效时间下拉列表
-	 * @param 
+	 * @param
 	 * @throws Exception
 	 * @return List<SELECT_LIST>
 	 * @author czl
@@ -902,9 +901,9 @@ public class CommonService {
 			db.closeConnection();
 		}
 		return result;
-	}	
+	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getBCXSList
 	 * @Description: 班次名称下拉列表-学生
 	 * @param beanUser
@@ -971,7 +970,7 @@ public class CommonService {
 		}
 
 		return result;
-	}	
+	}
 	/**
 	 * @FunctionName: getUserMessCount
 	 * @Description: 取得消息数
@@ -1006,5 +1005,5 @@ public class CommonService {
 		}
 
 		return result;
-	}	
+	}
 }

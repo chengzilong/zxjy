@@ -39,12 +39,12 @@ public class Servlet9010120 extends BaseServlet {
 	public static final String CMD_UPDATE = "CMD_UPDATE";
 	public static final String CMD_DELETE = "CMD_DELETE";
 	public static final String CMD_CHK_EXIST = "CMD_CHK_EXIST";
-	
+
 	/* 本Servlet对应的Service */
 	private Service9010120 service;
 	/* Ajax返回前台的结果集 */
 	private ArrayList<Object> arrResult;
-	
+
     public Servlet9010120() {
         super();
     }
@@ -55,9 +55,9 @@ public class Servlet9010120 extends BaseServlet {
 			throws IOException, ServletException, Exception {
 		service = new Service9010120();
 		arrResult = new ArrayList<Object>();
-		
+
 		String CMD = this.getString(inputdata, "CMD");
-		
+
 		if (CMD_SELECT.equals(CMD)) {
 			getRoleList(inputdata);
 		}else if (CMD_CHK_EXIST.equals(CMD)) {
@@ -68,7 +68,7 @@ public class Servlet9010120 extends BaseServlet {
 			updateRole(inputdata);
 		}else if (CMD_DELETE.equals(CMD)) {
 			deleteRole(inputdata);
-		}		
+		}
 	}
 	/**
 	 * @FunctionName: getUserList
@@ -76,8 +76,8 @@ public class Servlet9010120 extends BaseServlet {
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ljg
-	 * @date 2014年7月22日 上午10:34:12
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private void getRoleList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -88,7 +88,7 @@ public class Servlet9010120 extends BaseServlet {
 
 		int TotalCount = 0;
 		List<Pojo9010120> roleDataList = new ArrayList<Pojo9010120>();
-		
+
 		try {
 			TotalCount = service.getRoleDataCount(beanIn);
 			roleDataList = service.getRoleDataList(beanIn, page, limit, sort);
@@ -101,12 +101,12 @@ public class Servlet9010120 extends BaseServlet {
 	}
 	/**
 	 * @FunctionName: chkUserExist
-	 * @Description: 判断用户是否已存在
+	 * @Description: 判断角色是否已存在
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ljg
-	 * @date 2014年7月22日 上午10:35:33
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private void chkRoleExist(Map<String, String[]> inputdata) throws Exception {
 		Pojo9010120 beanIn = (Pojo9010120) this.getObject(inputdata, "BeanIn",Pojo9010120.class);
@@ -127,14 +127,14 @@ public class Servlet9010120 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertRole
 	 * @Description: 新增角色信息
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月30日 上午10:43:36
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private void insertRole(Map<String, String[]> inputdata) throws Exception {
 		Pojo_YHJS beanIn = (Pojo_YHJS) this.getObject(inputdata, "BeanIn",Pojo_YHJS.class);
@@ -142,7 +142,7 @@ public class Servlet9010120 extends BaseServlet {
 		beanIn.setYHJS_CJR(beanUser.getYHXX_YHID());
 		beanIn.setYHJS_GXR(beanUser.getYHXX_YHID());
 		int ret = 0;
-		
+
 		try {
 			ret = service.insertRole(beanIn);
 			if(ret>0){
@@ -159,21 +159,21 @@ public class Servlet9010120 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: updateRole
 	 * @Description: 修改角色信息
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月30日 上午10:44:03
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private void updateRole(Map<String, String[]> inputdata) throws Exception {
 		Pojo_YHJS beanIn = (Pojo_YHJS) this.getObject(inputdata, "BeanIn",Pojo_YHJS.class);
 		Pojo_YHXX beanUser = (Pojo_YHXX)getSessionObject(SessionAttribute.LOGIN_USER);
 		beanIn.setYHJS_GXR(beanUser.getYHXX_YHID());
 		int ret = 0;
-		
+
 		try {
 			ret = service.updateRole(beanIn);
 			if(ret>0){
@@ -190,19 +190,19 @@ public class Servlet9010120 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: deleteRole
 	 * @Description: 删除角色信息
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月30日 上午10:44:21
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private void deleteRole(Map<String, String[]> inputdata) throws Exception {
 		Pojo_YHJS beanIn = (Pojo_YHJS) this.getObject(inputdata, "BeanIn",Pojo_YHJS.class);
 		int ret = 0;
-		
+
 		try {
 			ret = service.deleteRole(beanIn);
 			if(ret>0){

@@ -9,15 +9,15 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import com.framework.core.BaseService;
+import com.framework.dao.DBManager;
+import com.framework.log.MyLogger;
+import com.framework.util.MyStringUtils;
 import com.xsjy.pojo.Custom.pojo_1070000.Pojo1070111;
 import com.xsjy.pojo.Custom.pojo_1070000.Pojo1070112;
 import com.xsjy.pojo.Custom.pojo_1070000.Pojo1070113;
 import com.xsjy.pojo.Custom.pojo_1070000.Pojo1070114;
 import com.xsjy.pojo.Custom.pojo_1110000.Pojo1110120;
-import com.framework.core.BaseService;
-import com.framework.dao.DBManager;
-import com.framework.log.MyLogger;
-import com.framework.util.MyStringUtils;
 
 public class Service1110120 extends BaseService {
 
@@ -35,9 +35,9 @@ public class Service1110120 extends BaseService {
 	 * @date 2015-01-07
 	 */
 	public String getSystemdate() throws Exception{
-		Date now = new Date(); 
+		Date now = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");//可以方便地修改日期格式
-		String date = dateFormat.format( now ); 
+		String date = dateFormat.format( now );
 		return date;
 	}
 	/**
@@ -47,7 +47,7 @@ public class Service1110120 extends BaseService {
 	 * @throws Exception
 	 * @return Pojo1110110
 	 * @author czl
-	 * @date 2015-01-07
+	 * @date 2017-07-28
 	 */
 	public Pojo1110120 getTeacherInfo(String yhid) throws Exception {
 		Pojo1110120 result = null;
@@ -76,8 +76,8 @@ public class Service1110120 extends BaseService {
 			sql.append("   FROM JSXX A LEFT JOIN JSZG B ON A.JSXX_JSZG = B.JSZG_ZGID");
 			sql.append("  WHERE   A.JSXX_SCBZ = '0'");
 			if (MyStringUtils.isNotBlank(yhid)) {
-				sql.append(" AND A.JSXX_JSBM ='").append(yhid).append("'");	
-						
+				sql.append(" AND A.JSXX_JSBM ='").append(yhid).append("'");
+
 			}
 			ResultSetHandler<Pojo1110120> rsh = new BeanHandler<Pojo1110120>(
 					Pojo1110120.class);
@@ -99,11 +99,10 @@ public class Service1110120 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2015-01-07
+	 * @date 2017-07-28
 	 */
 	public int updateTeacher(Pojo1110120 beanIn,String kcmcs,String qymcs) throws Exception {
 		int result = 0;
-		String sysdate = getSystemdate();
 		try {
 			db.openConnection();
 			StringBuffer strbuf = new StringBuffer();
@@ -130,7 +129,7 @@ public class Service1110120 extends BaseService {
 			strbuf.append("     JSXX_JSZG='").append(beanIn.getJSXX_JSZG()).append("',");// 教师资格
 			strbuf.append("     JSXX_SCLY='").append(beanIn.getJSXX_SCLY()).append("',");// 擅长领域
 			strbuf.append("     JSXX_GXR='").append(beanIn.getJSXX_GXR()).append("',");// 修改人
-			strbuf.append("     JSXX_GXSJ='" + sysdate + "'");// 修改时间
+			strbuf.append("     JSXX_GXSJ=NOW()");// 修改时间
 			strbuf.append(" WHERE 1 = 1 AND JSXX_SCBZ = '0'");
 			strbuf.append("  AND   JSXX_JSID='").append(beanIn.getJSXX_JSID()).append("'");// 教师ID
 			result = db.executeSQL(strbuf);
@@ -141,7 +140,7 @@ public class Service1110120 extends BaseService {
 			strbufyh.append(" SET ");
 			strbufyh.append("     YHXX_YHMC='").append(beanIn.getJSXX_JSXM()).append("',");//用户名称
 			strbufyh.append("     YHXX_GXR='").append(beanIn.getJSXX_GXR()).append("',");//更新人
-			strbufyh.append("     YHXX_GXSJ=TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')");//更新时间
+			strbufyh.append("     YHXX_GXSJ=NOW()");//更新时间
 			strbufyh.append(" WHERE ");
 			strbufyh.append("     YHXX_UUID='").append(beanIn.getJSXX_JSID()).append("'");//用户ID
 			db.executeSQL(strbufyh);
@@ -149,7 +148,7 @@ public class Service1110120 extends BaseService {
 				int temp = getJSTP(beanIn.getJSXX_JSID());
 				if(temp<=0){
 					//插入图片
-					StringBuffer strbufTP = new StringBuffer();	
+					StringBuffer strbufTP = new StringBuffer();
 					String jstpid = UUID.randomUUID().toString().replace("-", "").toUpperCase(); //获取32位随机数
 					strbufTP.append(" INSERT INTO ");
 					strbufTP.append("     JSTP ");
@@ -170,11 +169,11 @@ public class Service1110120 extends BaseService {
 					strbufTP.append("     '" + beanIn.getSFZ() + "', ");
 					strbufTP.append("     '" + beanIn.getZGZ() + "', ");
 					strbufTP.append("     '" + beanIn.getJSXX_CJR() + "', ");
-					strbufTP.append("     '" + sysdate + "', ");
+					strbufTP.append("     NOW(), ");
 					strbufTP.append("     '" + beanIn.getJSXX_GXR() + "', ");
-					strbufTP.append("     '" + sysdate + "' ");
+					strbufTP.append("     NOW() ");
 					strbufTP.append(" ) ");
-					db.executeSQL(strbufTP);		
+					db.executeSQL(strbufTP);
 				}else{
 					//修改图片
 					StringBuffer strbufTP = new StringBuffer();
@@ -184,23 +183,23 @@ public class Service1110120 extends BaseService {
 					strbufTP.append("     JSTP_SFZ='").append(beanIn.getSFZ()).append("',");// 身份证
 					strbufTP.append("     JSTP_ZGZ='").append(beanIn.getZGZ()).append("',");// 资格证
 					strbufTP.append("     JSTP_GXR='").append(beanIn.getJSXX_GXR()).append("',");// 修改人
-					strbufTP.append("     JSTP_GXSJ='" + sysdate + "'");// 修改时间
+					strbufTP.append("     JSTP_GXSJ=NOW()");// 修改时间
 					strbufTP.append(" WHERE 1 = 1 ");
 					strbufTP.append("  AND   JSTP_JSID='").append(beanIn.getJSXX_JSID()).append("'");// 教师ID
 					db.executeSQL(strbufTP);
-				}				
-			}	
+				}
+			}
 			//删除教师课程数据
 			StringBuffer strbufdel = new StringBuffer();
-			strbufdel.append(" DELETE  JSKM ");
+			strbufdel.append(" DELETE FROM JSKM ");
 			strbufdel.append("  WHERE JSKM_JSID='").append(beanIn.getJSXX_JSID()).append("'");// 教师ID
-			db.executeSQL(strbufdel);	
+			db.executeSQL(strbufdel);
 			if(!kcmcs.equals("")){
 				String[] kcmc = kcmcs.split(",");
 				for(int i = 0; i < kcmc.length; i++) {
 					//修改教师科目表
 					String jskmid = UUID.randomUUID().toString().replace("-", "").toUpperCase(); //获取32位随机数
-					StringBuffer strbufup = new StringBuffer();		
+					StringBuffer strbufup = new StringBuffer();
 					strbufup.append(" INSERT INTO ");
 					strbufup.append("     JSKM ");
 					strbufup.append(" ( ");
@@ -208,7 +207,7 @@ public class Service1110120 extends BaseService {
 					strbufup.append("     JSKM_JSID, ");// 教师ID
 					strbufup.append("     JSKM_KCMC, ");// 课程名称
 					strbufup.append("     JSKM_CJR, ");// 创建人
-					strbufup.append("     JSKM_CJSJ, ");// 创建时间	
+					strbufup.append("     JSKM_CJSJ, ");// 创建时间
 					strbufup.append("     JSKM_GXR, ");// 更新人
 					strbufup.append("     JSKM_GXSJ ");// 更新时间
 					strbufup.append(" ) ");
@@ -218,24 +217,24 @@ public class Service1110120 extends BaseService {
 					strbufup.append("     '" + beanIn.getJSXX_JSID() + "', ");
 					strbufup.append("     '" + kcmc[i] + "', ");
 					strbufup.append("     '" + beanIn.getJSXX_CJR() + "', ");
-					strbufup.append("     '" + sysdate + "', ");
+					strbufup.append("     NOW(), ");
 					strbufup.append("     '" + beanIn.getJSXX_GXR() + "', ");
-					strbufup.append("     '" + sysdate + "' ");
+					strbufup.append("     NOW() ");
 					strbufup.append(" ) ");
 					db.executeSQL(strbufup);
 				}
-			}	
+			}
 			//删除教师区域数据
 			StringBuffer strbufdel1 = new StringBuffer();
-			strbufdel1.append(" DELETE  JSQY ");
+			strbufdel1.append(" DELETE FROM JSQY ");
 			strbufdel1.append("  WHERE JSQY_JSID='").append(beanIn.getJSXX_JSID()).append("'");// 教师ID
-			db.executeSQL(strbufdel1);	
+			db.executeSQL(strbufdel1);
 			if(!qymcs.equals("")){
 				String[] qymc = qymcs.split(",");
 				for(int i = 0; i < qymc.length; i++) {
 					//修改教师科目表
 					String jsqyid = UUID.randomUUID().toString().replace("-", "").toUpperCase(); //获取32位随机数
-					StringBuffer strbufup = new StringBuffer();		
+					StringBuffer strbufup = new StringBuffer();
 					strbufup.append(" INSERT INTO ");
 					strbufup.append("     JSQY ");
 					strbufup.append(" ( ");
@@ -243,7 +242,7 @@ public class Service1110120 extends BaseService {
 					strbufup.append("     JSQY_JSID, ");// 教师ID
 					strbufup.append("     JSQY_QYID, ");// 区域ID
 					strbufup.append("     JSQY_CJR, ");// 创建人
-					strbufup.append("     JSQY_CJSJ, ");// 创建时间	
+					strbufup.append("     JSQY_CJSJ, ");// 创建时间
 					strbufup.append("     JSQY_GXR, ");// 更新人
 					strbufup.append("     JSQY_GXSJ ");// 更新时间
 					strbufup.append(" ) ");
@@ -253,13 +252,13 @@ public class Service1110120 extends BaseService {
 					strbufup.append("     '" + beanIn.getJSXX_JSID() + "', ");
 					strbufup.append("     '" + qymc[i] + "', ");
 					strbufup.append("     '" + beanIn.getJSXX_CJR() + "', ");
-					strbufup.append("     '" + sysdate + "', ");
+					strbufup.append("     NOW(), ");
 					strbufup.append("     '" + beanIn.getJSXX_GXR() + "', ");
-					strbufup.append("     '" + sysdate + "' ");
+					strbufup.append("     NOW() ");
 					strbufup.append(" ) ");
 					db.executeSQL(strbufup);
 				}
-			}		
+			}
 		} catch (Exception e) {
 			db.rollback();
 			MyLogger.error(this.getClass().getName(), e);
@@ -276,25 +275,25 @@ public class Service1110120 extends BaseService {
 	 * @throws Exception
 	 * @return String
 	 * @author czl
-	 * @date 2015-02-12
+	 * @date 2017-07-28
 	 */
 	public int getJSTP(String jsid) throws Exception {
 		int result = 0;
-		try {	
+		try {
 			StringBuffer sql = new StringBuffer();
 			sql.append(" SELECT COUNT(JSTP_JSTPID)");
 			sql.append("   FROM JSTP A ");
 			sql.append("  WHERE 1 = 1 ");
-			if (MyStringUtils.isNotBlank(jsid)) {	
+			if (MyStringUtils.isNotBlank(jsid)) {
 				sql.append("  AND A.JSTP_JSID = '").append(jsid)
-					.append("'");	
+					.append("'");
 			}
-			result = db.queryForInteger(sql);			
+			result = db.queryForInteger(sql);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
 			throw e;
 		} finally {
-			
+
 		}
 		return result;
 	}

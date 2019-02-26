@@ -19,7 +19,7 @@ import com.xsjy.pojo.Custom.pojo_1090000.Pojo1090150;
 import com.xsjy.service.service1090000.Service1090150;
 
 /**
- * 
+ *
  * @ClassName: Servlet1090150
  * @Package:com.xsjy.servlet.servlet1090000
  * @Description: 科目信息控制类
@@ -40,16 +40,16 @@ public class Servlet1090150 extends BaseServlet {
 	public static final String CMD_INSERT = "CMD_INSERT";
 	public static final String CMD_UPDATE = "CMD_UPDATE";
 	public static final String CMD_DELETE = "CMD_DELETE";
-	
+
 	/* 本Servlet对应的Service */
 	private Service1090150 service;
-	
+
 	/* Ajax返回前台的结果集 */
 	private ArrayList<Object> arrResult;
-	
+
 	/* 当前登录系统的用户对象 */
 	Pojo_YHXX beanUser;
-	
+
     public Servlet1090150() {
         super();
     }
@@ -61,9 +61,9 @@ public class Servlet1090150 extends BaseServlet {
 		service = new Service1090150();
 		arrResult = new ArrayList<Object>();
 		beanUser = (Pojo_YHXX)getSessionObject(SessionAttribute.LOGIN_USER);
-		
+
 		String CMD = this.getString(inputdata, "CMD");
-		
+
 		if (CMD_SELECT.equals(CMD)) {
 			getDataList(inputdata);
 		} else if (CMD_CHK_EXIST.equals(CMD)) {
@@ -74,10 +74,10 @@ public class Servlet1090150 extends BaseServlet {
 			updateData(inputdata);
 		} else if (CMD_DELETE.equals(CMD)) {
 			deleteData(inputdata);
-		}		
+		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataList
 	 * @Description: 获取数据列表
 	 * @param inputdata
@@ -95,7 +95,7 @@ public class Servlet1090150 extends BaseServlet {
 
 		int TotalCount = 0;
 		List<Pojo1090150> dataList = new ArrayList<Pojo1090150>();
-		
+
 		try {
 			TotalCount = service.getDataCount(beanIn);
 			dataList = service.getDataList(beanIn, page, limit, sort);
@@ -107,7 +107,7 @@ public class Servlet1090150 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: checkDataExist
 	 * @Description: 判断数据是否存在
 	 * @param inputdata
@@ -135,21 +135,21 @@ public class Servlet1090150 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertData
 	 * @Description: 新增数据
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月8日 上午11:36:39
+	 * @author czl
+	 * @date 2017-07-26
 	 */
 	private void insertData(Map<String, String[]> inputdata) throws Exception {
 		Pojo_KMXX beanIn = (Pojo_KMXX) this.getObject(inputdata, "BeanIn",Pojo_KMXX.class);
 		beanIn.setKMXX_CJR(beanUser.getYHXX_YHID());
 		beanIn.setKMXX_GXR(beanUser.getYHXX_YHID());
 		int ret = 0;
-		
+
 		try {
 			ret = service.insertData(beanIn);
 			if(ret>0){
@@ -166,7 +166,7 @@ public class Servlet1090150 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: updateData
 	 * @Description: 更新数据
 	 * @param inputdata
@@ -179,7 +179,7 @@ public class Servlet1090150 extends BaseServlet {
 		Pojo_KMXX beanIn = (Pojo_KMXX) this.getObject(inputdata, "BeanIn",Pojo_KMXX.class);
 		beanIn.setKMXX_GXR(beanUser.getYHXX_YHID());
 		int ret = 0;
-		
+
 		try {
 			ret = service.updateData(beanIn);
 			if(ret>0){
@@ -196,7 +196,7 @@ public class Servlet1090150 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: deleteData
 	 * @Description: 删除数据
 	 * @param inputdata
@@ -208,7 +208,7 @@ public class Servlet1090150 extends BaseServlet {
 	private void deleteData(Map<String, String[]> inputdata) throws Exception {
 		Pojo_KMXX beanIn = (Pojo_KMXX) this.getObject(inputdata, "BeanIn",Pojo_KMXX.class);
 		int ret = 0;
-		
+
 		try {
 			ret = service.deleteData(beanIn);
 			if(ret>0){

@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet3020000.Servlet3020120"%> 
+<%@ page import="com.xsjy.servlet.servlet3020000.Servlet3020120"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -53,8 +53,8 @@ $(document).ready(function(){
        { title:'修改人', name:'BMXX_GXR' ,width:80,sortable:true, align:'center',lockDisplay: true,hidden:true },
        { title:'修改时间', name:'BMXX_GXSJ' ,width:100,sortable:true, align:'center',lockDisplay: true,hidden:true }
    ];
-             
-    intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80; 
+
+    intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80;
    if(intheight<100){
 	   intheight = 100;
    }
@@ -206,7 +206,7 @@ function btn_Upd_Tk(){
 		layer.close(layer.index);
 		iframeLayerOpen('<%=basePath%>/bin/jsp/3020000/3020121.jsp');
 	});
-	
+
 }
 //报名调班
 function btn_Upd_Tb(){
@@ -272,7 +272,7 @@ function funEditCheck() {
 		$('#txtXsxm').html("&nbsp;");
 		$('#txtXsid').val("");
 		loadGridByBean();
-		layer.alert('请输入学生电话！', 0, '友情提示');
+		layer.alert('请输入学生编码！', 0, '友情提示');
 		$('#txtSelectXsdh').focus();
 		return false;
 	}
@@ -288,9 +288,9 @@ function funEditCheck() {
 				<th style="width:100px">报名类型</th>
 				<td>
 					<select id="selectBmfs" style="width: 100px">
-						<option value="000">所有</option> 
+						<option value="000">所有</option>
 						<option value="1">非代理</option>
-						<option value="2">代理</option> 
+						<option value="2">代理</option>
 					</select>
 				</td>
 				<th  style="width:100px"><input type="button" value="查询" id="btnSearch" /></th>
@@ -305,8 +305,8 @@ function funEditCheck() {
 		<legend>报名操作</legend>
 		<table id="detailCanvas" class="eTable6">
 			<tr>
-				<th style="width:100px">学生电话</th>
-				<td><input id="txtSelectXsdh" name="学生电话" maxlength="20" /></td>
+				<th style="width:100px">学生编码</th>
+				<td><input id="txtSelectXsdh" name="学生编码" maxlength="20" /></td>
 				<th style="width:100px">学生姓名：</th>
 				<td><label id="txtXsxm" style="background-color: #999;display: block;width: 100px">&nbsp;</label><input id="txtXsid" type="hidden" name="学生ID" maxlength="20" /><input id="txtJsid" type="hidden" name="当前教师D" maxlength="20" /></td>
 				<th  style="width:100px"><input type="button" value="验证" id="btnCheck" /></th>

@@ -20,30 +20,30 @@ public class Service1060110 extends BaseService {
 		db = new DBManager();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataCount
 	 * @Description: 统计列表数据个数
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return int
-	 * @author ztz
-	 * @date 2014年12月10日 上午10:10:20
+	 * @author czl
+	 * @date 2017-08-02
 	 */
 	public int getDataCount(Pojo1060110 beanIn) throws Exception {
 		int result = 0;
 
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     COUNT(A.XSXX_XSID) ");//数据个数
 			strbuf.append(" FROM ");
-			strbuf.append("     XSXX A, JDJY B ");
+			strbuf.append("     XSXX A LEFT JOIN JDJY B ON A.XSXX_JD = B.JDJY_JDID ");
 			strbuf.append(" WHERE 1=1 ");
 			strbuf.append(this.searchSql(beanIn));
-			
+
 			result = db.queryForInteger(strbuf);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -54,7 +54,7 @@ public class Service1060110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getDataList
 	 * @Description: 获取列表数据明细
 	 * @param beanIn
@@ -64,16 +64,16 @@ public class Service1060110 extends BaseService {
 	 * @return
 	 * @throws Exception
 	 * @return List<Pojo1060110>
-	 * @author ztz
-	 * @date 2014年12月10日 上午10:10:51
+	 * @author czl
+	 * @date 2017-08-02
 	 */
 	public List<Pojo1060110> getDataList(Pojo1060110 beanIn, int page,
 			int limit, String sort) throws Exception {
 		List<Pojo1060110> result = null;
-		
+
 		try {
 			db.openConnection();
-			
+
 			StringBuffer strbuf = new StringBuffer();
 			strbuf.append(" SELECT ");
 			strbuf.append("     A.XSXX_XSID, ");//学生ID
@@ -86,7 +86,7 @@ public class Service1060110 extends BaseService {
 			strbuf.append("     A.XSXX_ZZ, ");//住址
 			strbuf.append("     A.XSXX_JD, ");//阶段
 			strbuf.append("     A.XSXX_NJ, ");//年级
-			strbuf.append("     B.JDJY_JDMC || CASE WHEN B.JDJY_JDMC IS NOT NULL AND A.XSXX_NJ IS NOT NULL THEN '-' ELSE '' END  || A.XSXX_NJ AS JDNJ, ");//阶段年级
+			strbuf.append("     CONCAT(B.JDJY_JDMC,A.XSXX_NJ,'年级') AS JDNJ, ");//阶段年级
 			strbuf.append("     A.XSXX_CRJJ, ");//个人简介
 			strbuf.append("     A.XSXX_SCBZ, ");//删除标志（0-正常 1-删除）
 			strbuf.append("     A.XSXX_CJR, ");//创建人
@@ -94,12 +94,12 @@ public class Service1060110 extends BaseService {
 			strbuf.append("     A.XSXX_GXR, ");//更新人
 			strbuf.append("     A.XSXX_GXSJ  ");//更新时间
 			strbuf.append(" FROM ");
-			strbuf.append("     XSXX A, JDJY B ");
+			strbuf.append("     XSXX A LEFT JOIN JDJY B ON A.XSXX_JD = B.JDJY_JDID ");
 			strbuf.append(" WHERE 1=1 ");
 			strbuf.append(this.searchSql(beanIn));
 			strbuf.append(" ORDER BY ");
 			strbuf.append("     A.XSXX_XSBM ");
-			
+
 			StringBuffer execSql = this.getPageSqL(strbuf.toString(), page, limit,
 					sort);
 			ResultSetHandler<List<Pojo1060110>> rs = new BeanListHandler<Pojo1060110>(
@@ -115,22 +115,21 @@ public class Service1060110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: searchSql
 	 * @Description: 查询条件部分
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return String
-	 * @author ztz
-	 * @date 2014年12月10日 上午10:14:13
+	 * @author czl
+	 * @date 2017-08-02
 	 */
 	private String searchSql(Pojo1060110 beanIn) throws Exception {
 		StringBuffer strbuf = new StringBuffer();
-		
+
 		try {
 			/* 公共部分 */
-			strbuf.append(" AND A.XSXX_JD = B.JDJY_JDID(+)");
 			strbuf.append(" AND A.XSXX_SCBZ = '0'");//删除标志（0-正常 1-删除）
 			/* 学生编码 */
 			if (MyStringUtils.isNotBlank(beanIn.getXSXX_XSBM())) {
@@ -163,15 +162,15 @@ public class Service1060110 extends BaseService {
 		return strbuf.toString();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: insertData
 	 * @Description: 新增数据
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return boolean
-	 * @author ztz
-	 * @date 2014年12月10日 下午2:46:27
+	 * @author czl
+	 * @date 2017-08-02
 	 */
 	public boolean insertData(Pojo_XSXX beanIn) throws Exception {
 		boolean result = false;
@@ -217,9 +216,9 @@ public class Service1060110 extends BaseService {
 			strbuf.append("     '"+beanIn.getXSXX_CRJJ()+"', ");//个人简介
 			strbuf.append("     '0', ");//删除标志（0-正常 1-删除）
 			strbuf.append("     '"+beanIn.getXSXX_CJR()+"', ");//创建人
-			strbuf.append("     TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS'), ");//创建时间
+			strbuf.append("     NOW(), ");//创建时间
 			strbuf.append("     '"+beanIn.getXSXX_GXR()+"', ");//更新人
-			strbuf.append("     TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')  ");//更新时间
+			strbuf.append("     NOW() ");//更新时间
 			strbuf.append(" ) ");
 			resultXSXX = db.executeSQL(strbuf);
 			/* 向XSXX表插入数据End */
@@ -250,10 +249,10 @@ public class Service1060110 extends BaseService {
 			strbufYHXX.append("     '106', ");// 角色id
 			strbufYHXX.append("     '0', ");// 锁定状态
 			strbufYHXX.append("     '" + beanIn.getXSXX_CJR() + "', ");// 创建人
-			strbufYHXX.append("     TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS'), ");// 创建时间
+			strbufYHXX.append("     NOW(), ");// 创建时间
 			strbufYHXX.append("     '" + beanIn.getXSXX_GXR() + "', ");// 修改人
-			strbufYHXX.append("     TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS'), ");// 修改时间
-			strbufYHXX.append("     TO_CHAR(SYSDATE,'YYYYMMDD HH24:MI:SS'), ");// 登陆时间
+			strbufYHXX.append("     NOW(), ");// 修改时间
+			strbufYHXX.append("     NOW(), ");// 登陆时间
 			strbufYHXX.append("     '0'  ");// 删除标志（0：未删除，1：已删除）
 			strbufYHXX.append(" ) ");
 			resultYHXX = db.executeSQL(strbufYHXX);
@@ -274,21 +273,21 @@ public class Service1060110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: updateData
 	 * @Description: 更新数据
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return boolean
-	 * @author ztz
-	 * @date 2014年12月10日 下午4:09:40
+	 * @author czl
+	 * @date 2017-08-02
 	 */
 	public boolean updateData(Pojo1060110 beanIn) throws Exception {
 		boolean result = false;
 		int resultXSXX = 0;
 		int resultYHXX = 0;
-		
+
 		try {
 			db.openConnection();
 			db.beginTran();
@@ -307,7 +306,7 @@ public class Service1060110 extends BaseService {
 			strbufXSXX.append("     XSXX_NJ='").append(MyStringUtils.safeToString(beanIn.getXSXX_NJ())).append("',");//年级
 			strbufXSXX.append("     XSXX_CRJJ='").append(beanIn.getXSXX_CRJJ()).append("',");//个人简介
 			strbufXSXX.append("     XSXX_GXR='").append(beanIn.getXSXX_GXR()).append("',");//更新人
-			strbufXSXX.append("     XSXX_GXSJ=TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')");//更新时间
+			strbufXSXX.append("     XSXX_GXSJ=NOW()");//更新时间
 			strbufXSXX.append(" WHERE ");
 			strbufXSXX.append("     XSXX_XSID='").append(beanIn.getXSXX_XSID()).append("'");//学生ID
 			resultXSXX = db.executeSQL(strbufXSXX);
@@ -320,7 +319,7 @@ public class Service1060110 extends BaseService {
 			strbufYHXX.append("     YHXX_YHID='").append(beanIn.getXSXX_XSBM()).append("',");//用户ID
 			strbufYHXX.append("     YHXX_YHMC='").append(beanIn.getXSXX_XSXM()).append("',");//用户名称
 			strbufYHXX.append("     YHXX_GXR='").append(beanIn.getXSXX_GXR()).append("',");//更新人
-			strbufYHXX.append("     YHXX_GXSJ=TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')");//更新时间
+			strbufYHXX.append("     YHXX_GXSJ=NOW()");//更新时间
 			strbufYHXX.append(" WHERE ");
 			strbufYHXX.append("     YHXX_UUID='").append(beanIn.getXSXX_XSID()).append("'");//UUID
 			resultYHXX = db.executeSQL(strbufYHXX);
@@ -341,15 +340,15 @@ public class Service1060110 extends BaseService {
 		return result;
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: deleteData
 	 * @Description: 删除数据
 	 * @param beanIn
 	 * @return
 	 * @throws Exception
 	 * @return boolean
-	 * @author ztz
-	 * @date 2014年12月10日 下午4:00:02
+	 * @author czl
+	 * @date 2017-08-02
 	 */
 	public boolean deleteData(Pojo_XSXX beanIn) throws Exception {
 		boolean result = false;
@@ -366,7 +365,7 @@ public class Service1060110 extends BaseService {
 			strbufXSXX.append(" SET ");
 			strbufXSXX.append("     XSXX_SCBZ='1',");//删除标志（0-正常 1-删除）
 			strbufXSXX.append("     XSXX_GXR='").append(beanIn.getXSXX_GXR()).append("',");//更新人
-			strbufXSXX.append("     XSXX_GXSJ=TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')");//更新时间
+			strbufXSXX.append("     XSXX_GXSJ=NOW()");//更新时间
 			strbufXSXX.append(" WHERE ");
 			strbufXSXX.append("     XSXX_XSID='").append(beanIn.getXSXX_XSID()).append("'");//科目ID
 			resultXSXX = db.executeSQL(strbufXSXX);
@@ -378,7 +377,7 @@ public class Service1060110 extends BaseService {
 			strbufYHXX.append(" SET ");
 			strbufYHXX.append("     YHXX_SCBZ='1',");//删除标志（0：未删除，1：已删除）
 			strbufYHXX.append("     YHXX_GXR='").append(beanIn.getXSXX_GXR()).append("',");//更新人
-			strbufYHXX.append("     YHXX_GXSJ=TO_CHAR(SYSDATE, 'YYYYMMDD HH24:MI:SS')");//更新时间
+			strbufYHXX.append("     YHXX_GXSJ=NOW()");//更新时间
 			strbufYHXX.append(" WHERE ");
 			strbufYHXX.append("     YHXX_UUID='").append(beanIn.getXSXX_XSID()).append("'");//UUID
 			resultYHXX = db.executeSQL(strbufYHXX);

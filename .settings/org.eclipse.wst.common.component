@@ -2,7 +2,7 @@
     <wb-module deploy-name="XSJY">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="XSJY"/>
         <property name="java-output-path" value="/XSJY/WebContent/WEB-INF/classes"/>
+        <property name="context-root" value="XSJY"/>
     </wb-module>
 </project-modules>

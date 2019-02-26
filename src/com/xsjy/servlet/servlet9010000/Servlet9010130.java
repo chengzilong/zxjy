@@ -18,7 +18,7 @@ import com.xsjy.pojo.Custom.pojo_9010000.Pojo9010130;
 import com.xsjy.service.service9010000.Service9010130;
 
 /**
- * 
+ *
  * @ClassName: Servlet9010130
  * @Package:com.xsjy.servlet.servlet9010000
  * @Description: 角色权限控制类
@@ -32,22 +32,22 @@ import com.xsjy.service.service9010000.Service9010130;
 @WebServlet("/Servlet9010130")
 public class Servlet9010130 extends BaseServlet {
 private static final long serialVersionUID = 1L;
-	
+
 	/* 命令定义部分 */
 	public static final String CMD_ROLE_SELECT = "CMD_ROLE_SELECT";
 	public static final String CMD_MENU_SELECT = "CMD_MENU_SELECT";
 	public static final String CMD_RELATION = "CMD_RELATION";
 	public static final String CMD_CANCEL_RELATION = "CMD_CANCEL_RELATION";
-	
+
 	/* 本SERVLET对应的Service */
 	private Service9010130 service;
-	
+
 	/* AJAX返回前台的结果集 */
 	private ArrayList<Object> result;
-	
+
 	/* 当前登录系统的用户对象 */
 	Pojo_YHXX beanUser;
-	
+
 	@Override
 	public void process(HttpServletRequest request,
 			HttpServletResponse response, Map<String, String[]> inputdata)
@@ -55,7 +55,7 @@ private static final long serialVersionUID = 1L;
 		service = new Service9010130();
 		result = new ArrayList<Object>();
 		beanUser = (Pojo_YHXX)getSessionObject(SessionAttribute.LOGIN_USER);
-		
+
 		if (CMD_ROLE_SELECT.equals(CMD)) {
 			jsxxSelect(inputdata);
 		} else if (CMD_MENU_SELECT.equals(CMD)) {
@@ -74,23 +74,23 @@ private static final long serialVersionUID = 1L;
 		super();
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: jsxxSelect
 	 * @Description: 获取角色信息
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月27日 下午3:28:59
+	 * @author czl
+	 * @date 2017-07-27
 	 */
-	private void jsxxSelect(Map<String, String[]> inputdata) 
+	private void jsxxSelect(Map<String, String[]> inputdata)
 			throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
 		int page = this.getInt(inputdata, "page");// 当前页码
 		int limit = this.getInt(inputdata, "limit");// 每页行数
 		List<Pojo9010120> jsxxList = new ArrayList<Pojo9010120>();
 		int dataCount = 0;
-		
+
 		try {
 			dataCount = service.getJsxxDataCount();
 			jsxxList = service.getJsxxData(page, limit, sort);
@@ -102,16 +102,16 @@ private static final long serialVersionUID = 1L;
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: menuSelect
 	 * @Description: 获取菜单信息
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月27日 下午4:09:49
+	 * @author czl
+	 * @date 2017-07-27
 	 */
-	private void menuSelect(Map<String, String[]> inputdata) 
+	private void menuSelect(Map<String, String[]> inputdata)
 			throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
 		int page = this.getInt(inputdata, "page");// 当前页码
@@ -120,7 +120,7 @@ private static final long serialVersionUID = 1L;
 		String jslx = this.getString(inputdata, "JSLX");
 		List<Pojo9010130> menuList = new ArrayList<Pojo9010130>();
 		int dataCount = 0;
-		
+
 		try {
 			dataCount = service.getMenuDataCount(jslx);
 			menuList = service.getMenuData(jsid, jslx, page, limit, sort);
@@ -132,21 +132,21 @@ private static final long serialVersionUID = 1L;
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: roleRelationMenu
 	 * @Description: 角色关联菜单
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月28日 下午7:33:48
+	 * @author czl
+	 * @date 2017-07-27
 	 */
 	private void relationMenu(Map<String, String[]> inputdata)
 			throws Exception {
 		String jsid = this.getString(inputdata, "JSID");
 		String cdids = this.getString(inputdata, "CDIDS");
 		cdids = cdids.substring(0, cdids.length() - 1);
-		
+
 		try {
 			boolean res = service.relationMenu(jsid, cdids, beanUser);
 			if(res) {
@@ -162,21 +162,21 @@ private static final long serialVersionUID = 1L;
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: cancelRelationMenu
 	 * @Description: 取消角色关联菜单
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年10月28日 下午7:36:17
+	 * @author czl
+	 * @date 2017-07-27
 	 */
-	private void cancelRelationMenu(Map<String, String[]> inputdata) 
+	private void cancelRelationMenu(Map<String, String[]> inputdata)
 			throws Exception {
 		String jsid = this.getString(inputdata, "JSID");
 		String cdids = this.getString(inputdata, "CDIDS");
 		cdids = cdids.substring(0, cdids.length() - 1);
-		
+
 		try {
 			boolean res = service.cancelRelationMenu(jsid, cdids, beanUser);
 			if(res) {

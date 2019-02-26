@@ -3,6 +3,7 @@ package com.xsjy.servlet.login;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.framework.core.BaseServlet;
 import com.framework.log.MyLogger;
+import com.xsjy.pojo.BaseTable.Pojo_YHXX;
 import com.xsjy.service.login.ServiceRegister;
+import com.xsjy.servlet.common.SendMailThread;
 
 /**
  * Servlet implementation class ServletRegister
@@ -19,7 +22,7 @@ import com.xsjy.service.login.ServiceRegister;
 @WebServlet("/ServletRegister")
 public class ServletRegister extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	/* 命令定义部分 */
 	public static final String CMD_CHK_EXIST = "CMD_CHK_EXIST";
 	public static final String CMD_REGIST = "CMD_REGIST";
@@ -38,7 +41,7 @@ public class ServletRegister extends BaseServlet {
 			throws IOException, ServletException, Exception {
 		service = new ServiceRegister();
 		arrResult = new ArrayList<Object>();
-		
+
 		String CMD = this.getString(inputdata, "CMD");
 		if (CMD_CHK_EXIST.equals(CMD)) {
 			checkUserexist(inputdata);
@@ -53,7 +56,7 @@ public class ServletRegister extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-12-09
+	 * @date 2017-7-11
 	 */
 	private void checkUserexist(Map<String, String[]> inputdata) throws Exception {
 		String strSJHM = this.getString(inputdata, "SJHM");// 用户ID
@@ -72,7 +75,7 @@ public class ServletRegister extends BaseServlet {
 			print(arrResult);
 		}
 	}
-	
+
 	/**
 	 * @FunctionName: registUser
 	 * @Description: 用户注册
@@ -80,18 +83,26 @@ public class ServletRegister extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2014-12-09
+	 * @date 2017-7-11
 	 */
 	private void registUser(Map<String, String[]> inputdata) throws Exception {
-		String strSJHM = this.getString(inputdata, "SJHM");// 手机号码
+		String strSJHM = this.getString(inputdata, "SJHM");// 邮箱
 		String strNC = this.getString(inputdata, "NC");// 昵称
 		String strDLMM = this.getString(inputdata, "DLMM");// 登录密码
 		String strYHQF = this.getString(inputdata, "YHQF");// 用户区分
 		int ret = 0;
+
 		try {
-			ret = service.registUser(strSJHM,strNC,strDLMM,strYHQF);
+            String code = UUID.randomUUID().toString().replaceAll("-", "");
+			ret = service.registUser(strSJHM,strNC,strDLMM,strYHQF,code);
 			if(ret>0){
 				arrResult.add("SUCCESS");
+
+				Pojo_YHXX user = new Pojo_YHXX();
+				user.setYHXX_CODE(code);
+				user.setYHXX_YHID(strSJHM);
+				user.setYHXX_YHMC(strNC);
+				new SendMailThread(user).start();
 			}else{
 				arrResult.add("FAILURE");
 			}

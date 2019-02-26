@@ -7,11 +7,12 @@ import java.util.UUID;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
-import com.xsjy.pojo.Custom.pojo_9010000.Pojo9010150;
+
 import com.framework.core.BaseService;
 import com.framework.dao.DBManager;
 import com.framework.log.MyLogger;
 import com.framework.util.MyStringUtils;
+import com.xsjy.pojo.Custom.pojo_9010000.Pojo9010150;
 
 public class Service9010150 extends BaseService {
 
@@ -26,12 +27,12 @@ public class Service9010150 extends BaseService {
 	 * @throws Exception
 	 * @return String
 	 * @author czl
-	 * @date 2014-10-28 
+	 * @date 2014-10-28
 	 */
 	public String getSystemdate() throws Exception{
-		Date now = new Date(); 
+		Date now = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HH:mm:ss");//可以方便地修改日期格式
-		String date = dateFormat.format( now ); 
+		String date = dateFormat.format( now );
 		return date;
 	}
 	/**
@@ -42,7 +43,7 @@ public class Service9010150 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-10-27 
+	 * @date 2017-07-27
 	 */
 	public int getSiteCheck_TotalCount(Pojo9010150 beanIn) throws Exception {
 		int result = 0;
@@ -53,13 +54,13 @@ public class Service9010150 extends BaseService {
 			sql.append(" SELECT COUNT(PXWD_ZDID)");
 			sql.append("   FROM PXWD A ");
 			sql.append("  WHERE 1 = 1");
-			if (MyStringUtils.isNotBlank(beanIn.getPXWD_ZDID())) {	
+			if (MyStringUtils.isNotBlank(beanIn.getPXWD_ZDID())) {
 				sql.append("  AND A.PXWD_ZDID = '").append(beanIn.getPXWD_ZDID())
-					.append("'");	
+					.append("'");
 			}
-			if (MyStringUtils.isNotBlank(beanIn.getPXWD_ZDMC())) {	
+			if (MyStringUtils.isNotBlank(beanIn.getPXWD_ZDMC())) {
 				sql.append("  AND A.PXWD_ZDMC = '").append(beanIn.getPXWD_ZDMC())
-					.append("'");	
+					.append("'");
 			}
 			result = db.queryForInteger(sql);
 		} catch (Exception e) {
@@ -78,7 +79,7 @@ public class Service9010150 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-10-27 
+	 * @date 2017-07-27
 	 */
 	public int getSiteList_TotalCount(Pojo9010150 beanIn) throws Exception {
 		int result = 0;
@@ -89,14 +90,14 @@ public class Service9010150 extends BaseService {
 			sql.append(" SELECT COUNT(PXWD_ZDID)");
 			sql.append("   FROM PXWD A ");
 			sql.append("  WHERE 1 = 1");
-			if (MyStringUtils.isNotBlank(beanIn.getPXWD_ZDMC())) {	
+			if (MyStringUtils.isNotBlank(beanIn.getPXWD_ZDMC())) {
 				sql.append("  AND A.PXWD_ZDMC like '%").append(beanIn.getPXWD_ZDMC())
-					.append("%'");	
+					.append("%'");
 			}
 			if (MyStringUtils.isNotBlank(beanIn.getPXWD_LXR())) {
 				sql.append(" AND A.PXWD_LXR LIKE '%").append(beanIn.getPXWD_LXR())
 					.append("%'");
-			}		
+			}
 			result = db.queryForInteger(sql);
 		} catch (Exception e) {
 			MyLogger.error(this.getClass().getName(), e);
@@ -113,7 +114,7 @@ public class Service9010150 extends BaseService {
 	 * @throws Exception
 	 * @return List<Pojo9010150>
 	 * @author czl
-	 * @date 2014-10-27
+	 * @date 2017-07-27
 	 */
 	public List<Pojo9010150> getSiteList_PageData(Pojo9010150 beanIn, int page,
 			int limit, String sort) throws Exception {
@@ -125,15 +126,15 @@ public class Service9010150 extends BaseService {
 			sql.append("        A.PXWD_ZDMC,");// 站点名称
 			sql.append("        A.PXWD_ZDDZ, ");// 站点地址
 			sql.append("        A.PXWD_LXR, ");// 联系人
-			sql.append("        A.PXWD_LXDH, ");// 联系电话	
+			sql.append("        A.PXWD_LXDH, ");// 联系电话
 			sql.append("        A.PXWD_BZXX ");// 备注信息
 			sql.append("   FROM PXWD A");
 			sql.append("  WHERE 1 = 1 ");
-			if (MyStringUtils.isNotBlank(beanIn.getPXWD_ZDMC())) {	
+			if (MyStringUtils.isNotBlank(beanIn.getPXWD_ZDMC())) {
 				sql.append("  AND A.PXWD_ZDMC like '%").append(beanIn.getPXWD_ZDMC())
 					.append("%'");
 			}
-			if (MyStringUtils.isNotBlank(beanIn.getPXWD_LXR())) {		
+			if (MyStringUtils.isNotBlank(beanIn.getPXWD_LXR())) {
 				sql.append("  AND A.PXWD_LXR like '%").append(beanIn.getPXWD_LXR())
 					.append("%'");
 			}
@@ -162,14 +163,13 @@ public class Service9010150 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-10-27
+	 * @date 2017-07-27
 	 */
 	public int insertSite(Pojo9010150 beanIn) throws Exception {
 		int result = 0;
-		String sysdate = getSystemdate();
 		try {
 			db.openConnection();
-			StringBuffer strbuf = new StringBuffer();			
+			StringBuffer strbuf = new StringBuffer();
 			String zdid = UUID.randomUUID().toString().replace("-", "").toUpperCase(); //获取32位随机数，用于插入站点ID
 			strbuf.append(" INSERT INTO ");
 			strbuf.append("     PXWD ");
@@ -194,9 +194,9 @@ public class Service9010150 extends BaseService {
 			strbuf.append("     '" + beanIn.getPXWD_LXDH() + "', ");
 			strbuf.append("     '" + beanIn.getPXWD_BZXX() + "', ");
 			strbuf.append("     '" + beanIn.getPXWD_CJR() + "', ");
-			strbuf.append("     '" + sysdate + "', ");
+			strbuf.append("     NOW(), ");
 			strbuf.append("     '" + beanIn.getPXWD_GXR() + "', ");
-			strbuf.append("     '" + sysdate + "' ");
+			strbuf.append("     NOW() ");
 			strbuf.append(" ) ");
 			result = db.executeSQL(strbuf);
 		} catch (Exception e) {
@@ -215,11 +215,10 @@ public class Service9010150 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-7-30 下午1:50:20
+	 * @date 2017-07-27
 	 */
 	public int updateSite(Pojo9010150 beanIn) throws Exception {
 		int result = 0;
-		String sysdate = getSystemdate();
 		try {
 			db.openConnection();
 			StringBuffer strbuf = new StringBuffer();
@@ -232,7 +231,7 @@ public class Service9010150 extends BaseService {
 			strbuf.append("     PXWD_LXDH='").append(beanIn.getPXWD_LXDH()).append("',");// 联系电话
 			strbuf.append("     PXWD_BZXX='").append(beanIn.getPXWD_BZXX()).append("',");// 备注
 			strbuf.append("     PXWD_GXR='").append(beanIn.getPXWD_GXR()).append("',");// 修改人
-			strbuf.append("     PXWD_GXSJ='" + sysdate + "'");// 修改时间
+			strbuf.append("     PXWD_GXSJ=NOW()");// 修改时间
 			strbuf.append(" WHERE 1 = 1");
 			strbuf.append("  AND   PXWD_ZDID='").append(beanIn.getPXWD_ZDID()).append("'");// 站点ID
 			result = db.executeSQL(strbuf);
@@ -252,7 +251,7 @@ public class Service9010150 extends BaseService {
 	 * @throws Exception
 	 * @return int
 	 * @author czl
-	 * @date 2014-10-27
+	 * @date 2017-07-27
 	 */
 	public int deleteSite(Pojo9010150 beanIn) throws Exception {
 		int result = 0;
@@ -260,7 +259,7 @@ public class Service9010150 extends BaseService {
 			db.openConnection();
 
 			StringBuffer strbuf = new StringBuffer();
-			strbuf.append(" DELETE ");
+			strbuf.append(" DELETE FROM ");
 			strbuf.append("     PXWD ");
 			strbuf.append(" WHERE 1 = 1 AND PXWD_ZDID='").append(beanIn.getPXWD_ZDID())
 					.append("'");

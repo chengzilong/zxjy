@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet9010000.Servlet9010110"%> 
+<%@ page import="com.xsjy.servlet.servlet9010000.Servlet9010110"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -27,30 +27,30 @@
 		<!--表格脚本End  -->
 		<script type="text/javascript" src="<%=basePath%>/bin/js/layer/layer.min.js"></script>
 		<script type="text/javascript">
-		
+
 		var mmg;
 		var intheight;
 		//初始化表格
 		$(document).ready(function(){
 		   var cols = [
-		       { title:'用户编号', name:'YHXX_YHID' ,width:80, sortable:true, align:'center',lockDisplay: true },
-		       { title:'用户名称', name:'YHXX_YHMC' ,width:80, sortable:true, align:'center',lockDisplay: true  },
+		       { title:'用户ID', name:'YHXX_YHID' ,width:80, sortable:true, align:'center',lockDisplay: true },
+		       { title:'用户名称', name:'YHXX_YHMC' ,width:80, sortable:true, align:'center',lockDisplay: true },
 		       { title:'用户密码', name:'YHXX_YHMM' ,width:100,sortable:true, align:'center',lockDisplay: true },
 		       { title:'角色', name:'YHJS_JSMC' ,width:100, sortable:true, align:'center',lockDisplay: true  },
 		       { title:'所属站点', name:'ZDMC' ,width:100, sortable:true, align:'center',lockDisplay: true  },
 		       { title:'锁定状态', name:'SDZT' ,width:80,sortable:true, align:'center',lockDisplay: true },
 		       { title:'是否删除', name:'SCBZ' ,width:80,sortable:true, align:'center',lockDisplay: true },
-		       { title:'创建人', name:'YHXX_CJR' ,hidden: true,width:80,sortable:true, align:'center',lockDisplay: true },
-		       { title:'创建时间', name:'YHXX_CJSJ',hidden: true,width:100,sortable:true, align:'center',lockDisplay: true },
-		       { title:'修改人', name:'YHXX_GXR' ,hidden: true,width:80,sortable:true, align:'center',lockDisplay: true },
-		       { title:'修改时间', name:'YHXX_GXSJ' ,hidden: true,width:100,sortable:true, align:'center',lockDisplay: true }
+		       { title:'创建人', name:'YHXX_CJR' ,hidden: true,width:80,sortable:true, align:'center',lockDisplay: false },
+		       { title:'创建时间', name:'YHXX_CJSJ',hidden: true,width:100,sortable:true, align:'center',lockDisplay: false },
+		       { title:'修改人', name:'YHXX_GXR' ,hidden: true,width:80,sortable:true, align:'center',lockDisplay: false },
+		       { title:'修改时间', name:'YHXX_GXSJ' ,hidden: true,width:100,sortable:true, align:'center',lockDisplay: false }
 		   ];
-		
-		   intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80; 
+
+		   intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80;
 		   if(intheight<100){
 			   intheight = 100;
 		   }
-		
+
 		   mmg = $('.mmg').mmGrid({
 		         height: intheight
 		        ,cols: cols
@@ -67,27 +67,28 @@
 		        ,indexColWidth: 35
 		        ,fullWidthRows: true
 		        ,autoLoad: false
+		        ,nowrap: true
 		        ,plugins: [
 		            $('#pg').mmPaginator({
 		              limit:30
 		            })
 		        ]
 		      });
-		   
+
 		   mmg.on('rowSelected', function(e, item, rowIndex, colIndex){//选择数据行
 			   var arrList = mmg.row(rowIndex);
 			   $('#txtEditUuid').val(arrList.YHXX_UUID);
 		       $('#txtEditCode').val(arrList.YHXX_YHID);
 		       $('#txtEditName').val(arrList.YHXX_YHMC);
-		       
+
 		       $('#selectEditRole').val(arrList.YHXX_JSID);
 		       $('#selectEditZhanDian').val(arrList.YHXX_ZDID);
 		       $('#txtEditPass').val("**********");
 		       $('#txtEditConfirm').val("**********");
 		       $('#selectEditState').val(arrList.YHXX_SDZT);
-		       
+
 		       setButtonStatus("4");
-		       
+
 		   }).on('click', ':checkbox', function(){ //选择checkbox
 			   if(this.checked == true){
 				   var arrList = mmg.selectedRows();
@@ -100,7 +101,7 @@
 			         $('#txtEditPass').val("**********");
 			         $('#txtEditConfirm').val("**********");
 			         $('#selectEditState').val(arrList[0].YHXX_SDZT);
-			         setButtonStatus("4");   
+			         setButtonStatus("4");
 				   }
 			   }else{
 			       $('#txtEditUuid').val("");
@@ -126,21 +127,21 @@
 		       $('#txtEditUuid').val(arrList.YHXX_UUID);
 		       $('#txtEditCode').val(arrList.YHXX_YHID);
 		       $('#txtEditName').val(arrList.YHXX_YHMC);
-		       
+
 		       $('#selectEditRole').val(arrList.YHXX_JSID);
 		       $('#selectEditZhanDian').val(arrList.YHXX_ZDID);
 		       $('#txtEditPass').val("**********");
 		       $('#txtEditConfirm').val("**********");
 		       $('#selectEditState').val(arrList.YHXX_SDZT);
-		       
-		       setButtonStatus("4"); 
+
+		       setButtonStatus("4");
 		    });
-		
-		   
+
+
 		   $('#btnSearch').on('click', function(){
 			   loadGridByBean();
 		   });
-		   
+
 		   $('#btnRecovery').on('click', function() {
 			   var arrList = mmg.selectedRows();
 			   if (arrList.length <= 0) {
@@ -151,7 +152,7 @@
 				   for(var i = 0; i < arrList.length; i++) {
 						if (arrList[i].YHXX_SCBZ == 0) {
 						    layer.alert('提示：所选用户中，存在未删除的用户，无需恢复！', 0, '友情提示');
-							return; 
+							return;
 						}
 					}
 			   }
@@ -162,8 +163,8 @@
 				   }
 			   });
 		   });
-		   
-		    
+
+
 		   $('#btnDel').on('click', function(){
 			   var arrList = mmg.selectedRows();
 			   if(arrList.length<=0){
@@ -174,7 +175,7 @@
 				   for(var i = 0; i < arrList.length; i++) {
 						if (arrList[i].YHXX_SCBZ == 1) {
 						    layer.alert('提示：该用户已经删除，无法再次删除！', 0, '友情提示');
-							return; 
+							return;
 						}
 					}
 			   }
@@ -187,12 +188,12 @@
 				   }
 			   });
 		   });
-		    
+
 		    $('#btnCancel').on('click', function(){
 		    	setButtonStatus(2);
 		    	mmg.deselect('all');
 		    });
-		    
+
 		    $('#btnSave').on('click', function(){
 		    	if(optionFlag == "Add"){
 		    		if(funEditCheck()==false) return;
@@ -220,21 +221,21 @@
 				        }
 			        });
 		    	}
-		    	//setButtonStatus("1");  
+		    	//setButtonStatus("1");
 		    });
 		    loadGridByBean();
-		
+
 		    loadSearchSelect($("#selectRole"),"TYPE_YHJS","角色");
 		    loadSearchSelect($("#selectZhanDian"),"TYPE_ZDMC","站点");
-		    
+
 		    loadEditSelect($("#selectEditRole"),"TYPE_YHJS","角色");
 		    loadEditSelect($("#selectEditZhanDian"),"TYPE_ZDMC","站点");
-		   
-		   
+
+
 		});
-		
+
 		var optionFlag = "";
-		
+
 		function btn_Add(){
 			setButtonStatus("31");
 			optionFlag = "Add";
@@ -243,7 +244,7 @@
 		   setButtonStatus("32");
 		   optionFlag = "Upd";
 		}
-		
+
 		function makeBeanIn(strUuid,strUser,strName,strZDID,strRole
 				,strPass,strState){
 		    this.YHXX_UUID = strUuid;
@@ -254,7 +255,7 @@
 		    this.YHXX_YHMM = strPass;
 		    this.YHXX_SDZT = strState;
 		}
-		
+
 		function loadGridByBean(){
 			var beanIn = new makeBeanIn(
 					'',
@@ -270,14 +271,14 @@
 		    	beanLoad  :  JSON.stringify(beanIn)
 			});
 		}
-		
+
 		function recoveryUser() {
 			var blnRet = false;
 			var beanIn = new makeBeanIn(
 					$('#txtEditUuid').val(),
 					"","","","","",""
 			);
-		
+
 			$.ajax({
 				async     : false,
 				type      : "post",
@@ -304,7 +305,7 @@
 			});
 			return blnRet;
 		}
-		
+
 		function insertUserCode(){
 			var blnRet = false;
 			var beanIn = new makeBeanIn(
@@ -353,7 +354,7 @@
 					$('#txtEditPass').val(),
 					$('#selectEditState').val()
 			);
-		   
+
 		    $.ajax({
 		      async     : false,
 		      type      : "post",
@@ -380,14 +381,14 @@
 		   });
 		   return blnRet;
 		}
-		
+
 		function deleteUserCode(){
 			var blnRet = false;
 			var beanIn = new makeBeanIn(
 					$('#txtEditUuid').val(),
 					"","","","","",""
 			);
-		
+
 			$.ajax({
 				async     : false,
 				type      : "post",
@@ -414,7 +415,7 @@
 			});
 			return blnRet;
 		}
-		
+
 		//设置按钮状态
 		function setButtonStatus(strFlag) {
 			if (strFlag == "1") {//初始状态
@@ -433,13 +434,13 @@
 				$('#btnCancel').attr("disabled", "disabled");
 				$('#txtEditCode').attr("disabled","disabled");
 				$('#txtEditName').attr("disabled","disabled");
-				
+
 				$('#selectEditRole').attr("disabled","disabled");
 				$('#selectEditZhanDian').attr("disabled","disabled");
 				$('#txtEditPass').attr("disabled","disabled");
 				$('#txtEditConfirm').attr("disabled","disabled");
 				$('#selectEditState').attr("disabled","disabled");
-				
+
 				$('#txtEditUuid').val("");
 				$('#txtEditCode').val("");
 				$('#txtEditName').val("");
@@ -511,7 +512,7 @@
 		function funEditCheck() {
 			if (optionFlag == "Add" || optionFlag == "Upd") {
 				if ($('#txtEditCode').val() == "") {
-					layer.alert('请输入用户编号！', 0, '友情提示', function() {
+					layer.alert('请输入用户ID！', 0, '友情提示', function() {
 						$('#txtEditCode').focus();
 						layer.close(layer.index);
 					});
@@ -545,7 +546,7 @@
 					});
 					return false;
 				}
-				
+
 				if (optionFlag == "Add"){//新增：判断是否用户代码已存在
 					if(checkUserExist()==true){
 						layer.alert('用户代码已存在，不能新增！', 0, '友情提示');
@@ -557,18 +558,18 @@
 						return false;
 					}
 				}
-				
+
 			}
 			return true;
 		}
-		
+
 		function checkUserExist(){
 			var blnRet = false;
 			var beanIn = new makeBeanIn(
 					"",$('#txtEditCode').val(),
 					"","","","",""
 			);
-		
+
 			$.ajax({
 				async     : false,
 				type      : "post",
@@ -591,7 +592,7 @@
 			});
 			return blnRet;
 		}
-		
+
 		</script>
 	</head>
 	<body>
@@ -599,29 +600,29 @@
 			<legend>查询条件</legend>
 			<table>
 				<tr>
-					<th style="width:80px">用户编号</th>
-					<td><input id="txtSelectCode" name="用户编号" maxlength="5" onkeypress="filterKeyForNumber(this,'CNUMONLY');"/></td>
+					<th style="width:80px">用户ID</th>
+					<td><input id="txtSelectCode" name="用户ID" maxlength="5" onkeypress="filterKeyForNumber(this,'CNUMONLY');"/></td>
 					<th style="width:80px">用户名称</th>
 					<td><input id="txtSelectName" name="用户名称" maxlength="4" /></td>
 					<th style="width:80px">用户角色</th>
 					<td>
-						<select id="selectRole" style="width: 100px"> 
-							<option value="000" selected>请选择</option> 
-						</select> 
+						<select id="selectRole" style="width: 100px">
+							<option value="000" selected>请选择</option>
+						</select>
 					</td>
 					<th style="width:80px">所属站点</th>
 					<td>
-						<select id="selectZhanDian"> 
-							<option value="000" selected>请选择</option> 
-						</select> 
+						<select id="selectZhanDian">
+							<option value="000" selected>请选择</option>
+						</select>
 					</td>
 					<th style="width:80px">锁定状态</th>
 					<td>
-						<select id="selectState" style="width: 100px"> 
+						<select id="selectState" style="width: 100px">
 							<option value="000" selected>所有</option>
 							<option value="0">正常</option>
-							<option value="1">冻结</option> 
-						</select> 
+							<option value="1">冻结</option>
+						</select>
 					</td>
 					<th  style="width:100px"><input type="button" value="查询" id="btnSearch" /></th>
 				</tr>
@@ -635,20 +636,20 @@
 			<legend>编辑</legend>
 			<table id="detailCanvas" class="eTable6">
 				<tr>
-					<th style="width:100px">用户编号</th>
-					<td><input type="hidden"  id="txtEditUuid"  /><input id="txtEditCode" name="用户编号" maxlength="10"/></td>
+					<th style="width:100px">用户ID</th>
+					<td><input type="hidden"  id="txtEditUuid"  /><input id="txtEditCode" name="用户ID" maxlength="10"/></td>
 					<th style="width:100px">用户名称</th>
 					<td><input id="txtEditName" name="用户名称" maxlength="4" /></td>
 					<th style="width:100px">角色</th>
 					<td>
-						<select id="selectEditRole" style="width: 100px"> 
-							<option value="所有" selected>请选择</option> 
+						<select id="selectEditRole" style="width: 100px">
+							<option value="所有" selected>请选择</option>
 						</select>
 					</td>
 					<th style="width:100px">所属站点</th>
 					<td>
-						<select id="selectEditZhanDian"> 
-							<option value="所有" selected>请选择</option> 
+						<select id="selectEditZhanDian">
+							<option value="所有" selected>请选择</option>
 						</select>
 					</td>
 				</tr>
@@ -659,20 +660,20 @@
 					<td><input id="txtEditConfirm" name="确认密码" maxlength="20" type="password"/></td>
 					<th style="width:100px">锁定状态</th>
 					<td>
-						<select id="selectEditState" style="width: 100px"> 
+						<select id="selectEditState" style="width: 100px">
 							<option value="0" selected>正常</option>
-							<option value="1">冻结</option> 
+							<option value="1">冻结</option>
 						</select>
 					</td>
 				</tr>
 			</table>
 			<div id="buttonCanvas" class="gToolbar gTbrCenter ">
 				<input type="button" value="新增" id="btnAdd" name="btnAdd" onclick="btn_Add()" />
-				<input type="button" value="修改" id="btnUpd" name="btnUpd" onclick="btn_Upd()" /> 
-				<input type="button" value="删除" id="btnDel" name="btnDel" /> 
-				<input type="button" value="保存" id="btnSave" name="btnSave" /> 
+				<input type="button" value="修改" id="btnUpd" name="btnUpd" onclick="btn_Upd()" />
+				<input type="button" value="删除" id="btnDel" name="btnDel" />
+				<input type="button" value="保存" id="btnSave" name="btnSave" />
 				<input type="button" value="取消" id="btnCancel" name="btnCancel" />
-				<input type="button" value="恢复" id="btnRecovery" name="btnRecovery" /> 
+				<input type="button" value="恢复" id="btnRecovery" name="btnRecovery" />
 			</div>
 		</fieldset>
 	</body>

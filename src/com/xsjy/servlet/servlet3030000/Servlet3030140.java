@@ -20,7 +20,7 @@ import com.xsjy.pojo.Custom.pojo_3030000.Pojo3030142;
 import com.xsjy.service.service3030000.Service3030140;
 
 /**
- * 
+ *
  * @ClassName: Servlet3030140
  * @Package:com.xsjy.servlet.servlet3030000
  * @Description: 学生分配控制类
@@ -33,7 +33,7 @@ import com.xsjy.service.service3030000.Service3030140;
 @WebServlet("/Servlet3030140")
 public class Servlet3030140 extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	/* 命令定义部分 */
 	public static final String CMD_SELECT_CLASS = "CMD_SELECT_CLASS";
 	public static final String CMD_SELECT_STUDENT = "CMD_SELECT_STUDENT";
@@ -41,16 +41,16 @@ public class Servlet3030140 extends BaseServlet {
 	public static final String CMD_CHK_EXIST = "CMD_CHK_EXIST";
 	public static final String CMD_RELATION = "CMD_RELATION";
 	public static final String CMD_CANCEL_RELATION = "CMD_CANCEL_RELATION";
-	
+
 	/* 本Servlet对应的Service */
 	private Service3030140 service;
-	
+
 	/* Ajax返回前台的结果集 */
 	private ArrayList<Object> arrResult;
-	
+
 	/* 当前登录系统的用户对象 */
 	Pojo_YHXX beanUser;
-	
+
 	public Servlet3030140() {
         super();
     }
@@ -62,9 +62,9 @@ public class Servlet3030140 extends BaseServlet {
 		service = new Service3030140();
 		arrResult = new ArrayList<Object>();
 		beanUser = (Pojo_YHXX)getSessionObject(SessionAttribute.LOGIN_USER);
-		
+
 		String CMD = this.getString(inputdata, "CMD");
-		
+
 		if (CMD_SELECT_CLASS.equals(CMD)) {
 			getClassList(inputdata);
 		} else if (CMD_SELECT_STUDENT.equals(CMD)) {
@@ -80,14 +80,14 @@ public class Servlet3030140 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getClassList
 	 * @Description: 获取数据列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月18日 上午11:12:29
+	 * @author czl
+	 * @date 2017-08-04
 	 */
 	private void getClassList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -98,7 +98,7 @@ public class Servlet3030140 extends BaseServlet {
 
 		int TotalCount = 0;
 		List<Pojo3030140> dataList = new ArrayList<Pojo3030140>();
-		
+
 		try {
 			beanIn.setJSBM(beanUser.getYHXX_YHID());
 			TotalCount = service.getClassCount(beanIn);
@@ -111,14 +111,14 @@ public class Servlet3030140 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getStudentList
 	 * @Description: 获取数据列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月18日 上午11:12:41
+	 * @author czl
+	 * @date 2017-08-04
 	 */
 	private void getStudentList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -129,7 +129,7 @@ public class Servlet3030140 extends BaseServlet {
 
 		int TotalCount = 0;
 		List<Pojo3030141> dataList = new ArrayList<Pojo3030141>();
-		
+
 		try {
 			TotalCount = service.getStudentCount(beanIn);
 			dataList = service.getStudentList(beanIn, page, limit, sort);
@@ -141,14 +141,14 @@ public class Servlet3030140 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: getEnrollList
 	 * @Description: 获取数据列表
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月18日 上午11:12:54
+	 * @author czl
+	 * @date 2017-08-03
 	 */
 	private void getEnrollList(Map<String, String[]> inputdata) throws Exception {
 		String sort = this.getString(inputdata, "sort");// 排序关键字
@@ -159,7 +159,7 @@ public class Servlet3030140 extends BaseServlet {
 
 		int TotalCount = 0;
 		List<Pojo3030142> dataList = new ArrayList<Pojo3030142>();
-		
+
 		try {
 			beanIn.setJSBM(beanUser.getYHXX_YHID());
 			TotalCount = service.getEnrollCount(beanIn);
@@ -178,7 +178,7 @@ public class Servlet3030140 extends BaseServlet {
 	 * @throws Exception
 	 * @return void
 	 * @author czl
-	 * @date 2015-01-29
+	 * @date 2017-08-04
 	 */
 	private void checkBcxsexist(Map<String, String[]> inputdata) throws Exception {
 		String bcId = this.getString(inputdata, "BCID");
@@ -186,7 +186,7 @@ public class Servlet3030140 extends BaseServlet {
 		stuIds = stuIds.substring(0, stuIds.length() - 1);
 		String stuMcs = this.getString(inputdata, "STUMCS");
 		stuMcs = stuMcs.substring(0, stuMcs.length() - 1);
-		
+
 		try {
 			String TotalCount = service.checkBcxsexist(stuIds,stuMcs,bcId);
 			if(!TotalCount.equals("") ){
@@ -205,14 +205,14 @@ public class Servlet3030140 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: createRelationData
 	 * @Description: 班次学生建立关联
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月18日 下午12:36:37
+	 * @author czl
+	 * @date 2017-08-04
 	 */
 	private void createRelationData(Map<String, String[]> inputdata) throws Exception {
 		String bcId = this.getString(inputdata, "BCID");
@@ -220,7 +220,7 @@ public class Servlet3030140 extends BaseServlet {
 		dataIds = dataIds.substring(0, dataIds.length() - 1);
 		String stuIds = this.getString(inputdata, "STUIDS");
 		stuIds = stuIds.substring(0, stuIds.length() - 1);
-		
+
 		try {
 			boolean result = service.relationData(bcId, dataIds, stuIds, beanUser);
 			if (result) {
@@ -236,14 +236,14 @@ public class Servlet3030140 extends BaseServlet {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @FunctionName: cancelRelationData
 	 * @Description: 班次学生取消关联
 	 * @param inputdata
 	 * @throws Exception
 	 * @return void
-	 * @author ztz
-	 * @date 2014年12月18日 下午12:36:46
+	 * @author czl
+	 * @date 2017-08-04
 	 */
 	private void cancelRelationData(Map<String, String[]> inputdata) throws Exception {
 		String bcId = this.getString(inputdata, "BCID");
@@ -251,7 +251,7 @@ public class Servlet3030140 extends BaseServlet {
 		String bcxsids = this.getString(inputdata, "BCXSIDS");
 		stuIds = stuIds.substring(0, stuIds.length() - 1);
 		bcxsids = bcxsids.substring(0, bcxsids.length() - 1);
-		
+
 		try {
 			boolean result = service.cancelRelationData(bcId, stuIds, bcxsids, beanUser);
 			if (result) {

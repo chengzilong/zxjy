@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet1110000.Servlet1110150"%> 
+<%@ page import="com.xsjy.servlet.servlet1110000.Servlet1110150"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
 
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -25,23 +25,23 @@
 <script type="text/javascript" src="<%=basePath%>/bin/js/layer/layer.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-		getValue();  
+		getValue();
 });
 function makeBeanInedit(strUUID,strYHMC,strYHMM){
-    this.YHXX_UUID = strUUID;  
-    this.YHXX_YHMC = strYHMC;  
-    this.YHXX_YHMM = strYHMM;  
+    this.YHXX_UUID = strUUID;
+    this.YHXX_YHMC = strYHMC;
+    this.YHXX_YHMM = strYHMM;
 }
 function makeBeanIn(strUUID,strYMM){
-    this.YHXX_UUID = strUUID;  
-    this.YHXX_YHMM = strYMM;  
+    this.YHXX_UUID = strUUID;
+    this.YHXX_YHMM = strYMM;
 }
 function updatePassword(){
 	var blnRet = false;
 	var beanIn = new makeBeanInedit(
 		   $('#txtUUID').val(),
            $('#txtYHMC').val(),
-           $('#txtXMM').val()  
+           $('#txtXMM').val()
 	);
 	$.ajax({
 		async     : false,
@@ -68,7 +68,7 @@ function validatePassword(){
 	var blnRet = false;
 	var beanIn = new makeBeanIn(
 		   $('#txtUUID').val(),
-           $('#txtYMM').val()  
+           $('#txtYMM').val()
 	);
 	$.ajax({
 		async     : false,
@@ -145,21 +145,21 @@ function funEditCheck() {
 				layer.close(layer.index);
 			});
 			return false;
-		}	
+		}
 		if ($('#txtXMM').val() == "") {
 			layer.alert('请输入新密码！', 0, '友情提示', function() {
 				$('#txtXMM').focus();
 				layer.close(layer.index);
 			});
 			return false;
-		}	
+		}
 		if ($('#txtXMM').val() == $('#txtYMM').val()) {
 			layer.alert('新密码不能和原密码相同！', 0, '友情提示', function() {
 				$('#txtXMM').focus();
 				layer.close(layer.index);
 			});
 			return false;
-		}	
+		}
 		if ($('#txtQRMM').val() == "") {
 			layer.alert('请输入确认密码！', 0, '友情提示', function() {
 				$('#txtQRMM').focus();
@@ -173,7 +173,7 @@ function funEditCheck() {
 				layer.close(layer.index);
 			});
 			return false;
-		}	
+		}
 	return true;
 }
 </script>
@@ -187,7 +187,7 @@ function funEditCheck() {
 				</tr>
 				<tr>
 					<td class="border_top">用户ID：</td>
-					<td class="border_top border_right" ><input type="hidden" id="txtUUID" /><input type="text" id="txtYHID"  onfocus=this.blur() readonly /></td>
+					<td class="border_top border_right" ><input type="hidden" id="txtUUID" /><input type="text" id="txtYHID" style="width:50%;" onfocus=this.blur() readonly /></td>
 				</tr>
 				<tr>
 					<td>用户名称：</td>
@@ -195,7 +195,7 @@ function funEditCheck() {
 				</tr>
 				<tr>
 					<td>用户角色：</td>
-					<td class="border_right" ><input type="text" id="txtYHJS"  onfocus=this.blur() readonly /></td>
+					<td class="border_right" ><input type="text" id="txtYHJS" style="width:50%;" onfocus=this.blur() readonly /></td>
 				</tr>
 			    <tr>
 					<td>原密码：</td>

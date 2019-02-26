@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet3020000.Servlet3020120"%> 
+<%@ page import="com.xsjy.servlet.servlet3020000.Servlet3020120"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
 
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -41,15 +41,15 @@ $(document).ready(function(){
 	optionFlag = obj.option;
 	/* 初始化传递参数End */
    var cols = [
-       { title:'课程名称', name:'KCMC' ,width:100, sortable:true, align:'center',lockDisplay: true },
-       { title:'课程类型', name:'LXMC' ,width:80, sortable:true, align:'center',lockDisplay: true },
-       { title:'上课时段', name:'SDMC' ,width:100, sortable:true, align:'center',lockDisplay: true  },
+       { title:'课程名称', name:'KCMC' ,width:110, sortable:true, align:'center',lockDisplay: true },
+       { title:'课程类型', name:'LXMC' ,width:110, sortable:true, align:'center',lockDisplay: true },
+       { title:'上课时段', name:'SDMC' ,width:110, sortable:true, align:'center',lockDisplay: true  },
        { title:'学时', name:'KCFY_XS' ,width:100, sortable:true, align:'center',lockDisplay: true  },
        { title:'教师姓名', name:'JSXM' ,width:100, sortable:true, align:'center',lockDisplay: true  },
-       { title:'费用', name:'KCFY_FY' ,width:150, sortable:true, align:'center',lockDisplay: true  }
+       { title:'费用', name:'KCFY_FY' ,width:120, sortable:true, align:'center',lockDisplay: true  }
    ];
 
-   intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80; 
+   intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80;
    if(intheight<100){
 	   intheight = 100;
    }
@@ -116,7 +116,7 @@ $(document).ready(function(){
 		$('#txtEditBzxx').val(obj.bzxx);
 		$('#selectRegion').hide();
 		$('#infoRegion').show();
-		
+
 	} else {
 		$('#infoRegion').hide();
 	}
