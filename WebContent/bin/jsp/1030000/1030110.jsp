@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.xsjy.servlet.servlet1030000.Servlet1030110"%> 
+<%@ page import="com.xsjy.servlet.servlet1030000.Servlet1030110"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path;
 
-%>      
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -35,7 +35,7 @@ var intheight;
 //初始化表格
 $(document).ready(function(){
    var cols = [
-       { title:'主题', name:'XXXX_FBZT' ,width:100, sortable:true, align:'center',lockDisplay: true },
+       { title:'主题2', name:'XXXX_FBZT' ,width:100, sortable:true, align:'center',lockDisplay: true },
        { title:'内容', name:'XXXX_FBNR' ,width:350, sortable:true, align:'center',lockDisplay: true },
        { title:'发布人', name:'FBRXM' ,width:60, sortable:true, align:'center',lockDisplay: true },
        { title:'发布时间', name:'XXXX_FBSJ' ,width:60, sortable:true, align:'center',lockDisplay: true  },
@@ -45,7 +45,7 @@ $(document).ready(function(){
        }}
    ];
 
-   intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80; 
+   intheight = document.documentElement.clientHeight -$('#editRegion').height()-$('#selectRegion').height()-80;
    if(intheight<100){
 	   intheight = 100;
    }
@@ -73,7 +73,7 @@ $(document).ready(function(){
             })
         ]
       });
-   
+
    mmg.on('cellSelected', function(e, item, rowIndex, colIndex){
         if($(e.target).is('.img-info')){
             e.stopPropagation();  //阻止事件冒泡
@@ -81,11 +81,11 @@ $(document).ready(function(){
      		iframeLayerOpen('<%=basePath%>/bin/jsp/1030000/1030112.jsp');
         }
    });
-   
+
    $('#btnSearch').on('click', function(){
 	   loadGridByBean();
    });
-   
+
    $('#btnDel').on('click', function(){
 	   var arrList = mmg.selectedRows();
 	   if(arrList.length<=0){
@@ -99,8 +99,8 @@ $(document).ready(function(){
 		   }
 	   });
    });
-   
-    loadGridByBean();   
+
+    loadGridByBean();
   //定义新增点击事件
     $('#btnAdd').on('click', function(){
     	iframeLayerOpen('<%=basePath%>/bin/jsp/1030000/1030111.jsp?option=Add');
@@ -118,7 +118,7 @@ $(document).ready(function(){
 });
 
 function makeBeanIn(strXXID, strYXSJ){
-    this.XXXX_XXID = strXXID;  
+    this.XXXX_XXID = strXXID;
 	this.XXXX_YXSJ = strYXSJ;
 }
 
@@ -183,8 +183,8 @@ function deleteXXXXCode(dataId){
 		<div id="buttonCanvas" class="gToolbar gTbrCenter ">
 			<input type="button" value="新增" id="btnAdd" />
 
-			<input type="button" value="调整" id="btnUpd" /> 
-			<input type="button" value="删除" id="btnDel" name="btnDel" /> 
+			<input type="button" value="调整" id="btnUpd" />
+			<input type="button" value="删除" id="btnDel" name="btnDel" />
 
 		</div>
 	</fieldset>
