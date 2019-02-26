@@ -36,7 +36,7 @@ var intheight;
 $(document).ready(function(){
    var cols = [
        { title:'主题22', name:'XXXX_FBZT' ,width:100, sortable:true, align:'center',lockDisplay: true },
-       { title:'内容', name:'XXXX_FBNR' ,width:350, sortable:true, align:'center',lockDisplay: true },
+       { title:'内容22', name:'XXXX_FBNR' ,width:350, sortable:true, align:'center',lockDisplay: true },
        { title:'发布人', name:'FBRXM' ,width:60, sortable:true, align:'center',lockDisplay: true },
        { title:'发布时间', name:'XXXX_FBSJ' ,width:60, sortable:true, align:'center',lockDisplay: true  },
        { title:'有效时间', name:'XXXX_YXSJ' ,width:60, sortable:true, align:'center',lockDisplay: true  },
