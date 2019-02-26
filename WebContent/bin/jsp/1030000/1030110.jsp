@@ -35,7 +35,7 @@ var intheight;
 //初始化表格
 $(document).ready(function(){
    var cols = [
-       { title:'主题', name:'XXXX_FBZT' ,width:100, sortable:true, align:'center',lockDisplay: true },
+       { title:'主题1', name:'XXXX_FBZT' ,width:100, sortable:true, align:'center',lockDisplay: true },
        { title:'内容', name:'XXXX_FBNR' ,width:350, sortable:true, align:'center',lockDisplay: true },
        { title:'发布人', name:'FBRXM' ,width:60, sortable:true, align:'center',lockDisplay: true },
        { title:'发布时间', name:'XXXX_FBSJ' ,width:60, sortable:true, align:'center',lockDisplay: true  },
